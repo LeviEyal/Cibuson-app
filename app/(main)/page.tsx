@@ -20,7 +20,7 @@ import { api } from "@/convex/_generated/api";
 import clsx from "clsx";
 import { formatPrice } from "@/lib/utils";
 
-export const LessonCard = ({ lesson, isPast = false }: any) => {
+const LessonCard = ({ lesson, isPast = false }: any) => {
   const payLessonMutation = useMutation(api.lessons.payLesson);
 
   const date = new Date(lesson.date);
@@ -99,9 +99,9 @@ export default function Page() {
       <div className="fixed bottom-0 left-0 w-full bg-slate-500 flex flex-col justify-center items-center">
         <h1>Payments Data</h1>
         <div className="flex justify-between gap-2">
-          <p>{formatPrice(paymentsDataQuery?.pending)}</p>
-          <p>{formatPrice(paymentsDataQuery?.totalThisMonth)}</p>
-          <p>{formatPrice(paymentsDataQuery?.total)}</p>
+          <p>{formatPrice(paymentsDataQuery?.pending as number)}</p>
+          <p>{formatPrice(paymentsDataQuery?.totalThisMonth as number)}</p>
+          <p>{formatPrice(paymentsDataQuery?.total as number)}</p>
         </div>
       </div>
     </div>
