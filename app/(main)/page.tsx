@@ -19,6 +19,7 @@ import { TrashIcon } from "@radix-ui/react-icons";
 import { api } from "@/convex/_generated/api";
 import clsx from "clsx";
 import { formatPrice } from "@/lib/utils";
+import Image from "next/image";
 
 const LessonCard = ({ lesson, isPast = false }: any) => {
   const payLessonMutation = useMutation(api.lessons.payLesson);
@@ -48,9 +49,9 @@ const LessonCard = ({ lesson, isPast = false }: any) => {
       />
       <AlertDialog>
         <AlertDialogTrigger>
-            <button>
-                <TrashIcon />
-            </button>
+          <button>
+            <TrashIcon />
+          </button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -79,7 +80,10 @@ export default function Page() {
 
   return (
     <div className="h-full w-full bg-slate-200 relative flex flex-col justify-center">
-      {/* <h1 className="text-center text-2xl p-5">אפליקציה למאמיש</h1> */}
+      <header className="flex justify-center items-center">
+        <Image src="/cat.png" width={50} height={50} alt="logo"/>
+        <h1 className="text-center text-2xl p-5">אפליקציה למאמיש</h1>
+      </header>
       <NewLessonForm />
 
       <h1 className="text-center mt-5">שיעורים עתידיים</h1>
@@ -96,8 +100,8 @@ export default function Page() {
         ))}
       </div>
 
-      <div className="fixed bottom-0 left-0 w-full bg-slate-500 flex flex-col justify-center items-center">
-        <h1>Payments Data</h1>
+      <div className="fixed bottom-0 left-0 py-3 w-full bg-slate-400 flex flex-col justify-center items-center">
+        <h1>נתונים</h1>
         <div className="flex justify-between gap-2">
           <p>{formatPrice(paymentsDataQuery?.pending as number)}</p>
           <p>{formatPrice(paymentsDataQuery?.totalThisMonth as number)}</p>
