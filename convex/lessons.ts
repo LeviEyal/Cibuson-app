@@ -1,14 +1,20 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { Doc } from "./_generated/dataModel";
 
 export const allLessons = query({
   args: {},
   handler: async (ctx) => {
+    const ans: Record<string, Doc<"lesson">[]> = {};
     const lessons = await ctx.db.query("lesson").order("desc").take(100);
-    return {
-      past: lessons.filter((lesson) => new Date(lesson.date) < new Date()),
-      future: lessons.filter((lesson) => new Date(lesson.date) >= new Date()),
-    };
+    lessons.forEach((lesson) => {
+      // In the form of YYYY-MM:
+      const month = new Date(lesson.date).toISOString().slice(0, 7);
+      if (!ans[month]) ans[month] = [];
+      ans[month].push(lesson);
+    });
+
+    return ans;
   },
 });
 

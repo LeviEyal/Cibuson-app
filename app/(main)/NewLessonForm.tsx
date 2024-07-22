@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { PlusIcon } from "@radix-ui/react-icons";
 
 export const NewLessonForm = () => {
   const addNewLessonMutation = useMutation(api.lessons.addLesson);
@@ -45,7 +46,10 @@ export const NewLessonForm = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">הוסף שיעור</Button>
+        <Button variant="outline" className="space-x-1">
+          <p>הוסף שיעור</p>
+          <PlusIcon />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
