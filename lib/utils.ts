@@ -12,3 +12,29 @@ export const formatPrice = (price: number) => {
     maximumFractionDigits: 0,
   }).format(price);
 };
+
+export const monthToHebrew = (month: string) => {
+  const months = {
+    "01": "ינואר",
+    "02": "פברואר",
+    "03": "מרץ",
+    "04": "אפריל",
+    "05": "מאי",
+    "06": "יוני",
+    "07": "יולי",
+    "08": "אוגוסט",
+    "09": "ספטמבר",
+    "10": "אוקטובר",
+    "11": "נובמבר",
+    "12": "דצמבר",
+  };
+
+  // @ts-ignore
+  return months[month];
+}
+
+// get yyyy-mm and return yyyy במאי
+export const formatMonthInHebrew = (month: string) => {
+  const [year, monthNum] = month.split("-");
+  return `${monthToHebrew(monthNum)} ${year}`;
+}

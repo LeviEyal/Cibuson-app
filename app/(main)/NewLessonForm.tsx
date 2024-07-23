@@ -26,6 +26,15 @@ export const NewLessonForm = () => {
   const durationRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
 
+  const validateForm = () => {
+    return (
+      studentNameRef.current?.value &&
+      dateRef.current?.value &&
+      durationRef.current?.value &&
+      priceRef.current?.value
+    );
+  };
+
   const handleSubmit = async () => {
     const newLesson = {
       studentName: studentNameRef.current?.value || "",
@@ -34,6 +43,10 @@ export const NewLessonForm = () => {
       price: parseInt(priceRef.current?.value || ""),
     };
 
+    if (!validateForm()) {
+      alert("אנא מלא את כל השדות");
+      return;
+    }
     console.log({ newLesson });
     try {
       const res = await addNewLessonMutation(newLesson);
