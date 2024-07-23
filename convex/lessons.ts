@@ -5,8 +5,16 @@ import { Doc } from "./_generated/dataModel";
 export const allLessons = query({
   args: {},
   handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return {};
+
     const ans: Record<string, Doc<"lesson">[]> = {};
-    const lessons = await ctx.db.query("lesson").order("desc").collect();
+    const lessons = await ctx.db
+      .query("lesson")
+      .filter((q) => q.eq(q.field("user"), identity.subject))
+      .order("desc")
+      .collect();
+
     lessons.sort((a, b) => b.date - a.date);
     lessons.forEach((lesson) => {
       // In the form of YYYY-MM:
@@ -35,12 +43,16 @@ export const addLesson = mutation({
     price: v.number(),
   },
   handler: async (ctx, { studentName, date, duration, price }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return;
+
     await ctx.db.insert("lesson", {
       studentName,
       date,
       duration,
       price,
       paid: false,
+      user: identity.subject,
     });
   },
 });
@@ -48,7 +60,7 @@ export const addLesson = mutation({
 export const payLesson = mutation({
   args: { _id: v.any() },
   handler: async (ctx, { _id }) => {
-    const current = await ctx.db.get(_id) as Doc<"lesson">;
+    const current = (await ctx.db.get(_id)) as Doc<"lesson">;
     if (!current) return;
     await ctx.db.patch(_id, { paid: !current.paid });
   },
@@ -58,12 +70,16 @@ export const paymentsData = query({
   args: {},
   handler: async (ctx) => {
     const lessons = await ctx.db.query("lesson").take(1000);
-    const pending = lessons.filter((lesson) => !lesson.paid).reduce((acc, lesson) => acc + lesson.price, 0);
-    const totalThisMonth = lessons.filter(
-      (lesson) => new Date(lesson.date).getMonth() === new Date().getMonth(),
-    ).reduce((acc, lesson) => acc + lesson.price, 0);
+    const pending = lessons
+      .filter((lesson) => !lesson.paid)
+      .reduce((acc, lesson) => acc + lesson.price, 0);
+    const totalThisMonth = lessons
+      .filter(
+        (lesson) => new Date(lesson.date).getMonth() === new Date().getMonth(),
+      )
+      .reduce((acc, lesson) => acc + lesson.price, 0);
     const total = lessons.reduce((acc, lesson) => acc + lesson.price, 0);
-    
+
     return { pending, totalThisMonth, total };
   },
 });

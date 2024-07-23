@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Sheet,
   SheetContent,
@@ -10,14 +12,13 @@ import { HamburgerMenuIcon, PersonIcon } from "@radix-ui/react-icons";
 
 const items = [
   { name: "ניהול תלמידים", icon: PersonIcon },
-  { name: "ניהול תלמידים", icon: PersonIcon },
 ];
 
 export const Menu = () => {
   return (
     <Sheet>
       <SheetTrigger>
-        <HamburgerMenuIcon />
+        <HamburgerMenuIcon width={25} height={25} />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

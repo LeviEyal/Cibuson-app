@@ -1,13 +1,9 @@
 "use client";
 
 import { useQuery } from "convex/react";
-import { NewLessonForm } from "./NewLessonForm";
 import { api } from "@/convex/_generated/api";
 import { formatMonthInHebrew, formatPrice } from "@/lib/utils";
-import Image from "next/image";
 import { LessonCard } from "./LessonCard";
-import { Menu } from "./Menu";
-import { useTheme } from "next-themes";
 
 export default function Page() {
   const lessonsPerMonth = useQuery(api.lessons.allLessons);
@@ -17,15 +13,8 @@ export default function Page() {
   const totalLessonsQuery = useQuery(api.lessons.totalLessons);
 
   return (
-    <div className="h-full w-full bg-slate-200 relative flex flex-col justify-center">
-      <header className="z-50 flex justify-center items-center bg-slate-400 sticky top-0">
-        <Menu />
-        <h1 className="text-center text-2xl p-5">אפליקציה למאמיש</h1>
-        <Image src="/cat.png" width={50} height={50} alt="logo" />
-        <NewLessonForm />
-      </header>
-
-      <main className="flex-1 overflow-y-auto pb-24 h-full">
+    <div className="h-full w-full relative flex flex-col justify-center">
+      <main className="flex-1 overflow-y-aut mb-24 h-full">
         {lessonsPerMonth === undefined &&
           Array.from({ length: 10 }).map((_, i) => (
             <LessonCard.Skeleton key={i} />

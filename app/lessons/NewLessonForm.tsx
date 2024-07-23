@@ -60,7 +60,7 @@ export const NewLessonForm = () => {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" className="space-x-1">
-          <p>הוסף שיעור</p>
+          {/* <p>הוסף שיעור</p> */}
           <PlusIcon />
         </Button>
       </DialogTrigger>
