@@ -7,6 +7,7 @@ import { formatMonthInHebrew, formatPrice } from "@/lib/utils";
 import Image from "next/image";
 import { LessonCard } from "./LessonCard";
 import { Menu } from "./Menu";
+import { useTheme } from "next-themes";
 
 export default function Page() {
   const lessonsPerMonth = useQuery(api.lessons.allLessons);
@@ -24,7 +25,7 @@ export default function Page() {
         <NewLessonForm />
       </header>
 
-      <main className="flex-1 overflow-y-auto pb-24">
+      <main className="flex-1 overflow-y-auto pb-24 h-full">
         {lessonsPerMonth === undefined &&
           Array.from({ length: 10 }).map((_, i) => (
             <LessonCard.Skeleton key={i} />
