@@ -14,7 +14,7 @@ export default function Page() {
 
   return (
     <div className="h-full w-full relative flex flex-col justify-center">
-      <main className="flex-1 overflow-y-aut mb-24 h-full">
+      <main className="flex-1 overflow-y-aut mb-40 h-full">
         {lessonsPerMonth === undefined &&
           Array.from({ length: 10 }).map((_, i) => (
             <LessonCard.Skeleton key={i} />
@@ -48,18 +48,22 @@ export default function Page() {
           <NewLessonForm />
         </div>
 
-        <div className="mt-3 grid grid-cols-3 items-center text-center">
+        <div className="mt-3 grid grid-cols-3 gap-3 items-center text-center">
           <div>
-            <p> מספר שיעורים כולל:</p>
-            {paymentsDataQuery?.totalLessonsCount}
+            <p>מספר שיעורים כולל</p>
+            <p className="text-xl">{paymentsDataQuery?.totalLessonsCount}</p>
           </div>
           <div>
-            <p>מחכה לתשלום:</p>
-            {formatPrice(paymentsDataQuery?.pending as number)}
+            <p>מחכה לתשלום</p>
+            <p className="text-xl">
+              {formatPrice(paymentsDataQuery?.pending as number)}
+            </p>
           </div>
           <div>
-            <p>סכום ששולם:</p>
-            {formatPrice(paymentsDataQuery?.total as number)}
+            <p>סכום ששולם</p>
+            <p className="text-xl">
+              {formatPrice(paymentsDataQuery?.total as number)}
+            </p>
           </div>
         </div>
       </footer>

@@ -49,11 +49,11 @@ export const NewLessonForm = () => {
       price: parseInt(priceRef.current?.value || ""),
     };
 
-    const result = lessonSchema.safeParse(newLesson);
-    if (!result.success) {
-      console.error(result.error);
-      return;
-    }
+    // const result = lessonSchema.safeParse(newLesson);
+    // if (!result.success) {
+    //   alert("אחד או יותר מהשדות אינו תקין");
+    //   return;
+    // }
 
     console.log({ newLesson });
     try {
@@ -67,7 +67,7 @@ export const NewLessonForm = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="space-x-1 rounded-full size-14">
+        <Button variant="outline" className="space-x-1 rounded-full size-14 bg-slate-200">
           {/* <p>הוסף שיעור</p> */}
           <PlusIcon className="size-full" />
         </Button>

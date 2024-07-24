@@ -22,11 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning dir="rtl">
-      <body className={`${fredoka.className} select-none flex flex-col bg-slate-200`}>
+      <body className={`${fredoka.className} select-none flex flex-col bg-gradient-to-br from-slate-200 to-slate-400`}>
         <ThemeProvider attribute="class">
           <ConvexClientProvider>
             <Header />
-            <main className="flex-grow bg-slate-200 relative flex flex-col justify-center items-center">
+            <main className="h-full flex flex-col justify-center items-center">
               {children}
             </main>
           </ConvexClientProvider>
