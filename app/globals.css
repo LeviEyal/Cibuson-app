@@ -61,12 +61,3 @@
     --chart-5: 27 87% 67%;
   }
 }
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}

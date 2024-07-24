@@ -22,13 +22,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning dir="rtl">
-      <body className={`${fredoka.className} select-none flex flex-col bg-slate-200`}>
+      <body
+        className={`${fredoka.className} select-none flex flex-col bg-slate-200`}
+      >
         <ThemeProvider attribute="class">
           <ConvexClientProvider>
-            <Header />
-            <main className="h-full flex flex-col justify-center items-center">
-              {children}
-            </main>
+            <div className={`h-screen flex flex-col`}>
+              <Header />
+              <main className="mt-20 mb-32 h-full flex flex-col justify-center items-center overflow-y-scroll">
+                {children}
+              </main>
+            </div>
           </ConvexClientProvider>
         </ThemeProvider>
       </body>

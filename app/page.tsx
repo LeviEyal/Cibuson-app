@@ -8,7 +8,7 @@ export default function HomePage() {
   const { isAuthenticated, isLoading } = useConvexAuth();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>טוען...</div>;
   }
 
   if (isAuthenticated) {

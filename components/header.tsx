@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export const Header = () => {
   return (
-    <header className="h-20 z-40 flex justify-between px-4 items-center bg-slate-400 sticky top-0">
+    <header className="h-20 z-40 flex justify-between px-4 items-center bg-slate-400 fixed top-0 left-0 w-full">
       <div className="flex justify-center items-center gap-3">
         <Menu />
 

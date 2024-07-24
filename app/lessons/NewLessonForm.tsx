@@ -72,52 +72,47 @@ export const NewLessonForm = () => {
           <PlusIcon className="size-full" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="sm:max-w-[200px] px-10 pb-10">
+      <DrawerContent className="sm:max-w-[200px] pb-10">
         <DrawerHeader>
           <DrawerTitle>הוסף שיעור</DrawerTitle>
-          <DrawerDescription>הוסף שיעור חדש למערכת</DrawerDescription>
-          <DrawerDescription>את כל הפרטים ניתן לשנות בהמשך</DrawerDescription>
         </DrawerHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 py-4 px-10">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Input autoFocus id="name" ref={studentNameRef} className="col-span-3" />
             <Label htmlFor="name" className="text-right">
               שם התלמיד
             </Label>
+            <Input autoFocus id="name" ref={studentNameRef} className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Input ref={dateRef} id="date" type="date" className="col-span-3" />
             <Label htmlFor="date" className="text-right">
               תאריך
             </Label>
+            <Input ref={dateRef} id="date" type="date" className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="duration" className="text-right">
+              משך השיעור בדקות
+            </Label>
             <Input
               ref={durationRef}
               id="duration"
               type="number"
               className="col-span-3"
             />
-            <Label htmlFor="duration" className="text-right">
-              משך השיעור בדקות
-            </Label>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="price" className="text-right">
+              מחיר
+            </Label>
             <Input
               ref={priceRef}
               id="price"
               type="number"
               className="col-span-3"
             />
-            <Label htmlFor="price" className="text-right">
-              מחיר
-            </Label>
           </div>
         </div>
         <DrawerFooter>
-          <DrawerClose asChild>
-            <Button variant="outline">ביטול</Button>
-          </DrawerClose>
           <DrawerClose asChild>
             <Button onClick={handleSubmit}>אישור</Button>
           </DrawerClose>
