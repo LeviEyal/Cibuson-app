@@ -14,7 +14,7 @@ export default function Page() {
 
   return (
     <div className="h-full w-full relative flex flex-col justify-center">
-      <main className="flex-1 overflow-y-aut  h-full">
+      <main className="flex-1 h-full">
         {lessonsPerMonth === undefined &&
           Array.from({ length: 10 }).map((_, i) => (
             <LessonCard.Skeleton key={i} />
@@ -41,6 +41,7 @@ export default function Page() {
               </div>
             );
           })}
+        <div className="h-10" />
       </main>
 
       <footer className="h-24 z-50 fixed bottom-0 left-0 py-3 w-full bg-slate-400 flex flex-col justify-center items-center">
@@ -51,18 +52,26 @@ export default function Page() {
         <div className="mt-3 grid grid-cols-3 gap-6 items-center text-center">
           <div>
             <p>סה&quot;כ שיעורים</p>
-            <p className="text-xl">{paymentsDataQuery?.totalLessonsCount? paymentsDataQuery?.totalLessonsCount: "..."}</p>
+            <p className="text-xl">
+              {paymentsDataQuery?.totalLessonsCount
+                ? paymentsDataQuery?.totalLessonsCount
+                : "..."}
+            </p>
           </div>
           <div>
             <p>מחכה לתשלום</p>
             <p className="text-xl">
-              {paymentsDataQuery?.pending? formatPrice(paymentsDataQuery?.pending as number): "..."}
+              {paymentsDataQuery?.pending
+                ? formatPrice(paymentsDataQuery?.pending as number)
+                : "..."}
             </p>
           </div>
           <div>
             <p>סכום ששולם</p>
             <p className="text-xl">
-              {paymentsDataQuery?.total? formatPrice(paymentsDataQuery?.total as number): "..."}
+              {paymentsDataQuery?.total
+                ? formatPrice(paymentsDataQuery?.total as number)
+                : "..."}
             </p>
           </div>
         </div>

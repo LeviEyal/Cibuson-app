@@ -74,7 +74,7 @@ export default function RootLayout({
           <ConvexClientProvider>
             <div className={`h-screen flex flex-col`}>
               <Header />
-              <main className="mt-20 mb-32 h-full flex flex-col justify-center items-center overflow-y-scroll">
+              <main className="mt-20 mb-24 h-full flex flex-col justify-center items-center overflow-y-scroll">
                 {children}
               </main>
             </div>

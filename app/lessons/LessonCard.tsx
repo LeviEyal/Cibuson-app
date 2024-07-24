@@ -15,10 +15,11 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import SwipeToRevealActions from "react-swipe-to-reveal-actions";
 
-import { TrashIcon, Pencil1Icon, CheckIcon } from "@radix-ui/react-icons";
+import { TrashIcon, CalendarIcon, CheckIcon } from "@radix-ui/react-icons";
 import { formatPrice } from "@/lib/utils";
 import clsx from "clsx";
 import { api } from "@/convex/_generated/api";
+import Link from "next/link";
 
 export const LessonCard = ({ lesson }: any) => {
   const payLessonMutation = useMutation(api.lessons.payLesson);
@@ -29,6 +30,8 @@ export const LessonCard = ({ lesson }: any) => {
   const formattedPrice = formatPrice(lesson.price);
 
   const isPast = date < new Date();
+
+  const eventLink = "https://www.google.com/calendar/render?action=TEMPLATE&text=Your+Event+Name&dates=20140127T224000Z/20140320T221500Z&details=For+details,+link+here:+http://www.example.com&location=Waldorf+Astoria,+301+Park+Ave+,+New+York,+NY+10022&sf=true&output=xml"
 
   return (
     <div
@@ -47,14 +50,14 @@ export const LessonCard = ({ lesson }: any) => {
           padding: "10px",
         }}
         actionButtons={[
-        //   {
-        //     content: (
-        //       <div className="bg-yellow-300 rounded-3xl text-black size-12 flex justify-center items-center">
-        //         <Pencil1Icon width={25} height={25} />
-        //       </div>
-        //     ),
-        //     onClick: () => alert("Pressed the EDIT button"),
-        //   },
+          //   {
+          //     content: (
+          //       <div className="bg-yellow-300 rounded-3xl text-black size-12 flex justify-center items-center">
+          //         <Pencil1Icon width={25} height={25} />
+          //       </div>
+          //     ),
+          //     onClick: () => alert("Pressed the EDIT button"),
+          //   },
           {
             content: (
               <div className="bg-red-300 rounded-3xl text-black size-12 flex justify-center items-center">
@@ -74,7 +77,13 @@ export const LessonCard = ({ lesson }: any) => {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>ביטול מחיקה</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => deleteLessonMutation({_id: lesson._id})}>מחק שיעור</AlertDialogAction>
+                      <AlertDialogAction
+                        onClick={() =>
+                          deleteLessonMutation({ _id: lesson._id })
+                        }
+                      >
+                        מחק שיעור
+                      </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
@@ -93,7 +102,9 @@ export const LessonCard = ({ lesson }: any) => {
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>האם תשלום בוצע עבור שיעור זה?</AlertDialogTitle>
+                      <AlertDialogTitle>
+                        האם תשלום בוצע עבור שיעור זה?
+                      </AlertDialogTitle>
                       <AlertDialogDescription>
                         האם אתה בטוח שברצונך לבטל את השיעור עם{" "}
                         {lesson.studentName}? פעולה זו אינה ניתנת לביטול.
@@ -101,7 +112,11 @@ export const LessonCard = ({ lesson }: any) => {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>ביטול פעולה</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => payLessonMutation({_id: lesson._id})}>סמן ביצוע תשלום עבור שיעור זה</AlertDialogAction>
+                      <AlertDialogAction
+                        onClick={() => payLessonMutation({ _id: lesson._id })}
+                      >
+                        סמן ביצוע תשלום עבור שיעור זה
+                      </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
@@ -112,7 +127,10 @@ export const LessonCard = ({ lesson }: any) => {
         ]}
         actionButtonMinWidth={70}
       >
-        <div className="flex justify-around w-full h-full">
+        <div className="flex items-center justify-around w-full h-full">
+          <Link href={eventLink}>
+            <CalendarIcon />
+          </Link>
           <p>{formattedDate}</p>
           <p>{formattedPrice}</p>
           <p>{lesson.studentName}</p>
