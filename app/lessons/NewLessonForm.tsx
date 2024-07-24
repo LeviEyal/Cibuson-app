@@ -3,19 +3,19 @@
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { z } from "zod";
 
@@ -65,19 +65,19 @@ export const NewLessonForm = () => {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Drawer>
+      <DrawerTrigger asChild>
         <Button variant="outline" className="space-x-1 rounded-full size-14 bg-slate-200">
           {/* <p>הוסף שיעור</p> */}
           <PlusIcon className="size-full" />
         </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>הוסף שיעור</DialogTitle>
-          <DialogDescription>הוסף שיעור חדש למערכת</DialogDescription>
-          <DialogDescription>את כל הפרטים ניתן לשנות בהמשך</DialogDescription>
-        </DialogHeader>
+      </DrawerTrigger>
+      <DrawerContent className="sm:max-w-[425px]">
+        <DrawerHeader>
+          <DrawerTitle>הוסף שיעור</DrawerTitle>
+          <DrawerDescription>הוסף שיעור חדש למערכת</DrawerDescription>
+          <DrawerDescription>את כל הפרטים ניתן לשנות בהמשך</DrawerDescription>
+        </DrawerHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Input id="name" ref={studentNameRef} className="col-span-3" />
@@ -114,15 +114,15 @@ export const NewLessonForm = () => {
             </Label>
           </div>
         </div>
-        <DialogFooter>
-          <DialogClose asChild>
+        <DrawerFooter>
+          <DrawerClose asChild>
             <Button variant="outline">ביטול</Button>
-          </DialogClose>
-          <DialogClose asChild>
+          </DrawerClose>
+          <DrawerClose asChild>
             <Button onClick={handleSubmit}>אישור</Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 };
