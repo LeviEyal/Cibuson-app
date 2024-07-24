@@ -72,7 +72,7 @@ export const NewLessonForm = () => {
           <PlusIcon className="size-full" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="sm:max-w-[425px]">
+      <DrawerContent className="sm:max-w-[200px] px-10 pb-10">
         <DrawerHeader>
           <DrawerTitle>הוסף שיעור</DrawerTitle>
           <DrawerDescription>הוסף שיעור חדש למערכת</DrawerDescription>
@@ -80,7 +80,7 @@ export const NewLessonForm = () => {
         </DrawerHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Input id="name" ref={studentNameRef} className="col-span-3" />
+            <Input autoFocus id="name" ref={studentNameRef} className="col-span-3" />
             <Label htmlFor="name" className="text-right">
               שם התלמיד
             </Label>
