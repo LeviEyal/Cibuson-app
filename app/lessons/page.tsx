@@ -50,7 +50,7 @@ export default function Page() {
 
         <div className="mt-3 grid grid-cols-3 gap-6 items-center text-center">
           <div>
-            <p>סה"כ שיעורים</p>
+            <p>סה&quot;כ שיעורים</p>
             <p className="text-xl">{paymentsDataQuery?.totalLessonsCount? paymentsDataQuery?.totalLessonsCount: "..."}</p>
           </div>
           <div>
