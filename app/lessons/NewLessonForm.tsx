@@ -17,6 +17,21 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { PlusIcon } from "@radix-ui/react-icons";
+import { z } from "zod";
+
+/**
+ * studentName should be a string with a length of at least 1 character and at most 100 characters
+ * date should be a string that represents a valid date
+ * duration should be a number that is greater than 0
+ * price should be a number that is greater than 0
+ *
+ */
+const lessonSchema = z.object({
+  studentName: z.string().min(3).max(20),
+  date: z.string().transform((val) => new Date(val).getTime()),
+  duration: z.number().min(1).max(1000),
+  price: z.number().min(1).max(1000),
+});
 
 export const NewLessonForm = () => {
   const addNewLessonMutation = useMutation(api.lessons.addLesson);
@@ -26,15 +41,6 @@ export const NewLessonForm = () => {
   const durationRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
 
-  const validateForm = () => {
-    return (
-      studentNameRef.current?.value &&
-      dateRef.current?.value &&
-      durationRef.current?.value &&
-      priceRef.current?.value
-    );
-  };
-
   const handleSubmit = async () => {
     const newLesson = {
       studentName: studentNameRef.current?.value || "",
@@ -43,10 +49,12 @@ export const NewLessonForm = () => {
       price: parseInt(priceRef.current?.value || ""),
     };
 
-    if (!validateForm()) {
-      alert("אנא מלא את כל השדות");
+    const result = lessonSchema.safeParse(newLesson);
+    if (!result.success) {
+      console.error(result.error);
       return;
     }
+
     console.log({ newLesson });
     try {
       const res = await addNewLessonMutation(newLesson);
@@ -59,9 +67,9 @@ export const NewLessonForm = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="space-x-1">
+        <Button variant="outline" className="space-x-1 rounded-full size-14">
           {/* <p>הוסף שיעור</p> */}
-          <PlusIcon />
+          <PlusIcon className="size-full" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

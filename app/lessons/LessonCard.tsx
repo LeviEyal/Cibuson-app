@@ -113,9 +113,9 @@ export const LessonCard = ({ lesson }: any) => {
         actionButtonMinWidth={70}
       >
         <div className="flex justify-around w-full h-full">
-          <p>{lesson.studentName}</p>
           <p>{formattedDate}</p>
           <p>{formattedPrice}</p>
+          <p>{lesson.studentName}</p>
         </div>
       </SwipeToRevealActions>
     </div>

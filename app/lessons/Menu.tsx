@@ -18,7 +18,7 @@ export const Menu = () => {
   return (
     <Sheet>
       <SheetTrigger>
-        <HamburgerMenuIcon width={25} height={25} />
+        <HamburgerMenuIcon width={35} height={35} />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

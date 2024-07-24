@@ -27,14 +27,6 @@ export const allLessons = query({
   },
 });
 
-export const totalLessons = query({
-  args: {},
-  handler: async (ctx) => {
-    const lessons = await ctx.db.query("lesson").collect();
-    return lessons.length;
-  },
-});
-
 export const addLesson = mutation({
   args: {
     studentName: v.string(),
@@ -69,18 +61,23 @@ export const payLesson = mutation({
 export const paymentsData = query({
   args: {},
   handler: async (ctx) => {
-    const lessons = await ctx.db.query("lesson").take(1000);
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return {};
+
+    const lessons = await ctx.db
+      .query("lesson")
+      .filter((q) => q.eq(q.field("user"), identity.subject))
+      .collect();
+
     const pending = lessons
       .filter((lesson) => !lesson.paid)
       .reduce((acc, lesson) => acc + lesson.price, 0);
-    const totalThisMonth = lessons
-      .filter(
-        (lesson) => new Date(lesson.date).getMonth() === new Date().getMonth(),
-      )
-      .reduce((acc, lesson) => acc + lesson.price, 0);
+
+    const totalLessonsCount = lessons.length;
+
     const total = lessons.reduce((acc, lesson) => acc + lesson.price, 0);
 
-    return { pending, totalThisMonth, total };
+    return { pending, totalLessonsCount, total };
   },
 });
 
