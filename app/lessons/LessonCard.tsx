@@ -30,8 +30,20 @@ export const LessonCard = ({ lesson }: any) => {
   const formattedPrice = formatPrice(lesson.price);
 
   const isPast = date < new Date();
+  const duration = lesson.duration;
 
-  const eventLink = "https://www.google.com/calendar/render?action=TEMPLATE&text=Your+Event+Name&dates=20140127T224000Z/20140320T221500Z&details=For+details,+link+here:+http://www.example.com&location=Waldorf+Astoria,+301+Park+Ave+,+New+York,+NY+10022&sf=true&output=xml"
+  // remove all the '-' and ':' from the date string
+  const dateFromISOString = new Date(date).toISOString().replace(/[-:]/g, "");
+  // same as dateFrom but with the addition of the duration in minutes
+  const dateTo = new Date(date).setMinutes(date.getMinutes() + duration);
+  const dateToISOString = new Date(dateTo).toISOString().replace(/[-:]/g, "");
+
+  const event = {
+    title: "שיעור עם " + lesson.studentName,
+    dates: `${dateFromISOString}/${dateToISOString}`,
+    location: "כתובת השיעור",
+  }
+  const eventLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.title}&dates=${event.dates}&details=For+details,+link+here:+http://www.example.com&location=${event.location}&sf=true&output=xml`;
 
   return (
     <div
@@ -128,7 +140,7 @@ export const LessonCard = ({ lesson }: any) => {
         actionButtonMinWidth={70}
       >
         <div className="flex items-center justify-around w-full h-full">
-          <Link href={eventLink}>
+          <Link href={eventLink} target="_blank">
             <CalendarIcon />
           </Link>
           <p>{formattedDate}</p>
