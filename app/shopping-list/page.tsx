@@ -5,7 +5,7 @@ import { useAction } from "convex/react";
 import { useRef } from "react";
 
 export default function ShoppingListPage() {
-  const generateShoppingList = useAction(api.shoppingList.shoppingList);
+  const generateShoppingList = useAction(api.shoppingList.generateShoppingList);
   const groceriesRawInputRef = useRef<HTMLInputElement>(null);
 
   const handleGenerateShoppingList = async () => {
