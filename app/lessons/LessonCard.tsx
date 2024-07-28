@@ -20,10 +20,17 @@ import { formatPrice } from "@/lib/utils";
 import clsx from "clsx";
 import { api } from "@/convex/_generated/api";
 import Link from "next/link";
+import { useOrganization } from "@clerk/nextjs";
+import Image from "next/image";
 
 export const LessonCard = ({ lesson }: any) => {
+  const { memberships } = useOrganization({ memberships: { infinite: true } });
   const payLessonMutation = useMutation(api.lessons.payLesson);
   const deleteLessonMutation = useMutation(api.lessons.deleteLesson);
+
+  const author = memberships?.data?.find(
+    (membership) => membership.publicUserData.userId === lesson.user,
+  );
 
   const date = new Date(lesson.date);
   const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
@@ -42,7 +49,7 @@ export const LessonCard = ({ lesson }: any) => {
     title: "שיעור עם " + lesson.studentName,
     dates: `${dateFromISOString}/${dateToISOString}`,
     location: "כתובת השיעור",
-  }
+  };
   const eventLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.title}&dates=${event.dates}&details=For+details,+link+here:+http://www.example.com&location=${event.location}&sf=true&output=xml`;
 
   return (
@@ -62,14 +69,6 @@ export const LessonCard = ({ lesson }: any) => {
           padding: "10px",
         }}
         actionButtons={[
-          //   {
-          //     content: (
-          //       <div className="bg-yellow-300 rounded-3xl text-black size-12 flex justify-center items-center">
-          //         <Pencil1Icon width={25} height={25} />
-          //       </div>
-          //     ),
-          //     onClick: () => alert("Pressed the EDIT button"),
-          //   },
           {
             content: (
               <div className="bg-red-300 rounded-3xl text-black size-12 flex justify-center items-center">
@@ -140,6 +139,15 @@ export const LessonCard = ({ lesson }: any) => {
         actionButtonMinWidth={70}
       >
         <div className="flex items-center justify-around w-full h-full">
+          {author?.publicUserData.imageUrl && (
+            <Image
+              className="rounded-full"
+              width={20}
+              height={20}
+              src={author?.publicUserData.imageUrl}
+              alt="a"
+            />
+          )}
           <Link href={eventLink} target="_blank">
             <CalendarIcon />
           </Link>

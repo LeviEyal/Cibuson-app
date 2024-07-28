@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@clerk/elements": "^0.10.5",
+    "@clerk/localizations": "^2.5.2",
     "@clerk/nextjs": "^5.2.5",
     "@ducanh2912/next-pwa": "^10.2.8",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -28,6 +29,7 @@
     "convex": "^1.13.0",
     "next": "14.2.5",
     "next-themes": "^0.3.0",
+    "openai": "^4.53.0",
     "react": "^18",
     "react-dom": "^18",
     "react-swipe-to-reveal-actions": "^1.1.1",

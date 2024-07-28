@@ -13,5 +13,11 @@ export default defineSchema({
     price: v.number(),
     paid: v.boolean(),
     user: v.optional(v.string()),
+    orgId: v.optional(v.string()),
+  }),
+  groceries: defineTable({
+    name: v.string(),
+    category: v.string(),
+    user: v.optional(v.string()),
   }),
 });

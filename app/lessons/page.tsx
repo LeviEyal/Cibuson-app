@@ -5,9 +5,11 @@ import { api } from "@/convex/_generated/api";
 import { formatMonthInHebrew, formatPrice } from "@/lib/utils";
 import { LessonCard } from "./LessonCard";
 import { NewLessonForm } from "./NewLessonForm";
+import { useOrganization } from "@clerk/nextjs";
 
 export default function Page() {
-  const lessonsPerMonth = useQuery(api.lessons.allLessons);
+  const {organization} = useOrganization();
+  const lessonsPerMonth = useQuery(api.lessons.allLessons, { orgId: organization?.id});
   const months = Object.keys(lessonsPerMonth || {}).toReversed();
 
   const paymentsDataQuery = useQuery(api.lessons.paymentsData);

@@ -18,6 +18,7 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { z } from "zod";
+import { useOrganization } from "@clerk/nextjs";
 
 /**
  * studentName should be a string with a length of at least 1 character and at most 100 characters
@@ -34,6 +35,7 @@ const lessonSchema = z.object({
 });
 
 export const NewLessonForm = () => {
+  const {organization} = useOrganization();
   const addNewLessonMutation = useMutation(api.lessons.addLesson);
 
   const studentNameRef = useRef<HTMLInputElement>(null);
@@ -47,6 +49,7 @@ export const NewLessonForm = () => {
       date: new Date(dateRef.current?.value || "").getTime(),
       duration: parseInt(durationRef.current?.value || ""),
       price: parseInt(priceRef.current?.value || ""),
+      orgId: organization?.id
     };
 
     // const result = lessonSchema.safeParse(newLesson);

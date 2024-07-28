@@ -2,7 +2,13 @@
 
 import { Menu } from "@/app/lessons/Menu";
 import { NewLessonForm } from "@/app/lessons/NewLessonForm";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import {
+  CreateOrganization,
+  OrganizationProfile,
+  OrganizationSwitcher,
+  SignedIn,
+  UserButton,
+} from "@clerk/nextjs";
 import Image from "next/image";
 
 export const Header = () => {
@@ -22,6 +28,22 @@ export const Header = () => {
                 userButtonAvatarBox: {
                   width: "35px",
                   height: "35px",
+                },
+              },
+            }}
+          />
+          <OrganizationSwitcher 
+            appearance={{
+              elements: {
+                organizationPreviewAvatarBox: {
+                  width: "35px",
+                  height: "35px",
+                },
+                organizationPreviewMainIdentifier: {
+                  display: "none",
+                },
+                organizationSwitcherTriggerIcon: {
+                  display: "none",
                 },
               },
             }}

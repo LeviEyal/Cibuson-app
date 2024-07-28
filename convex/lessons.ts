@@ -3,15 +3,19 @@ import { mutation, query } from "./_generated/server";
 import { Doc } from "./_generated/dataModel";
 
 export const allLessons = query({
-  args: {},
-  handler: async (ctx) => {
+  args: { orgId: v.optional(v.string()) },
+  handler: async (ctx, { orgId }) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) return {};
 
     const ans: Record<string, Doc<"lesson">[]> = {};
     const lessons = await ctx.db
       .query("lesson")
-      .filter((q) => q.eq(q.field("user"), identity.subject))
+      .filter((q) =>
+        orgId
+          ? q.eq(q.field("orgId"), orgId)
+          : q.eq(q.field("user"), identity.subject),
+      )
       .order("desc")
       .collect();
 
@@ -33,8 +37,9 @@ export const addLesson = mutation({
     date: v.number(),
     duration: v.number(),
     price: v.number(),
+    orgId: v.optional(v.string()),
   },
-  handler: async (ctx, { studentName, date, duration, price }) => {
+  handler: async (ctx, { studentName, date, duration, price, orgId }) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) return;
 
@@ -45,6 +50,7 @@ export const addLesson = mutation({
       price,
       paid: false,
       user: identity.subject,
+      orgId,
     });
   },
 });

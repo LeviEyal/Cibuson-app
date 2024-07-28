@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { Icons } from "@/components/ui/icons";
 import Image from "next/image";
+import { CreateOrganization } from "@clerk/nextjs";
 
 export default function SignInPage() {
   return (
@@ -24,6 +25,7 @@ export default function SignInPage() {
         <Clerk.Loading>
           {(isGlobalLoading) => (
             <>
+            <CreateOrganization />
               <SignIn.Step name="start">
                 <Card className="w-full sm:w-96 text-center">
                   <CardHeader className="flex flex-col justify-center items-center">
