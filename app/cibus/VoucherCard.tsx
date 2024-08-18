@@ -12,7 +12,12 @@ import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
-import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  CheckboxIcon,
+  ExternalLinkIcon,
+} from "@radix-ui/react-icons";
 import { useMutation } from "convex/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -42,15 +47,15 @@ export const VoucherCard = ({
   return (
     <div
       className={cn(
-        "flex flex-col items-center border-gray-200 bg-white border-b m-4 p-4 rounded-lg shadow",
+        "flex flex-col items-center bg-white border-b-4 m-4 p-4 rounded-lg shadow",
         isUsed
-          ? "bg-red-50 border-b-2 border-red-500"
-          : "bg-white border-b-2 border-green-500",
+          ? "bg-red-50 border-red-500/70 opacity-60"
+          : "bg-white border-green-500/70",
       )}
     >
       <div className="w-full flex flex-row justify-between">
         <div>
-          <p className="text-xl">{voucher.amount} ₪</p>
+          <p className="text-2xl">{voucher.amount} ₪</p>
           <p className="text-sm text-gray-500">
             {new Date(voucher.date).toLocaleDateString()}
           </p>
@@ -61,14 +66,20 @@ export const VoucherCard = ({
           </p>
         </div>
         <div className="flex flex-col justify-center items-center gap-5">
-          <Image src="/ShufersalLogo.svg" width={70} height={70} alt="voucher" />
+          <Image
+            src="/ShufersalLogo.svg"
+            width={70}
+            height={70}
+            alt="voucher"
+          />
           <Link
             href={voucher.url}
             target="_blank"
             rel="noreferrer"
-            className="text-blue-500 underline"
+            className="text-blue-500 underline flex justify-center items-center gap-1"
           >
             קישור לשובר
+            <ExternalLinkIcon />
           </Link>
         </div>
       </div>
@@ -109,7 +120,10 @@ export const VoucherCard = ({
         {!isUsed ? (
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button type="button">סימון כמומש</Button>
+              <Button type="button" className="flex gap-2">
+                סימון כמומש
+                <CheckboxIcon className="size-5" />
+              </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -154,7 +168,9 @@ export const VoucherCard = ({
                 </Button>
               </AlertDialogAction>
               <AlertDialogCancel asChild>
-                <Button className="text-black" type="button">ביטול</Button>
+                <Button className="text-black" type="button">
+                  ביטול
+                </Button>
               </AlertDialogCancel>
             </AlertDialogContent>
           </AlertDialog>

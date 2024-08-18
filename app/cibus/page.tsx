@@ -7,7 +7,7 @@ import { useState } from "react";
 import type { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/Loader";
-import { toast } from "sonner"
+import { toast } from "sonner";
 import { formatDate } from "@/lib/utils";
 import { RefreshCcwIcon } from "lucide-react";
 
@@ -44,8 +44,13 @@ export default function Page() {
 
   return (
     <div className="h-full w-full flex flex-col justify-center items-center pb-20">
-      <header className="flex justify-between items-center mt-2">
-        <Button disabled={isUpdating} type="button" className="flex gap-5" onClick={() => refresh()}>
+      <header className="flex justify-between items-center mt-4">
+        <Button
+          disabled={isUpdating}
+          type="button"
+          className="flex gap-5 bg-gradient-to-r from-pink-800 to-orange-700 rounded-3xl"
+          onClick={() => refresh()}
+        >
           {isUpdating ? "מעדכן..." : "רענן קופונים"}
           <RefreshCcwIcon className="size-5" />
         </Button>
@@ -58,9 +63,9 @@ export default function Page() {
           setCollapsed={setCollapsed}
         />
       ))}
-      <footer className="fixed bottom-0 h-14 w-full bg-slate-800 flex justify-center items-center">
-        <p className="text-white text-lg">
-          סהכ סכום שנשאר למימוש: {totalUnusedAmount} ₪
+      <footer className="fixed bottom-0 h-14 w-full bg-gradient-to-r from-pink-950 to-orange-700 flex justify-center items-center">
+        <p className="text-white text-xl">
+          סה&quot;כ סכום זמין למימוש: {totalUnusedAmount} ₪
         </p>
       </footer>
     </div>
