@@ -49,10 +49,10 @@ export const VoucherCard = ({
   return (
     <div
       className={cn(
-        "flex flex-col items-center bg-white border-b-4 m-4 p-4 rounded-lg shadow-lg",
+        "flex flex-col items-center bg-white border-b-2 border-l m-4 p-4 rounded-lg shadow-md border-pink-500",
         isUsed
-          ? "bg-red-50 border-red-500/70 opacity-60"
-          : "bg-white border-green-500/70",
+          ? "bg-red-50 opacity-60"
+          : "bg-white",
       )}
     >
       <div className="w-full flex flex-row justify-between">

@@ -54,7 +54,7 @@ export const Header = () => {
       <div className="flex items-center gap-3">
         <div className="flex flex-col justify-center items-end -space-y-1">
           <h1 className="text-center text-3xl font-semibold">Cibuson</h1>
-          <h2 className="text-center text-md">ניהול שוברים של הסיבוס</h2>
+          <h2 className="text-center text-md">ניהול שוברים מהסיבוס</h2>
         </div>
         <Image
           src="/logo1.jpg"
