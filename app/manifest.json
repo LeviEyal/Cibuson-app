@@ -1,25 +1,25 @@
 {
-    "name": "PWA App",
-    "short_name": "App",
+    "name": "Cibuson App",
+    "short_name": "Cibuson",
     "icons": [
       {
-        "src": "cat.png",
+        "src": "logo1.jpg",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "any maskable"
       },
       {
-        "src": "cat.png",
+        "src": "logo1.jpg",
         "sizes": "384x384",
         "type": "image/png"
       },
       {
-        "src": "cat.png",
+        "src": "logo1.jpg",
         "sizes": "512x512",
         "type": "image/png"
       }
     ],
-    "theme_color": "#FFFFFF",
+    "theme_color": "#ad1b58",
     "background_color": "#FFFFFF",
     "start_url": "/",
     "display": "standalone",
