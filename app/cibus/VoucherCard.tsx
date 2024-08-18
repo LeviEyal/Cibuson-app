@@ -23,6 +23,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
 import { CiBarcode } from "react-icons/ci";
+import { TbBarcodeOff, TbBarcode } from "react-icons/tb";
 
 interface VoucherCardProps {
   voucher: Doc<"cibusVouchers">;
@@ -91,7 +92,8 @@ export const VoucherCard = ({
           variant="cibusOutline"
           className="flex justify-between gap-2 w-40"
           >
-          <CiBarcode className="size-5" />
+          {/* <CiBarcode className="size-5" /> */}
+          <TbBarcodeOff className="size-5" />
           <p>הסתר ברקוד</p>
           <ChevronUpIcon />
         </Button>
@@ -102,7 +104,7 @@ export const VoucherCard = ({
           variant="cibusOutline"
           className="flex gap-2 justify-between w-40"
         >
-          <CiBarcode className="size-5" />
+          <TbBarcode className="size-5" />
           <p>הצג ברקוד</p>
 
           <ChevronDownIcon />
