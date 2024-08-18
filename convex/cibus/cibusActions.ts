@@ -6,17 +6,7 @@ import { action } from "../_generated/server";
 import { google } from "googleapis";
 import type { Doc } from "../_generated/dataModel";
 const { htmlToText } = require("html-to-text");
-import { clerkClient } from '@clerk/clerk-sdk-node'
-
-// async function authorize() {
-//   const content =
-//     '{"type":"authorized_user","client_id":"776600956267-re39527565ks3v6sc4lui61esu86svm8.apps.googleusercontent.com","client_secret":"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","refresh_token":"1//03UOgjzFqyq_QCgYIARAAGAMSNwF-L9IrXr6lFc3NJpSgF_wG3O4aVC9aW9qxAndqROR0CfFrObaa0rPkGpe1xy1QJXltdMTs-Ag"}';
-//   const credentials = JSON.parse(content);
-//   const client = google.auth.fromJSON(credentials);
-//   if (client) {
-//     return client;
-//   }
-// }
+import { clerkClient } from "@clerk/clerk-sdk-node";
 
 function extractPluxeeUrls(text: string): string | null {
   const regex = /https:\/\/myconsumers\.pluxee\.co\.il\/b\?[^ \]\n]+/g;
@@ -50,27 +40,23 @@ export const updateCibusVouchers = action({
       throw new Error("Unauthorized");
     }
 
-    
-    const refresh_token = await clerkClient.users.getUserOauthAccessToken(identity.subject, 'oauth_google');
-    const [token] = refresh_token.data
-    
+    const refresh_token = await clerkClient.users.getUserOauthAccessToken(
+      identity.subject,
+      "oauth_google",
+    );
+    const [token] = refresh_token.data;
+
     console.log({ token });
 
     const auth = google.auth.fromJSON({
       type: "authorized_user",
-      client_id:
-        "776600956267-4if6knnhousqh7hu666r8nbdviqdl77j.apps.googleusercontent.com",
-      client_secret: "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",
-      // refresh_token: "1//03UOgjzFqyq_QCgYIARAAGAMSNwF-L9IrXr6lFc3NJpSgF_wG3O4aVC9aW9qxAndqROR0CfFrObaa0rPkGpe1xy1QJXltdMTs-Ag",
+      client_id: process.env.GOOGLE_AUTH_CLIENT_ID,
+      client_secret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
       refresh_token: token.token,
     });
 
     //@ts-ignore
     const gmail = google.gmail({ version: "v1", auth });
-    // const gmail = google.gmail({
-    //   version: 'v1',
-    //   headers: { Authorization: `Bearer ${token}` },
-    // })
     const res = await gmail.users.messages.list({
       userId: "me",
       // q: `noreply@notifications.pluxee.co.il after:${date} subject:${title}`,

@@ -8,8 +8,10 @@ import { NewLessonForm } from "./NewLessonForm";
 import { useOrganization } from "@clerk/nextjs";
 
 export default function Page() {
-  const {organization} = useOrganization();
-  const lessonsPerMonth = useQuery(api.lessons.allLessons, { orgId: organization?.id});
+  const { organization } = useOrganization();
+  const lessonsPerMonth = useQuery(api.lessons.allLessons, {
+    orgId: organization?.id,
+  });
   const months = Object.keys(lessonsPerMonth || {}).toReversed();
 
   const paymentsDataQuery = useQuery(api.lessons.paymentsData);
@@ -18,7 +20,8 @@ export default function Page() {
     <div className="h-full w-full relative flex flex-col justify-center mb-24">
       <main className="flex-1 h-full">
         {lessonsPerMonth === undefined &&
-          Array.from({ length: 10 }).map((_, i) => (
+          Array.from({ length: 10 }).map((a, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <LessonCard.Skeleton key={i} />
           ))}
 

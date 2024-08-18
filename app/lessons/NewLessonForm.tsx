@@ -47,8 +47,8 @@ export const NewLessonForm = () => {
     const newLesson = {
       studentName: studentNameRef.current?.value || "",
       date: new Date(dateRef.current?.value || "").getTime(),
-      duration: parseInt(durationRef.current?.value || ""),
-      price: parseInt(priceRef.current?.value || ""),
+      duration: Number.parseInt(durationRef.current?.value || ""),
+      price: Number.parseInt(priceRef.current?.value || ""),
       orgId: organization?.id
     };
 

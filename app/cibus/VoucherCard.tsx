@@ -44,7 +44,7 @@ export const VoucherCard = ({
       className={cn(
         "flex flex-col items-center border-gray-200 bg-white border-b m-4 p-4 rounded-lg shadow",
         isUsed
-          ? "bg-red-100 border-b-2 border-red-500"
+          ? "bg-red-50 border-b-2 border-red-500"
           : "bg-white border-b-2 border-green-500",
       )}
     >
@@ -60,14 +60,15 @@ export const VoucherCard = ({
               : "זמין למימוש"}
           </p>
         </div>
-        <div>
+        <div className="flex flex-col justify-center items-center gap-5">
+          <Image src="/ShufersalLogo.svg" width={70} height={70} alt="voucher" />
           <Link
             href={voucher.url}
             target="_blank"
             rel="noreferrer"
             className="text-blue-500 underline"
           >
-            Link
+            קישור לשובר
           </Link>
         </div>
       </div>

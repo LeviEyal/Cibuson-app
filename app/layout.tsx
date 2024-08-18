@@ -4,13 +4,14 @@ import { Fredoka } from "next/font/google";
 import "./globals.css";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { Header } from "@/components/header";
+import { Toaster } from "@/components/ui/sonner";
 
 const fredoka = Fredoka({ subsets: ["latin"] });
 
-const APP_NAME = "PWA App";
+const APP_NAME = "Mamish App";
 const APP_DEFAULT_TITLE = "Mamish App";
-const APP_TITLE_TEMPLATE = "%s - PWA App";
-const APP_DESCRIPTION = "Best PWA app in the world!";
+const APP_TITLE_TEMPLATE = "%s - Mamish App";
+const APP_DESCRIPTION = "Best Mamish App in the world!";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -71,6 +72,7 @@ export default function RootLayout({
             </div>
           </ConvexClientProvider>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

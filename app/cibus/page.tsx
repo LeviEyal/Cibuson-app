@@ -7,13 +7,21 @@ import { useState } from "react";
 import type { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/Loader";
+import { toast } from "sonner"
+import { formatDate } from "@/lib/utils";
+import { RefreshCcwIcon } from "lucide-react";
 
 export default function Page() {
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const [filter, setFilter] = useState<string>("");
   const vouchers = useQuery(api.cibus.cibusQueries.allVouchers, {});
   const [collapsed, setCollapsed] = useState<Id<"cibusVouchers"> | null>(null);
   const updateCibusVouchers = useAction(
     api.cibus.cibusActions.updateCibusVouchers,
   );
+
+  const lastDate = vouchers?.[0]?.date || 0;
+  const lastDateFormatted = formatDate(lastDate);
 
   const totalUnusedAmount = vouchers
     ?.filter((v) => !v.dateUsed)
@@ -21,20 +29,25 @@ export default function Page() {
 
   const refresh = async () => {
     try {
-      await updateCibusVouchers({ fromDate: "2024-08-01" });
-      console.log("done");
+      setIsUpdating(true);
+      await updateCibusVouchers({ fromDate: lastDateFormatted });
     } catch (error) {
       console.error(error);
+      toast.error("אירעה שגיאה בעדכון הקופונים");
+    } finally {
+      setIsUpdating(false);
+      toast.success("הקופונים עודכנו בהצלחה");
     }
   };
 
   if (!vouchers) return <Loader />;
 
   return (
-    <div className="h-full w-full flex flex-col justify-center items-center pb-44">
+    <div className="h-full w-full flex flex-col justify-center items-center pb-20">
       <header className="flex justify-between items-center mt-2">
-        <Button type="button" onClick={() => refresh()}>
-          refresh
+        <Button disabled={isUpdating} type="button" className="flex gap-5" onClick={() => refresh()}>
+          {isUpdating ? "מעדכן..." : "רענן קופונים"}
+          <RefreshCcwIcon className="size-5" />
         </Button>
       </header>
       {vouchers.map((voucher) => (

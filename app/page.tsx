@@ -2,9 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import {
-  Authenticated,
-  Unauthenticated,
-  useQuery,
   useConvexAuth,
 } from "convex/react";
 import { Loader } from "@/components/Loader";
@@ -16,20 +13,8 @@ export default function HomePage() {
   if (isLoading) return <Loader />;
 
   if (isAuthenticated) {
-    router.push("/lessons");
+    router.push("/cibus");
   } else {
     router.push("/sign-in");
   }
-
-  // return (
-  //   <>
-  //     <Unauthenticated>
-  //       <SignInButton />
-  //     </Unauthenticated>
-  //     <Authenticated>
-  //       <UserButton />
-  //       <Content />
-  //     </Authenticated>
-  //   </>
-  // );
 }

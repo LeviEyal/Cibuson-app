@@ -19,7 +19,7 @@ export const allVouchers = query({
     ),
   },
   handler: async (ctx, { filter }) => {
-    return await ctx.db
+    const vouchers = await ctx.db
       .query("cibusVouchers")
       .filter((q) => {
         if (filter === "used") {
@@ -31,6 +31,7 @@ export const allVouchers = query({
         return true;
       })
       .collect();
+    return vouchers.sort((a, b) => b.date - a.date);
   },
 });
 

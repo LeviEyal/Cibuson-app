@@ -38,3 +38,8 @@ export const formatMonthInHebrew = (month: string) => {
   const [year, monthNum] = month.split("-");
   return `${monthToHebrew(monthNum)} ${year}`;
 }
+
+// return date in the format of yyyy-mm-dd
+export const formatDate = (date: string | Date | number) => {
+  return new Date(date).toISOString().split("T")[0];
+}
