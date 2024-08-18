@@ -20,4 +20,11 @@ export default defineSchema({
     category: v.string(),
     user: v.optional(v.string()),
   }),
+  cibusVouchers: defineTable({
+    date: v.number(),
+    amount: v.number(),
+    url: v.string(),
+    gif: v.string(),
+    dateUsed: v.optional(v.string()),
+  })
 });

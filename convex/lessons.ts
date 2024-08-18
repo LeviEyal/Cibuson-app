@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
-import { Doc } from "./_generated/dataModel";
+import type { Doc } from "./_generated/dataModel";
 
 export const allLessons = query({
   args: { orgId: v.optional(v.string()) },

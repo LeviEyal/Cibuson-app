@@ -15,7 +15,7 @@ export default function Page() {
   const paymentsDataQuery = useQuery(api.lessons.paymentsData);
 
   return (
-    <div className="h-full w-full relative flex flex-col justify-center">
+    <div className="h-full w-full relative flex flex-col justify-center mb-24">
       <main className="flex-1 h-full">
         {lessonsPerMonth === undefined &&
           Array.from({ length: 10 }).map((_, i) => (

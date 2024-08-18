@@ -1,15 +1,19 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Authenticated, Unauthenticated, useQuery, useConvexAuth } from "convex/react";
+import {
+  Authenticated,
+  Unauthenticated,
+  useQuery,
+  useConvexAuth,
+} from "convex/react";
+import { Loader } from "@/components/Loader";
 
 export default function HomePage() {
   const router = useRouter();
   const { isAuthenticated, isLoading } = useConvexAuth();
 
-  if (isLoading) {
-    return <div className="text-4xl">טוען...</div>;
-  }
+  if (isLoading) return <Loader />;
 
   if (isAuthenticated) {
     router.push("/lessons");
