@@ -22,8 +22,8 @@ import { useMutation } from "convex/react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
-import { CiBarcode } from "react-icons/ci";
 import { TbBarcodeOff, TbBarcode } from "react-icons/tb";
+import moment from "moment";
 
 interface VoucherCardProps {
   voucher: Doc<"cibusVouchers">;
@@ -49,7 +49,7 @@ export const VoucherCard = ({
   return (
     <div
       className={cn(
-        "flex flex-col items-center bg-white border-b-2 border-l m-4 p-4 rounded-lg shadow-md border-pink-500",
+        "flex flex-col items-center bg-white border-b-2 border-l-2 m-4 p-4 rounded-lg shadow-md border-pink-500",
         isUsed
           ? "bg-red-50 opacity-60"
           : "bg-white",
@@ -59,11 +59,11 @@ export const VoucherCard = ({
         <div>
           <p className="text-2xl">{voucher.amount} ₪</p>
           <p className="text-sm text-gray-500">
-            {new Date(voucher.date).toLocaleDateString()}
+            {moment(voucher.date).format("DD/MM/YYYY")}
           </p>
           <p>
             {voucher.dateUsed
-              ? `מומש בתאריך: ${new Date(voucher.dateUsed).toLocaleDateString()}`
+              ? `מומש בתאריך: ${moment(voucher.dateUsed).format("DD/MM/YYYY")}`
               : "זמין למימוש"}
           </p>
         </div>
@@ -89,25 +89,24 @@ export const VoucherCard = ({
         <Button
           onClick={() => setCollapsed(isCollapsed ? null : voucher._id)}
           type="button"
-          variant="cibusOutline"
+          variant="cibusGhost"
           className="flex justify-between gap-2 w-40"
           >
-          {/* <CiBarcode className="size-5" /> */}
           <TbBarcodeOff className="size-5" />
           <p>הסתר ברקוד</p>
-          <ChevronUpIcon />
+          <ChevronUpIcon className="size-5" />
         </Button>
       ) : (
         <Button
           onClick={() => setCollapsed(isCollapsed ? null : voucher._id)}
           type="button"
-          variant="cibusOutline"
+          variant="cibusGhost"
           className="flex gap-2 justify-between w-40"
         >
           <TbBarcode className="size-5" />
           <p>הצג ברקוד</p>
 
-          <ChevronDownIcon />
+          <ChevronDownIcon className="size-5"/>
         </Button>
       )}
       <div
@@ -147,7 +146,7 @@ export const VoucherCard = ({
                 </Button>
               </AlertDialogAction>
               <AlertDialogCancel asChild>
-                <Button type="button">ביטול</Button>
+                <Button variant="cibusGhost" type="button">ביטול</Button>
               </AlertDialogCancel>
             </AlertDialogContent>
           </AlertDialog>

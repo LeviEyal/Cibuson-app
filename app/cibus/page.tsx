@@ -8,8 +8,9 @@ import type { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/Loader";
 import { toast } from "sonner";
-import { formatDate } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { RefreshCcwIcon } from "lucide-react";
+import moment from "moment";
 
 export default function Page() {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
@@ -21,7 +22,7 @@ export default function Page() {
   );
 
   const lastDate = vouchers?.[0]?.date || 0;
-  const lastDateFormatted = formatDate(lastDate);
+  const lastDateFormatted = moment(lastDate).format("YYYY-MM-DD");
 
   const totalUnusedAmount = vouchers
     ?.filter((v) => !v.dateUsed)
@@ -48,11 +49,11 @@ export default function Page() {
         <Button
           disabled={isUpdating}
           type="button"
-          className="flex gap-5 bg-gradient-to-b from-pink-800 to-pink-600 rounded-3xl"
+          className="w-40 flex gap-5 bg-gradient-to-b from-pink-800 to-pink-600 rounded-3xl"
           onClick={() => refresh()}
         >
           {isUpdating ? "מעדכן..." : "רענן קופונים"}
-          <RefreshCcwIcon className="size-5" />
+          <RefreshCcwIcon className={cn("size-5", isUpdating && "animate-spin")} />
         </Button>
       </header>
       {vouchers.map((voucher) => (
