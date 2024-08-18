@@ -22,6 +22,7 @@ import { useMutation } from "convex/react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
+import { CiBarcode } from "react-icons/ci";
 
 interface VoucherCardProps {
   voucher: Doc<"cibusVouchers">;
@@ -87,9 +88,10 @@ export const VoucherCard = ({
         <Button
           onClick={() => setCollapsed(isCollapsed ? null : voucher._id)}
           type="button"
-          variant="ghost"
-          className="flex justify-between gap-2 w-32"
-        >
+          variant="cibusOutline"
+          className="flex justify-between gap-2 w-40"
+          >
+          <CiBarcode className="size-5" />
           <p>הסתר ברקוד</p>
           <ChevronUpIcon />
         </Button>
@@ -97,10 +99,12 @@ export const VoucherCard = ({
         <Button
           onClick={() => setCollapsed(isCollapsed ? null : voucher._id)}
           type="button"
-          variant="ghost"
-          className="flex gap-2 justify-between w-32"
+          variant="cibusOutline"
+          className="flex gap-2 justify-between w-40"
         >
+          <CiBarcode className="size-5" />
           <p>הצג ברקוד</p>
+
           <ChevronDownIcon />
         </Button>
       )}
@@ -120,7 +124,7 @@ export const VoucherCard = ({
         {!isUsed ? (
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button type="button" className="flex gap-2">
+              <Button variant="cibus" type="button" className="flex gap-2">
                 סימון כמומש
                 <CheckboxIcon className="size-5" />
               </Button>

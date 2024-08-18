@@ -48,7 +48,7 @@ export default function Page() {
         <Button
           disabled={isUpdating}
           type="button"
-          className="flex gap-5 bg-gradient-to-r from-pink-800 to-orange-700 rounded-3xl"
+          className="flex gap-5 bg-gradient-to-b from-pink-800 to-pink-600 rounded-3xl"
           onClick={() => refresh()}
         >
           {isUpdating ? "מעדכן..." : "רענן קופונים"}
@@ -63,7 +63,7 @@ export default function Page() {
           setCollapsed={setCollapsed}
         />
       ))}
-      <footer className="fixed bottom-0 h-14 w-full bg-gradient-to-r from-pink-950 to-orange-700 flex justify-center items-center">
+      <footer className="fixed bottom-0 h-14 w-full bg-gradient-to-b from-pink-800 to-pink-600 flex justify-center items-center">
         <p className="text-white text-xl">
           סה&quot;כ סכום זמין למימוש: {totalUnusedAmount} ₪
         </p>

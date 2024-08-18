@@ -26,7 +26,7 @@ export default function SignInPage() {
               <SignIn.Step name="start">
                 <Card className="w-full sm:w-96 text-center">
                   <CardHeader className="flex flex-col justify-center items-center">
-                    <Image src="/logo1.jpg" width={300} height={300} className="rounded-xl" alt="logo" />
+                    <Image src="/logo1.jpg" width={300} height={300} className="rounded-3xl mb-5" alt="logo" />
                     <CardTitle>התחברות לאפליקציה</CardTitle>
                     <CardDescription>
                       ברוכים הבאים! התחברו עם אחת מהשיטות הבאות

@@ -32,7 +32,7 @@ export const Header = () => {
               },
             }}
           />
-          <OrganizationSwitcher
+          {/* <OrganizationSwitcher
             appearance={{
               elements: {
                 organizationPreviewAvatarBox: {
@@ -47,13 +47,13 @@ export const Header = () => {
                 },
               },
             }}
-          />
+          /> */}
         </SignedIn>
       </div>
 
       <div className="flex items-center gap-3">
         <h1 className="text-center text-3xl font-semibold">Cibuson</h1>
-        <Image src="/logo1.jpg" width={70} height={70} className="rounded-3xl" alt="logo" />
+        <Image src="/logo1.jpg" width={50} height={50} className="rounded-xl" alt="logo" />
       </div>
     </header>
   );
