@@ -13,7 +13,7 @@ import Image from "next/image";
 
 export const Header = () => {
   return (
-    <header className="h-20 z-40 flex justify-between px-4 items-center bg-gradient-to-r from-pink-800 to-orange-300 fixed top-0 left-0 w-full">
+    <header className="text-white h-20 z-40 flex justify-between px-4 items-center bg-gradient-to-b from-pink-800 to-pink-600 fixed top-0 left-0 w-full">
       <div className="flex justify-center items-center gap-2">
         <Menu />
 
@@ -52,8 +52,8 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center gap-3">
-        <h1 className="text-center text-3xl">Cibuson</h1>
-        <Image src="/cat.png" width={50} height={50} alt="logo" />
+        <h1 className="text-center text-3xl font-semibold">Cibuson</h1>
+        <Image src="/logo1.jpg" width={70} height={70} className="rounded-3xl" alt="logo" />
       </div>
     </header>
   );

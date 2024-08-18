@@ -47,7 +47,7 @@ export const VoucherCard = ({
   return (
     <div
       className={cn(
-        "flex flex-col items-center bg-white border-b-4 m-4 p-4 rounded-lg shadow",
+        "flex flex-col items-center bg-white border-b-4 m-4 p-4 rounded-lg shadow-lg",
         isUsed
           ? "bg-red-50 border-red-500/70 opacity-60"
           : "bg-white border-green-500/70",
