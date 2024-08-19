@@ -109,7 +109,6 @@ export const VoucherCard = ({
         )}
       >
         <Image
-          // src="/voucher.gif"
           src={voucher.gif}
           className="h-28"
           width={500}
@@ -169,7 +168,7 @@ export const VoucherCard = ({
                 </Button>
               </AlertDialogAction>
               <AlertDialogCancel asChild>
-                <Button className="text-black" type="button">
+                <Button variant="cibusGhost" type="button">
                   ביטול
                 </Button>
               </AlertDialogCancel>
