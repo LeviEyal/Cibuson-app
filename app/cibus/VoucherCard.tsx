@@ -109,7 +109,8 @@ export const VoucherCard = ({
         )}
       >
         <Image
-          src="/voucher.gif"
+          // src="/voucher.gif"
+          src={voucher.gif}
           className="h-28"
           width={500}
           height={50}

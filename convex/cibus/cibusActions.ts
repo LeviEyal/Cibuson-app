@@ -72,20 +72,23 @@ export const updateCibusVouchers = action({
         id: message.id || "",
       });
 
+      console.log(JSON.stringify(msg, null, 2));
+      
+
       const parts = msg.data.payload?.parts || [];
       const newVoucher = {} as NewVoucher;
 
       for (const part of parts) {
         if (part.mimeType === "image/gif") {
           const attachmentId = part.body?.attachmentId;
-          if (!attachmentId) continue;
+          if (!attachmentId || !part.filename?.startsWith("img1")) continue;
           const attachment = await gmail.users.messages.attachments.get({
             userId: "me",
             messageId: message.id || "",
             id: attachmentId,
           });
-          const data = attachment.data.data || "";
-          newVoucher.gif = `data:image/gif;base64,${data}`;
+          const data = attachment.data.data?.replace(/-/g, '+').replace(/_/g, '/') || "";
+          newVoucher.gif = data ? `data:image/gif;base64,${data}` : "";
           console.log({ data });
         } else if (part.mimeType === "text/html") {
           const data = part.body?.data || "";
@@ -99,7 +102,7 @@ export const updateCibusVouchers = action({
           newVoucher.amount = Number(extractEmployerContribution(text));
         }
       }
-      if (newVoucher.url && newVoucher.amount && newVoucher.gif) {
+      if (newVoucher.url && newVoucher.amount) {
         newVouchers.push({
           url: newVoucher.url,
           amount: newVoucher.amount,

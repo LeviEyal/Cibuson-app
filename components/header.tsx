@@ -13,7 +13,13 @@ import Image from "next/image";
 
 export const Header = () => {
   return (
-    <header className="text-white h-20 z-40 flex justify-between px-4 items-center bg-gradient-to-b from-pink-800 to-pink-600 fixed top-0 left-0 w-full shadow">
+    // <header className="text-white h-20 z-40 flex justify-between px-4 items-center bg-gradient-to-b from-pink-800 to-pink-600 fixed top-0 left-0 w-full shadow">
+    <header className="text-white h-20 z-40 flex justify-between px-4 items-center fixed top-0 left-0 w-full shadow"
+    style={
+      {
+        backgroundImage: "url(data:image/gif;base64,R0lGODdhWAICAMIFAM0Mg9ojd+g3bPNKYP9cWv///////////ywAAAAAWAICAAADVwi63P4wykmrvSHrzbv/YCiOZGkKaKqubOu+cCzPdD3ceK7vfO//wKBwSCQYj8ikcslsOp/QqHR6qVqv2CzGxO16v+BSbUwum882onrNbruH07h8Tq9PEwA7)"
+      }
+    }>
       <div className="flex justify-center items-center gap-2">
         <Menu />
 

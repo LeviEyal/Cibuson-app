@@ -27,7 +27,8 @@ export default function Page() {
     api.cibus.cibusActions.updateCibusVouchers,
   );
 
-  const lastDate = vouchers?.[0]?.date || 0;
+  const lastDate =
+    vouchers?.[0]?.date || moment().subtract(1, "month").toDate();
   const lastDateFormatted = moment(lastDate).format("YYYY-MM-DD");
 
   const totalUnusedAmount = vouchers
@@ -80,8 +81,14 @@ export default function Page() {
         </select>
       </header>
 
+      {vouchers?.length === 0 && (
+        <p className="h-full flex flex-col justify-center text-3xl">
+          אין קופונים להצגה
+        </p>
+      )}
+
       {/* Vouchers cards */}
-      <main className="flex-1 flex flex-col justify-center items-center">
+      <main className="flex-1 flex flex-col">
         {vouchers ? (
           vouchers.map((voucher) => (
             <VoucherCard
@@ -95,9 +102,18 @@ export default function Page() {
           <Loader />
         )}
       </main>
-      <footer className="fixed bottom-0 h-14 w-full bg-gradient-to-b from-pink-800 to-pink-600 flex justify-center items-center">
+
+      {/* Total unused amount */}
+      {/* <footer className="fixed bottom-0 h-14 w-full bg-gradient-to-b from-pink-800 to-pink-600 flex justify-center items-center"> */}
+      <footer
+        className="fixed bottom-0 h-14 w-full flex justify-center items-center"
+        style={{
+          backgroundImage:
+            "url(data:image/gif;base64,R0lGODdhWAICAMIFAM0Mg9ojd+g3bPNKYP9cWv///////////ywAAAAAWAICAAADVwi63P4wykmrvSHrzbv/YCiOZGkKaKqubOu+cCzPdD3ceK7vfO//wKBwSCQYj8ikcslsOp/QqHR6qVqv2CzGxO16v+BSbUwum882onrNbruH07h8Tq9PEwA7)",
+        }}
+      >
         <p className="text-white text-xl">
-          סה&quot;כ סכום זמין למימוש: {totalUnusedAmount} ₪
+          סה&quot;כ סכום זמין למימוש: {Math.floor(totalUnusedAmount || 0)} ₪
         </p>
       </footer>
     </div>
