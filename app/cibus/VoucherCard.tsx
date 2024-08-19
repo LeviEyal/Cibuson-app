@@ -14,7 +14,6 @@ import type { Doc, Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import {
   ChevronDownIcon,
-  ChevronUpIcon,
   CheckboxIcon,
   ExternalLinkIcon,
 } from "@radix-ui/react-icons";
@@ -49,10 +48,8 @@ export const VoucherCard = ({
   return (
     <div
       className={cn(
-        "flex flex-col items-center bg-white border-b-2 border-l-2 m-4 p-4 rounded-lg shadow-md border-pink-500",
-        isUsed
-          ? "bg-red-50 opacity-60"
-          : "bg-white",
+        "flex flex-col items-center bg-white border-b-2 border-l-2 m-4 p-4 rounded-br-3xl rounded-tl-3xl shadow-md border-pink-500",
+        isUsed ? "bg-red-50 opacity-60" : "bg-white",
       )}
     >
       <div className="w-full flex flex-row justify-between">
@@ -85,30 +82,26 @@ export const VoucherCard = ({
           </Link>
         </div>
       </div>
-      {isCollapsed ? (
-        <Button
-          onClick={() => setCollapsed(isCollapsed ? null : voucher._id)}
-          type="button"
-          variant="cibusGhost"
-          className="flex justify-between gap-2 w-40"
-          >
-          <TbBarcodeOff className="size-5" />
-          <p>הסתר ברקוד</p>
-          <ChevronUpIcon className="size-5" />
-        </Button>
-      ) : (
-        <Button
-          onClick={() => setCollapsed(isCollapsed ? null : voucher._id)}
-          type="button"
-          variant="cibusGhost"
-          className="flex gap-2 justify-between w-40"
-        >
+      <Button
+        onClick={() => setCollapsed(isCollapsed ? null : voucher._id)}
+        type="button"
+        variant="cibusGhost"
+        className="flex gap-2 justify-between w-40"
+      >
+        {!isCollapsed ? (
           <TbBarcode className="size-5" />
-          <p>הצג ברקוד</p>
+        ) : (
+          <TbBarcodeOff className="size-5" />
+        )}
+        {!isCollapsed ? <p>הצג ברקוד</p> : <p>הסתר ברקוד</p>}
 
-          <ChevronDownIcon className="size-5"/>
-        </Button>
-      )}
+        <ChevronDownIcon
+          className={cn(
+            "size-5 ease-in-out transition-all duration-300",
+            isCollapsed ? "transform rotate-180" : "transform rotate-0",
+          )}
+        />
+      </Button>
       <div
         className={cn(
           "flex flex-col justify-center items-center gap-3 transition-all duration-300 overflow-y-hidden",
@@ -146,7 +139,9 @@ export const VoucherCard = ({
                 </Button>
               </AlertDialogAction>
               <AlertDialogCancel asChild>
-                <Button variant="cibusGhost" type="button">ביטול</Button>
+                <Button variant="cibusGhost" type="button">
+                  ביטול
+                </Button>
               </AlertDialogCancel>
             </AlertDialogContent>
           </AlertDialog>

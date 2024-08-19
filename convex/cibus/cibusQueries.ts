@@ -23,7 +23,7 @@ export const allVouchers = query({
       .query("cibusVouchers")
       .filter((q) => {
         if (filter === "used") {
-          return q.not(q.eq(q.field("dateUsed"), "2"));
+          return q.not(q.eq(q.field("dateUsed"), undefined));
         }
         if (filter === "unused") {
           return q.eq(q.field("dateUsed"), undefined);
