@@ -94,7 +94,7 @@ export default function Page() {
         <SelectTrigger className="border-pink-700 rounded-2xl text-pink-700 focus:ring-0" dir="rtl">
           <SelectValue />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent dir="rtl">
           <SelectGroup>
             <SelectItem value="all">כל הקופונים</SelectItem>
             <SelectItem value="unused">קופונים שלא מומשו</SelectItem>
