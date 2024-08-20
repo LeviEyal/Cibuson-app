@@ -1,6 +1,11 @@
 "use client";
 
+import { useOrganization } from "@clerk/nextjs";
+import { PlusIcon } from "@radix-ui/react-icons";
+import { useMutation } from "convex/react";
 import { useRef } from "react";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -14,11 +19,7 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { PlusIcon } from "@radix-ui/react-icons";
-import { z } from "zod";
-import { useOrganization } from "@clerk/nextjs";
 
 /**
  * studentName should be a string with a length of at least 1 character and at most 100 characters

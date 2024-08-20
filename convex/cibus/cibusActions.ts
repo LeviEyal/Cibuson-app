@@ -1,12 +1,14 @@
 "use node";
 
-import { v } from "convex/values";
-import { internal } from "../_generated/api";
-import { action } from "../_generated/server";
-import { google } from "googleapis";
-import type { Doc } from "../_generated/dataModel";
-const { htmlToText } = require("html-to-text");
 import { clerkClient } from "@clerk/clerk-sdk-node";
+import { v } from "convex/values";
+import { google } from "googleapis";
+
+import { internal } from "../_generated/api";
+import type { Doc } from "../_generated/dataModel";
+import { action } from "../_generated/server";
+
+const { htmlToText } = require("html-to-text");
 
 function extractPluxeeUrls(text: string): string | null {
   const regex = /https:\/\/myconsumers\.pluxee\.co\.il\/b\?[^ \]\n]+/g;

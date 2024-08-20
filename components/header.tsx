@@ -1,7 +1,5 @@
 "use client";
 
-import { Menu } from "@/app/lessons/Menu";
-import { NewLessonForm } from "@/app/lessons/NewLessonForm";
 import {
   CreateOrganization,
   OrganizationProfile,
@@ -10,6 +8,9 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Image from "next/image";
+
+import { Menu } from "@/app/lessons/Menu";
+import { NewLessonForm } from "@/app/lessons/NewLessonForm";
 
 export const Header = () => {
   return (

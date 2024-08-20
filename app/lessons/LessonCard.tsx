@@ -1,6 +1,13 @@
 "use client";
 
+import { useOrganization } from "@clerk/nextjs";
+import { CalendarIcon, CheckIcon, TrashIcon } from "@radix-ui/react-icons";
+import clsx from "clsx";
 import { useMutation } from "convex/react";
+import Image from "next/image";
+import Link from "next/link";
+import SwipeToRevealActions from "react-swipe-to-reveal-actions";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,15 +20,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import SwipeToRevealActions from "react-swipe-to-reveal-actions";
-
-import { TrashIcon, CalendarIcon, CheckIcon } from "@radix-ui/react-icons";
-import { formatPrice } from "@/lib/utils";
-import clsx from "clsx";
 import { api } from "@/convex/_generated/api";
-import Link from "next/link";
-import { useOrganization } from "@clerk/nextjs";
-import Image from "next/image";
+import { formatPrice } from "@/lib/utils";
 
 export const LessonCard = ({ lesson }: any) => {
   const { memberships } = useOrganization({ memberships: { infinite: true } });

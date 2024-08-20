@@ -1,10 +1,10 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { heIL } from "@clerk/localizations";
+import { ClerkProvider, useAuth } from "@clerk/nextjs";
 import { ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
-import { ClerkProvider, useAuth } from "@clerk/nextjs";
-import { heIL } from "@clerk/localizations";
+import type { ReactNode } from "react";
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 

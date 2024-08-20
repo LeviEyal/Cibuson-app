@@ -1,8 +1,9 @@
 "use client";
 
-import { api } from "@/convex/_generated/api";
 import { useAction } from "convex/react";
 import { useRef } from "react";
+
+import { api } from "@/convex/_generated/api";
 
 export default function ShoppingListPage() {
   const generateShoppingList = useAction(api.shoppingList.generateShoppingList);

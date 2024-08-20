@@ -1,7 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useConvexAuth } from "convex/react";
+import { useRouter } from "next/navigation";
+
 import { Loader } from "@/components/Loader";
 
 export default function HomePage() {

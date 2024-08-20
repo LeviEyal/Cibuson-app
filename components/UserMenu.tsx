@@ -1,5 +1,8 @@
 "use client";
 
+import { PersonIcon } from "@radix-ui/react-icons";
+import { ReactNode } from "react";
+
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,8 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { PersonIcon } from "@radix-ui/react-icons";
-import { ReactNode } from "react";
 
 export function UserMenu({ children }: { children: ReactNode }) {
   return (

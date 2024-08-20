@@ -1,10 +1,11 @@
 "use node";
 
-import OpenAI from "openai";
-import { action, internalQuery } from "./_generated/server";
-import { internal } from "./_generated/api";
 import { v } from "convex/values";
+import OpenAI from "openai";
+
+import { internal } from "./_generated/api";
 import { Doc } from "./_generated/dataModel";
+import { action, internalQuery } from "./_generated/server";
 
 const main = async (
   groceriesRaw: string,

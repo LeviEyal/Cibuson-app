@@ -1,5 +1,7 @@
 "use client";
 
+import { HamburgerMenuIcon, PersonIcon } from "@radix-ui/react-icons";
+
 import {
   Sheet,
   SheetContent,
@@ -8,7 +10,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { HamburgerMenuIcon, PersonIcon } from "@radix-ui/react-icons";
 
 const items = [{ name: "ניהול תלמידים", icon: PersonIcon }];
 

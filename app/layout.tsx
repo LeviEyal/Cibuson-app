@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import { Fredoka } from "next/font/google";
-import "./globals.css";
+
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { Header } from "@/components/header";
 import { Toaster } from "@/components/ui/sonner";
+
+import "./globals.css";
 
 const fredoka = Fredoka({ subsets: ["latin"] });
 
