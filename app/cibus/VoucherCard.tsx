@@ -59,7 +59,7 @@ export const VoucherCardItem = ({
   return (
     <div
       className={cn(
-        "m-4 flex flex-col items-center rounded-br-3xl rounded-tl-3xl border-b-2 border-l-2 border-pink-500 bg-white p-4 shadow-md",
+        "flex flex-col items-center rounded-br-3xl rounded-tl-3xl border-b-2 border-l-2 border-pink-500 bg-white p-4 shadow-md",
         isUsed ? "bg-red-50 opacity-60" : "bg-white",
       )}
     >

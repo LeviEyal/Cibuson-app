@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 
 import { VoucherCardItem } from "./VoucherCard";
 import { useOrganization } from "@clerk/nextjs";
+import { Select, SelectContent,SelectItem,SelectValue,SelectTrigger,SelectGroup } from "@/components/ui/select";
 
 export default function Page() {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
@@ -54,10 +55,13 @@ export default function Page() {
     }
   };
 
-  const handleChangeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-    setFilter(e.target.value as "all" | "unused" | "used");
+  const handleChangeFilter = (filter: "all" | "unused" | "used") => {
+    setFilter(filter);
   };
+  // const handleChangeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   e.preventDefault();
+  //   setFilter(e.target.value as "all" | "unused" | "used");
+  // };
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-between pb-20">
@@ -74,7 +78,7 @@ export default function Page() {
           />
         </Button>
 
-        <select
+        {/* <select
           name="type"
           id="type"
           value={filter}
@@ -85,6 +89,19 @@ export default function Page() {
           <option value="unused">קופונים שלא מומשו</option>
           <option value="used">קופונים שמומשו</option>
         </select>
+         */}
+      <Select value={filter} onValueChange={handleChangeFilter}>
+        <SelectTrigger className="border-pink-700 rounded-2xl text-pink-700 focus:ring-0" dir="rtl">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectItem value="all">כל הקופונים</SelectItem>
+            <SelectItem value="unused">קופונים שלא מומשו</SelectItem>
+            <SelectItem value="used">קופונים שמומשו</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
       </header>
 
       {vouchers?.length === 0 && (
@@ -94,7 +111,7 @@ export default function Page() {
       )}
 
       {/* Vouchers cards */}
-      <main className="flex flex-1 flex-col">
+      <main className="flex flex-1 flex-col mx-4 gap-4 mt-4">
         {vouchers ? (
           vouchers.map((voucher) => (
             <VoucherCardItem
