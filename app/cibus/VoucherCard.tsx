@@ -126,6 +126,9 @@ export const VoucherCardItem = ({
           height={50}
           alt="sdd"
         />
+        <p className="text text-gray-500">
+          {voucher.barcodeNumber}
+        </p>
         {!isUsed ? (
           <AlertDialog>
             <AlertDialogTrigger asChild>

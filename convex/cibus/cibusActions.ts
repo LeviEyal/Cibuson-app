@@ -10,6 +10,13 @@ import { action } from "../_generated/server";
 
 const { htmlToText } = require("html-to-text");
 
+// find the first 18-21 digits number in the text
+function extractBarcodeNumber(text: string): string | null {
+  const regex = /\d{18,21}/g;
+  const match = text.match(regex);
+  return match ? match[0] : null;
+}
+
 function extractPluxeeUrls(text: string): string | null {
   const regex = /https:\/\/myconsumers\.pluxee\.co\.il\/b\?[^ \]\n]+/g;
   const matche = text.match(regex);
@@ -29,7 +36,7 @@ function validateFromDate(fromDate: string) {
   }
 }
 
-type NewVoucher = Pick<Doc<"cibusVouchers">, "amount" | "url" | "date" | "gif">;
+type NewVoucher = Pick<Doc<"cibusVouchers">, "amount" | "url" | "date" | "gif" | "barcodeNumber">;
 
 export const updateCibusVouchers = action({
   args: {
@@ -63,18 +70,22 @@ export const updateCibusVouchers = action({
       userId: "me",
       q: `noreply@notifications.pluxee.co.il after:${fromDate}`,
     });
-
+    
     const messages = res.data.messages || [];
     const newVouchers: NewVoucher[] = [];
-
+    
     for (const message of messages) {
       const msg = await gmail.users.messages.get({
         userId: "me",
         id: message.id || "",
       });
-
+      
+      console.log(msg.data.snippet);
+      
       const parts = msg.data.payload?.parts || [];
       const newVoucher = {} as NewVoucher;
+      
+      newVoucher.barcodeNumber = extractBarcodeNumber(msg.data.snippet || "") || "";
 
       for (const part of parts) {
         if (part.mimeType === "image/gif") {
@@ -96,6 +107,7 @@ export const updateCibusVouchers = action({
           const text: string = htmlToText(htmlContent, {
             wordwrap: 130,
           });
+          
           newVoucher.url = extractPluxeeUrls(text) || "";
           newVoucher.amount = Number(extractEmployerContribution(text));
         }
@@ -106,6 +118,7 @@ export const updateCibusVouchers = action({
           amount: newVoucher.amount,
           gif: newVoucher.gif,
           date: Number.parseInt(msg.data.internalDate as string),
+          barcodeNumber: newVoucher.barcodeNumber,
         });
       }
     }

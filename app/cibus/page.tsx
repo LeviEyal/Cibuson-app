@@ -1,5 +1,6 @@
 "use client";
 
+import { useOrganization } from "@clerk/nextjs";
 import { useAction, useQuery } from "convex/react";
 import { RefreshCcwIcon } from "lucide-react";
 import moment from "moment";
@@ -9,13 +10,19 @@ import { useLocalStorage } from "usehooks-ts";
 
 import { Loader } from "@/components/Loader";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 
 import { VoucherCardItem } from "./VoucherCard";
-import { useOrganization } from "@clerk/nextjs";
-import { Select, SelectContent,SelectItem,SelectValue,SelectTrigger,SelectGroup } from "@/components/ui/select";
 
 export default function Page() {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
@@ -43,25 +50,24 @@ export default function Page() {
   const refresh = async () => {
     try {
       setIsUpdating(true);
-      console.log({organization});
-      
-      await updateCibusVouchers({ fromDate: lastDateFormatted, orgId: organization?.id || "" });
+      console.log({ organization });
+
+      await updateCibusVouchers({
+        fromDate: lastDateFormatted,
+        orgId: organization?.id || "",
+      });
     } catch (error) {
       console.error(error);
-      toast.error("אירעה שגיאה בעדכון הקופונים");
+      toast.error("אירעה שגיאה בעדכון השוברים");
     } finally {
       setIsUpdating(false);
-      toast.success("הקופונים עודכנו בהצלחה");
+      toast.success("השוברים עודכנו בהצלחה");
     }
   };
 
   const handleChangeFilter = (filter: "all" | "unused" | "used") => {
     setFilter(filter);
   };
-  // const handleChangeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   e.preventDefault();
-  //   setFilter(e.target.value as "all" | "unused" | "used");
-  // };
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-between pb-20">
@@ -72,41 +78,32 @@ export default function Page() {
           className="flex w-full gap-5 rounded-3xl bg-gradient-to-b from-pink-800 to-pink-600"
           onClick={() => refresh()}
         >
-          {isUpdating ? "מעדכן..." : "רענן קופונים"}
+          {isUpdating ? "מעדכן..." : "רענן שוברים"}
           <RefreshCcwIcon
             className={cn("size-5", isUpdating && "animate-spin")}
           />
         </Button>
 
-        {/* <select
-          name="type"
-          id="type"
-          value={filter}
-          className="h-full w-full rounded-3xl border-2 border-pink-500 bg-white px-2"
-          onChange={handleChangeFilter}
-        >
-          <option value="all">כל הקופונים</option>
-          <option value="unused">קופונים שלא מומשו</option>
-          <option value="used">קופונים שמומשו</option>
-        </select>
-         */}
-      <Select value={filter} onValueChange={handleChangeFilter}>
-        <SelectTrigger className="border-pink-700 rounded-2xl text-pink-700 focus:ring-0" dir="rtl">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent dir="rtl">
-          <SelectGroup>
-            <SelectItem value="all">כל הקופונים</SelectItem>
-            <SelectItem value="unused">קופונים שלא מומשו</SelectItem>
-            <SelectItem value="used">קופונים שמומשו</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+        <Select value={filter} onValueChange={handleChangeFilter}>
+          <SelectTrigger
+            className="border-pink-700 rounded-2xl text-pink-700 focus:ring-0"
+            dir="rtl"
+          >
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent dir="rtl">
+            <SelectGroup>
+              <SelectItem value="all">כל השוברים</SelectItem>
+              <SelectItem value="unused">שוברים שלא מומשו</SelectItem>
+              <SelectItem value="used">שוברים שמומשו</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </header>
 
       {vouchers?.length === 0 && (
         <p className="flex h-full flex-col justify-center text-3xl">
-          אין קופונים להצגה
+          אין שוברים להצגה
         </p>
       )}
 
