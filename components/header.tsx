@@ -16,47 +16,52 @@ export const Header = () => {
   return (
     // <header className="text-white h-20 z-40 flex justify-between px-4 items-center bg-gradient-to-b from-pink-800 to-pink-600 fixed top-0 left-0 w-full shadow">
     <header
-      className="fixed left-0 top-0 z-40 flex h-20 w-full items-center justify-between px-4 text-white shadow"
+      className="fixed left-0 top-0 z-40 flex h-20 w-full items-center justify-between px-2 text-white shadow"
       style={{
         backgroundImage:
           "url(data:image/gif;base64,R0lGODdhWAICAMIFAM0Mg9ojd+g3bPNKYP9cWv///////////ywAAAAAWAICAAADVwi63P4wykmrvSHrzbv/YCiOZGkKaKqubOu+cCzPdD3ceK7vfO//wKBwSCQYj8ikcslsOp/QqHR6qVqv2CzGxO16v+BSbUwum882onrNbruH07h8Tq9PEwA7)",
       }}
     >
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex items-center justify-center gap-1">
         <Menu />
 
-        <SignedIn>
-          <UserButton
-            appearance={{
-              elements: {
-                userButtonAvatarImage: {
-                  width: "35px",
-                  height: "35px",
+        <div className="flex items-center ms-2">
+          <SignedIn>
+            <UserButton
+              appearance={{
+                elements: {
+                  userButtonAvatarImage: {
+                    width: "35px",
+                    height: "35px",
+                  },
+                  userButtonAvatarBox: {
+                    width: "35px",
+                    height: "35px",
+                  },
                 },
-                userButtonAvatarBox: {
-                  width: "35px",
-                  height: "35px",
+              }}
+            />
+            <OrganizationSwitcher
+              appearance={{
+                elements: {
+                  organizationPreviewAvatarBox: {
+                    width: "30px",
+                    height: "30px",
+                  },
+                  userPreviewTextContainer: {
+                    display: "none",
+                  },
+                  organizationSwitcherTriggerIcon: {
+                    display: "none",
+                  },
+                  organizationPreviewMainIdentifier: {
+                    display: "none",
+                  },
                 },
-              },
-            }}
-          />
-          {/* <OrganizationSwitcher
-            appearance={{
-              elements: {
-                organizationPreviewAvatarBox: {
-                  width: "30px",
-                  height: "30px",
-                },
-                organizationPreviewMainIdentifier: {
-                  display: "none",
-                },
-                organizationSwitcherTriggerIcon: {
-                  display: "none",
-                },
-              },
-            }}
-          /> */}
-        </SignedIn>
+              }}
+            />
+          </SignedIn>
+        </div>
       </div>
 
       <div className="flex items-center gap-3">

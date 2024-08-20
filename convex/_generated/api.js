@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 /**
  * Generated `api` utility.
  *
@@ -9,6 +8,7 @@
  * To regenerate, run `npx convex dev`.
  * @module
  */
+
 import { anyApi } from "convex/server";
 
 /**

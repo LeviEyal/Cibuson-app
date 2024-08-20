@@ -38,6 +38,7 @@ export const allVouchers = query({
 
 export const addVouchers = internalMutation({
   args: {
+    orgId: v.optional(v.string()),
     vouchers: v.array(
       v.object({
         date: v.number(),
@@ -49,6 +50,11 @@ export const addVouchers = internalMutation({
     ),
   },
   handler: async (ctx, { vouchers }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+    
     for (const voucher of vouchers) {
       const existing = await ctx.db
         .query("cibusVouchers")

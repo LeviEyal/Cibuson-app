@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 /**
  * Generated `api` utility.
  *
@@ -9,12 +8,12 @@
  * To regenerate, run `npx convex dev`.
  * @module
  */
+
 import type {
   ApiFromModules,
   FilterApi,
   FunctionReference,
 } from "convex/server";
-
 import type * as cibus_cibusActions from "../cibus/cibusActions.js";
 import type * as cibus_cibusQueries from "../cibus/cibusQueries.js";
 import type * as groceries from "../groceries.js";

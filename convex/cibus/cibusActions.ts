@@ -33,22 +33,22 @@ type NewVoucher = Pick<Doc<"cibusVouchers">, "amount" | "url" | "date" | "gif">;
 
 export const updateCibusVouchers = action({
   args: {
+    orgId: v.string(),
     fromDate: v.string(),
   },
-  handler: async (ctx, { fromDate }) => {
-    validateFromDate(fromDate);
+  handler: async (ctx, { fromDate, orgId }) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Unauthorized");
     }
 
+    validateFromDate(fromDate);
+    
     const refresh_token = await clerkClient.users.getUserOauthAccessToken(
       identity.subject,
       "oauth_google",
     );
     const [token] = refresh_token.data;
-
-    console.log({ token });
 
     const auth = google.auth.fromJSON({
       type: "authorized_user",
@@ -61,7 +61,6 @@ export const updateCibusVouchers = action({
     const gmail = google.gmail({ version: "v1", auth });
     const res = await gmail.users.messages.list({
       userId: "me",
-      // q: `noreply@notifications.pluxee.co.il after:${date} subject:${title}`,
       q: `noreply@notifications.pluxee.co.il after:${fromDate}`,
     });
 
@@ -73,8 +72,6 @@ export const updateCibusVouchers = action({
         userId: "me",
         id: message.id || "",
       });
-
-      console.log(JSON.stringify(msg, null, 2));
 
       const parts = msg.data.payload?.parts || [];
       const newVoucher = {} as NewVoucher;
@@ -91,7 +88,6 @@ export const updateCibusVouchers = action({
           const data =
             attachment.data.data?.replace(/-/g, "+").replace(/_/g, "/") || "";
           newVoucher.gif = data ? `data:image/gif;base64,${data}` : "";
-          console.log({ data });
         } else if (part.mimeType === "text/html") {
           const data = part.body?.data || "";
           const htmlContent = Buffer.from(data, "base64").toString("utf8");
@@ -117,6 +113,7 @@ export const updateCibusVouchers = action({
     if (!newVouchers) return;
     await ctx.runMutation(internal.cibus.cibusQueries.addVouchers, {
       vouchers: newVouchers,
+      orgId
     });
     return { newVouchers };
   },

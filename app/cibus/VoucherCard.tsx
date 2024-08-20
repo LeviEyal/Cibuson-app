@@ -31,7 +31,7 @@ interface VoucherCardProps {
   setCollapsed: Dispatch<SetStateAction<Id<"cibusVouchers"> | null>>;
 }
 
-export const VoucherCard = ({
+export const VoucherCardItem = ({
   voucher,
   isCollapsed,
   setCollapsed,

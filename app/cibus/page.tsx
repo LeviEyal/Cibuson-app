@@ -13,7 +13,8 @@ import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 
-import { VoucherCard } from "./VoucherCard";
+import { VoucherCardItem } from "./VoucherCard";
+import { useOrganization } from "@clerk/nextjs";
 
 export default function Page() {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
@@ -21,6 +22,7 @@ export default function Page() {
     "vouchers-list-filter",
     "all",
   );
+  const { organization } = useOrganization();
   const vouchers = useQuery(api.cibus.cibusQueries.allVouchers, {
     filter: filter,
   });
@@ -40,7 +42,9 @@ export default function Page() {
   const refresh = async () => {
     try {
       setIsUpdating(true);
-      await updateCibusVouchers({ fromDate: lastDateFormatted });
+      console.log({organization});
+      
+      await updateCibusVouchers({ fromDate: lastDateFormatted, orgId: organization?.id || "" });
     } catch (error) {
       console.error(error);
       toast.error("אירעה שגיאה בעדכון הקופונים");
@@ -93,7 +97,7 @@ export default function Page() {
       <main className="flex flex-1 flex-col">
         {vouchers ? (
           vouchers.map((voucher) => (
-            <VoucherCard
+            <VoucherCardItem
               key={voucher._id}
               voucher={voucher}
               isCollapsed={collapsed === voucher._id}
