@@ -54,12 +54,12 @@ export default function Page() {
   };
 
   return (
-    <div className="h-full w-full flex flex-col justify-between items-center pb-20">
-      <header className="w-full flex justify-between items-center mt-4 gap-3 px-5">
+    <div className="flex h-full w-full flex-col items-center justify-between pb-20">
+      <header className="mt-4 flex w-full items-center justify-between gap-3 px-5">
         <Button
           disabled={isUpdating || !vouchers}
           type="button"
-          className="w-full flex gap-5 bg-gradient-to-b from-pink-800 to-pink-600 rounded-3xl"
+          className="flex w-full gap-5 rounded-3xl bg-gradient-to-b from-pink-800 to-pink-600"
           onClick={() => refresh()}
         >
           {isUpdating ? "מעדכן..." : "רענן קופונים"}
@@ -72,7 +72,7 @@ export default function Page() {
           name="type"
           id="type"
           value={filter}
-          className="h-full w-full px-2 bg-white border-2 border-pink-500 rounded-3xl"
+          className="h-full w-full rounded-3xl border-2 border-pink-500 bg-white px-2"
           onChange={handleChangeFilter}
         >
           <option value="all">כל הקופונים</option>
@@ -82,13 +82,13 @@ export default function Page() {
       </header>
 
       {vouchers?.length === 0 && (
-        <p className="h-full flex flex-col justify-center text-3xl">
+        <p className="flex h-full flex-col justify-center text-3xl">
           אין קופונים להצגה
         </p>
       )}
 
       {/* Vouchers cards */}
-      <main className="flex-1 flex flex-col">
+      <main className="flex flex-1 flex-col">
         {vouchers ? (
           vouchers.map((voucher) => (
             <VoucherCard
@@ -106,13 +106,13 @@ export default function Page() {
       {/* Total unused amount */}
       {/* <footer className="fixed bottom-0 h-14 w-full bg-gradient-to-b from-pink-800 to-pink-600 flex justify-center items-center"> */}
       <footer
-        className="fixed bottom-0 h-14 w-full flex justify-center items-center"
+        className="fixed bottom-0 flex h-14 w-full items-center justify-center"
         style={{
           backgroundImage:
             "url(data:image/gif;base64,R0lGODdhWAICAMIFAM0Mg9ojd+g3bPNKYP9cWv///////////ywAAAAAWAICAAADVwi63P4wykmrvSHrzbv/YCiOZGkKaKqubOu+cCzPdD3ceK7vfO//wKBwSCQYj8ikcslsOp/QqHR6qVqv2CzGxO16v+BSbUwum882onrNbruH07h8Tq9PEwA7)",
         }}
       >
-        <p className="text-white text-xl">
+        <p className="text-xl text-white">
           סה&quot;כ סכום זמין למימוש: {Math.floor(totalUnusedAmount || 0)} ₪
         </p>
       </footer>

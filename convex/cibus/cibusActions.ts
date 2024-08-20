@@ -73,7 +73,6 @@ export const updateCibusVouchers = action({
       });
 
       console.log(JSON.stringify(msg, null, 2));
-      
 
       const parts = msg.data.payload?.parts || [];
       const newVoucher = {} as NewVoucher;
@@ -87,7 +86,8 @@ export const updateCibusVouchers = action({
             messageId: message.id || "",
             id: attachmentId,
           });
-          const data = attachment.data.data?.replace(/-/g, '+').replace(/_/g, '/') || "";
+          const data =
+            attachment.data.data?.replace(/-/g, "+").replace(/_/g, "/") || "";
           newVoucher.gif = data ? `data:image/gif;base64,${data}` : "";
           console.log({ data });
         } else if (part.mimeType === "text/html") {

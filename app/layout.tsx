@@ -60,13 +60,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning dir="rtl">
       <body
-        className={`${fredoka.className} select-none flex flex-col bg-gray-100`}
+        className={`${fredoka.className} flex select-none flex-col bg-gray-100`}
       >
         <ThemeProvider attribute="class">
           <ConvexClientProvider>
-            <div className="h-screen flex flex-col">
+            <div className="flex h-screen flex-col">
               <Header />
-              <main className="pt-20 flex-1 flex flex-col justify-center items-center">
+              <main className="flex flex-1 flex-col items-center justify-center pt-20">
                 {children}
               </main>
             </div>

@@ -31,10 +31,10 @@ export const monthToHebrew = (month: string) => {
 
   // @ts-ignore
   return months[month];
-}
+};
 
 // get yyyy-mm and return yyyy במאי
 export const formatMonthInHebrew = (month: string) => {
   const [year, monthNum] = month.split("-");
   return `${monthToHebrew(monthNum)} ${year}`;
-}
+};

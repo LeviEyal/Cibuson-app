@@ -10,9 +10,7 @@ import {
 } from "@/components/ui/sheet";
 import { HamburgerMenuIcon, PersonIcon } from "@radix-ui/react-icons";
 
-const items = [
-  { name: "ניהול תלמידים", icon: PersonIcon },
-];
+const items = [{ name: "ניהול תלמידים", icon: PersonIcon }];
 
 export const Menu = () => {
   return (
@@ -28,7 +26,7 @@ export const Menu = () => {
           {items.map((item) => (
             <div
               key={item.name}
-              className="flex justify-between items-center p-3"
+              className="flex items-center justify-between p-3"
             >
               <item.icon />
               <SheetDescription>{item.name}</SheetDescription>

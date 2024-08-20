@@ -26,5 +26,7 @@ export default defineSchema({
     url: v.string(),
     gif: v.string(),
     dateUsed: v.optional(v.string()),
-  })
+    user: v.optional(v.string()),
+    orgId: v.optional(v.string()),
+  }),
 });

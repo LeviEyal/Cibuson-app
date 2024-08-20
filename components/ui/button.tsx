@@ -19,10 +19,13 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        cibus: "bg-gradient-to-b from-pink-800 to-pink-600 rounded-2xl text-white shadow-sm hover:from-pink-700 hover:to-pink-500",
-        cibusOutline: "border border-pink-800 text-pink-800 shadow-sm rounded-2xl",
+        cibus:
+          "bg-gradient-to-b from-pink-800 to-pink-600 rounded-2xl text-white shadow-sm hover:from-pink-700 hover:to-pink-500",
+        cibusOutline:
+          "border border-pink-800 text-pink-800 shadow-sm rounded-2xl",
         cibusDestructive: "bg-red-500 text-white shadow-sm rounded-2xl",
-        cibusGhost: "text-pink-800 underline-offset-4 hover:underline rounded-2xl",
+        cibusGhost:
+          "text-pink-800 underline-offset-4 hover:underline rounded-2xl",
       },
       size: {
         default: "h-9 px-4 py-2",

@@ -1,27 +1,27 @@
 {
-    "name": "Cibuson App",
-    "short_name": "Cibuson",
-    "icons": [
-      {
-        "src": "logo1.jpg",
-        "sizes": "192x192",
-        "type": "image/jpg",
-        "purpose": "any maskable"
-      },
-      {
-        "src": "logo1.jpg",
-        "sizes": "384x384",
-        "type": "image/jpg"
-      },
-      {
-        "src": "logo1.jpg",
-        "sizes": "512x512",
-        "type": "image/jpg"
-      }
-    ],
-    "theme_color": "#ad1b58",
-    "background_color": "#FFFFFF",
-    "start_url": "/",
-    "display": "standalone",
-    "orientation": "portrait"
-  }
+  "name": "Cibuson App",
+  "short_name": "Cibuson",
+  "icons": [
+    {
+      "src": "logo1.jpg",
+      "sizes": "192x192",
+      "type": "image/jpg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo1.jpg",
+      "sizes": "384x384",
+      "type": "image/jpg"
+    },
+    {
+      "src": "logo1.jpg",
+      "sizes": "512x512",
+      "type": "image/jpg"
+    }
+  ],
+  "theme_color": "#ad1b58",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

@@ -54,7 +54,7 @@ export const LessonCard = ({ lesson }: any) => {
 
   return (
     <div
-      className={clsx("h-20 rounded-xl shadow mx-5", {
+      className={clsx("mx-5 h-20 rounded-xl shadow", {
         "bg-white opacity-50": isPast,
         "bg-white": !isPast,
         "border-b-2 border-green-500": lesson.paid,
@@ -71,10 +71,10 @@ export const LessonCard = ({ lesson }: any) => {
         actionButtons={[
           {
             content: (
-              <div className="bg-red-300 rounded-3xl text-black size-12 flex justify-center items-center">
+              <div className="flex size-12 items-center justify-center rounded-3xl bg-red-300 text-black">
                 <AlertDialog>
                   <AlertDialogTrigger>
-                    <button className="h-full flex justify-center items-center">
+                    <button className="flex h-full items-center justify-center">
                       <TrashIcon width={25} height={25} />
                     </button>
                   </AlertDialogTrigger>
@@ -104,10 +104,10 @@ export const LessonCard = ({ lesson }: any) => {
           },
           {
             content: (
-              <div className="bg-green-300 rounded-3xl text-black size-12 flex justify-center items-center">
+              <div className="flex size-12 items-center justify-center rounded-3xl bg-green-300 text-black">
                 <AlertDialog>
                   <AlertDialogTrigger>
-                    <button className="h-full flex justify-center items-center">
+                    <button className="flex h-full items-center justify-center">
                       <CheckIcon width={25} height={25} />
                     </button>
                   </AlertDialogTrigger>
@@ -138,7 +138,7 @@ export const LessonCard = ({ lesson }: any) => {
         ]}
         actionButtonMinWidth={70}
       >
-        <div className="flex items-center justify-around w-full h-full">
+        <div className="flex h-full w-full items-center justify-around">
           {author?.publicUserData.imageUrl && (
             <Image
               className="rounded-full"
@@ -162,11 +162,11 @@ export const LessonCard = ({ lesson }: any) => {
 
 LessonCard.Skeleton = function LessonCardSkeleton() {
   return (
-    <div className="flex justify-around text-right gap-3 border rounded-xl shadow mx-5 p-5 animate-pulse">
-      <Skeleton className="w-1/4 h-5 rounded" />
-      <Skeleton className="w-1/4 h-5 rounded" />
-      <Skeleton className="w-1/4 h-5 rounded" />
-      <Skeleton className="w-1/4 h-5 rounded" />
+    <div className="mx-5 flex animate-pulse justify-around gap-3 rounded-xl border p-5 text-right shadow">
+      <Skeleton className="h-5 w-1/4 rounded" />
+      <Skeleton className="h-5 w-1/4 rounded" />
+      <Skeleton className="h-5 w-1/4 rounded" />
+      <Skeleton className="h-5 w-1/4 rounded" />
     </div>
   );
 };

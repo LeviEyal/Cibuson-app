@@ -17,8 +17,8 @@ export default function Page() {
   const paymentsDataQuery = useQuery(api.lessons.paymentsData);
 
   return (
-    <div className="h-full w-full relative flex flex-col justify-center mb-24">
-      <main className="flex-1 h-full">
+    <div className="relative mb-24 flex h-full w-full flex-col justify-center">
+      <main className="h-full flex-1">
         {lessonsPerMonth === undefined &&
           Array.from({ length: 10 }).map((a, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
@@ -34,7 +34,7 @@ export default function Page() {
 
             return (
               <div key={month}>
-                <header className="flex w-full justify-center items-center gap-2 text-center my-5">
+                <header className="my-5 flex w-full items-center justify-center gap-2 text-center">
                   <h1 className="">{formatMonthInHebrew(month)}</h1>
                   <p className="text-right"> (סהכ חודשי: {totalThisMonth}) </p>
                 </header>
@@ -49,12 +49,12 @@ export default function Page() {
         <div className="h-10" />
       </main>
 
-      <footer className="h-24 z-50 fixed bottom-0 left-0 py-3 w-full bg-slate-400 flex flex-col justify-center items-center">
-        <div className="absolute -top-8 border-slate-400 border-4 rounded-full">
+      <footer className="fixed bottom-0 left-0 z-50 flex h-24 w-full flex-col items-center justify-center bg-slate-400 py-3">
+        <div className="absolute -top-8 rounded-full border-4 border-slate-400">
           <NewLessonForm />
         </div>
 
-        <div className="mt-3 grid grid-cols-3 gap-6 items-center text-center">
+        <div className="mt-3 grid grid-cols-3 items-center gap-6 text-center">
           <div>
             <p>סה&quot;כ שיעורים</p>
             <p className="text-xl">

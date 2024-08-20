@@ -29,14 +29,16 @@ const main = async (
         content: "sanitize the response, no escaping characters or spaces",
       },
       { role: "system", content: "no need for wrapping in markdown" },
-      { role: "user", content: `Don't include items that are already in the list: ${currentGroceries}` },
+      {
+        role: "user",
+        content: `Don't include items that are already in the list: ${currentGroceries}`,
+      },
       //   {
       //     role: "system",
       //     content:
       //       "הקטגוריות הן: ירקות ופירות, לחמים ומאפים, מוצרי בשר ועוף, מוצרי דגים, היגיינה, מוצרי חלב, כללי, שימורים, יבשים, חומרי ניקוי",
       //   },
       { role: "user", content: groceriesRaw },
-
     ],
     model: "gpt-4o-mini",
   });

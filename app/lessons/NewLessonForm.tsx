@@ -11,7 +11,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"
+} from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMutation } from "convex/react";
@@ -35,7 +35,7 @@ const lessonSchema = z.object({
 });
 
 export const NewLessonForm = () => {
-  const {organization} = useOrganization();
+  const { organization } = useOrganization();
   const addNewLessonMutation = useMutation(api.lessons.addLesson);
 
   const studentNameRef = useRef<HTMLInputElement>(null);
@@ -49,7 +49,7 @@ export const NewLessonForm = () => {
       date: new Date(dateRef.current?.value || "").getTime(),
       duration: Number.parseInt(durationRef.current?.value || ""),
       price: Number.parseInt(priceRef.current?.value || ""),
-      orgId: organization?.id
+      orgId: organization?.id,
     };
 
     // const result = lessonSchema.safeParse(newLesson);
@@ -70,21 +70,29 @@ export const NewLessonForm = () => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="space-x-1 rounded-full size-14 bg-slate-200">
+        <Button
+          variant="outline"
+          className="size-14 space-x-1 rounded-full bg-slate-200"
+        >
           {/* <p>הוסף שיעור</p> */}
           <PlusIcon className="size-full" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="sm:max-w-[200px] pb-10">
+      <DrawerContent className="pb-10 sm:max-w-[200px]">
         <DrawerHeader>
           <DrawerTitle>הוסף שיעור</DrawerTitle>
         </DrawerHeader>
-        <div className="grid gap-4 py-4 px-10">
+        <div className="grid gap-4 px-10 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
               שם התלמיד
             </Label>
-            <Input autoFocus id="name" ref={studentNameRef} className="col-span-3" />
+            <Input
+              autoFocus
+              id="name"
+              ref={studentNameRef}
+              className="col-span-3"
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="date" className="text-right">

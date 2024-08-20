@@ -24,9 +24,15 @@ export default function SignInPage() {
           {(isGlobalLoading) => (
             <>
               <SignIn.Step name="start">
-                <Card className="w-full sm:w-96 text-center">
-                  <CardHeader className="flex flex-col justify-center items-center">
-                    <Image src="/logo1.jpg" width={300} height={300} className="rounded-3xl mb-5" alt="logo" />
+                <Card className="w-full text-center sm:w-96">
+                  <CardHeader className="flex flex-col items-center justify-center">
+                    <Image
+                      src="/logo1.jpg"
+                      width={300}
+                      height={300}
+                      className="mb-5 rounded-3xl"
+                      alt="logo"
+                    />
                     <CardTitle>התחברות לאפליקציה</CardTitle>
                     <CardDescription>
                       ברוכים הבאים! התחברו עם אחת מהשיטות הבאות
@@ -201,7 +207,7 @@ export default function SignInPage() {
                         <Clerk.Label className="sr-only">
                           Email verification code
                         </Clerk.Label>
-                        <div className="grid gap-y-2 items-center justify-center">
+                        <div className="grid items-center justify-center gap-y-2">
                           <div className="flex justify-center text-center">
                             <Clerk.Input
                               type="otp"
@@ -211,7 +217,7 @@ export default function SignInPage() {
                                 return (
                                   <div
                                     data-status={status}
-                                    className="relative flex h-9 w-9 items-center justify-center border-y border-r border-input text-sm shadow-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md data-[status=selected]:ring-1 data-[status=selected]:ring-ring data-[status=cursor]:ring-1 data-[status=cursor]:ring-ring"
+                                    className="relative flex h-9 w-9 items-center justify-center border-y border-r border-input text-sm shadow-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md data-[status=cursor]:ring-1 data-[status=selected]:ring-1 data-[status=cursor]:ring-ring data-[status=selected]:ring-ring"
                                   >
                                     {value}
                                   </div>
@@ -219,7 +225,7 @@ export default function SignInPage() {
                               }}
                             />
                           </div>
-                          <Clerk.FieldError className="block text-sm text-destructive text-center" />
+                          <Clerk.FieldError className="block text-center text-sm text-destructive" />
                           <SignIn.Action
                             asChild
                             resend

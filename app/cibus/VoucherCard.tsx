@@ -18,8 +18,8 @@ import {
   ExternalLinkIcon,
 } from "@radix-ui/react-icons";
 import { useMutation } from "convex/react";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import type { Dispatch, SetStateAction } from "react";
 import { TbBarcodeOff, TbBarcode } from "react-icons/tb";
 import moment from "moment";
@@ -43,16 +43,26 @@ export const VoucherCard = ({
     api.cibus.cibusQueries.unmarkVoucherAsUsed,
   );
 
+  const handleMarkVoucherAsUsed = async () => {
+    await markVoucherAsUsed({ voucherId: voucher._id });
+    setCollapsed(null);
+  };
+
+  const handleUnmarkVoucherAsUsed = async () => {
+    await unmarkVoucherAsUsed({ voucherId: voucher._id });
+    setCollapsed(null);
+  };
+
   const isUsed = !!voucher.dateUsed;
 
   return (
     <div
       className={cn(
-        "flex flex-col items-center bg-white border-b-2 border-l-2 m-4 p-4 rounded-br-3xl rounded-tl-3xl shadow-md border-pink-500",
+        "m-4 flex flex-col items-center rounded-br-3xl rounded-tl-3xl border-b-2 border-l-2 border-pink-500 bg-white p-4 shadow-md",
         isUsed ? "bg-red-50 opacity-60" : "bg-white",
       )}
     >
-      <div className="w-full flex flex-row justify-between">
+      <div className="flex w-full flex-row justify-between">
         <div>
           <p className="text-2xl">{voucher.amount} ₪</p>
           <p className="text-sm text-gray-500">
@@ -64,7 +74,7 @@ export const VoucherCard = ({
               : "זמין למימוש"}
           </p>
         </div>
-        <div className="flex flex-col justify-center items-center gap-5">
+        <div className="flex flex-col items-center justify-center gap-5">
           <Image
             src="/ShufersalLogo.svg"
             width={70}
@@ -75,7 +85,7 @@ export const VoucherCard = ({
             href={voucher.url}
             target="_blank"
             rel="noreferrer"
-            className="text-blue-500 underline flex justify-center items-center gap-1"
+            className="flex items-center justify-center gap-1 text-blue-500 underline"
           >
             קישור לשובר
             <ExternalLinkIcon />
@@ -86,7 +96,7 @@ export const VoucherCard = ({
         onClick={() => setCollapsed(isCollapsed ? null : voucher._id)}
         type="button"
         variant="cibusGhost"
-        className="flex gap-2 justify-between w-40"
+        className="flex w-40 justify-between gap-2"
       >
         {!isCollapsed ? (
           <TbBarcode className="size-5" />
@@ -97,14 +107,14 @@ export const VoucherCard = ({
 
         <ChevronDownIcon
           className={cn(
-            "size-5 ease-in-out transition-all duration-300",
-            isCollapsed ? "transform rotate-180" : "transform rotate-0",
+            "size-5 transition-all duration-300 ease-in-out",
+            isCollapsed ? "rotate-180 transform" : "rotate-0 transform",
           )}
         />
       </Button>
       <div
         className={cn(
-          "flex flex-col justify-center items-center gap-3 transition-all duration-300 overflow-y-hidden",
+          "flex flex-col items-center justify-center gap-3 overflow-y-hidden transition-all duration-300",
           isCollapsed ? "h-48" : "h-0",
         )}
       >
@@ -131,10 +141,7 @@ export const VoucherCard = ({
                 האם אתה בטוח שברצונך לסמן את השובר כמומש?
               </AlertDialogDescription>
               <AlertDialogAction asChild>
-                <Button
-                  type="button"
-                  onClick={() => markVoucherAsUsed({ voucherId: voucher._id })}
-                >
+                <Button type="button" onClick={handleMarkVoucherAsUsed}>
                   סימון כמומש
                 </Button>
               </AlertDialogAction>
@@ -158,12 +165,7 @@ export const VoucherCard = ({
                 האם אתה בטוח שברצונך לבטל את סימון השובר כמומש?
               </AlertDialogDescription>
               <AlertDialogAction asChild>
-                <Button
-                  type="button"
-                  onClick={() =>
-                    unmarkVoucherAsUsed({ voucherId: voucher._id })
-                  }
-                >
+                <Button type="button" onClick={handleUnmarkVoucherAsUsed}>
                   ביטול סימון כמומש
                 </Button>
               </AlertDialogAction>
