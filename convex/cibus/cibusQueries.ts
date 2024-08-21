@@ -38,7 +38,6 @@ export const allVouchers = query({
 
 export const addVouchers = internalMutation({
   args: {
-    orgId: v.optional(v.string()),
     vouchers: v.array(
       v.object({
         date: v.number(),

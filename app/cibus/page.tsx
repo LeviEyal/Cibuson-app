@@ -2,9 +2,9 @@
 
 import { useOrganization } from "@clerk/nextjs";
 import { useAction, useQuery } from "convex/react";
-import { RefreshCcwIcon } from "lucide-react";
+import { LucideMessageSquareWarning, RefreshCcwIcon } from "lucide-react";
 import moment from "moment";
-import { useState } from "react";
+import { use, useState } from "react";
 import { toast } from "sonner";
 import { useLocalStorage } from "usehooks-ts";
 
@@ -34,6 +34,7 @@ export default function Page() {
   const vouchers = useQuery(api.cibus.cibusQueries.allVouchers, {
     filter: filter,
   });
+
   const [collapsed, setCollapsed] = useState<Id<"cibusVouchers"> | null>(null);
   const updateCibusVouchers = useAction(
     api.cibus.cibusActions.updateCibusVouchers,
@@ -54,14 +55,19 @@ export default function Page() {
 
       await updateCibusVouchers({
         fromDate: lastDateFormatted,
-        orgId: organization?.id || "",
       });
+      toast.success("השוברים עודכנו בהצלחה");
     } catch (error) {
       console.error(error);
-      toast.error("אירעה שגיאה בעדכון השוברים");
+      toast.error("אירעה שגיאה בעדכון השוברים", {
+        action: {
+          label: "נסה שוב",
+          onClick: refresh,
+        },
+        description: "אם הבעיה חוזרת נא לנסות להתחבר מחדש",
+      });
     } finally {
       setIsUpdating(false);
-      toast.success("השוברים עודכנו בהצלחה");
     }
   };
 
@@ -78,7 +84,7 @@ export default function Page() {
           className="flex w-full gap-5 rounded-3xl bg-gradient-to-b from-pink-800 to-pink-600"
           onClick={() => refresh()}
         >
-          {isUpdating ? "מעדכן..." : "רענן שוברים"}
+          {isUpdating ? "סורק..." : "משוך שוברים"}
           <RefreshCcwIcon
             className={cn("size-5", isUpdating && "animate-spin")}
           />
@@ -86,7 +92,7 @@ export default function Page() {
 
         <Select value={filter} onValueChange={handleChangeFilter}>
           <SelectTrigger
-            className="border-pink-700 rounded-2xl text-pink-700 focus:ring-0"
+            className="border-pink-700 rounded-3xl text-pink-700 focus:ring-0"
             dir="rtl"
           >
             <SelectValue />
@@ -94,8 +100,8 @@ export default function Page() {
           <SelectContent dir="rtl">
             <SelectGroup>
               <SelectItem value="all">כל השוברים</SelectItem>
-              <SelectItem value="unused">שוברים שלא מומשו</SelectItem>
-              <SelectItem value="used">שוברים שמומשו</SelectItem>
+              <SelectItem value="unused">שוברים שלא נוצלו</SelectItem>
+              <SelectItem value="used">שוברים שנוצלו</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -124,7 +130,6 @@ export default function Page() {
       </main>
 
       {/* Total unused amount */}
-      {/* <footer className="fixed bottom-0 h-14 w-full bg-gradient-to-b from-pink-800 to-pink-600 flex justify-center items-center"> */}
       <footer
         className="fixed bottom-0 flex h-14 w-full items-center justify-center"
         style={{

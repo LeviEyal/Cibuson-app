@@ -29,7 +29,7 @@ export default defineSchema({
     gif: v.string(),
     barcodeNumber: v.optional(v.string()),
     dateUsed: v.optional(v.string()),
-    user: v.optional(v.string()),
-    orgId: v.optional(v.string()),
+    userId: v.optional(v.string()),
+    provider: v.optional(v.union(v.literal("cibus"), v.literal("tenbis"))),
   }),
 });

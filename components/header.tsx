@@ -10,11 +10,9 @@ import {
 import Image from "next/image";
 
 import { Menu } from "@/app/lessons/Menu";
-import { NewLessonForm } from "@/app/lessons/NewLessonForm";
 
 export const Header = () => {
   return (
-    // <header className="text-white h-20 z-40 flex justify-between px-4 items-center bg-gradient-to-b from-pink-800 to-pink-600 fixed top-0 left-0 w-full shadow">
     <header
       className="fixed left-0 top-0 z-40 flex h-20 w-full items-center justify-between px-2 text-white shadow"
       style={{

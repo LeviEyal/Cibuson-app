@@ -40,10 +40,9 @@ type NewVoucher = Pick<Doc<"cibusVouchers">, "amount" | "url" | "date" | "gif" |
 
 export const updateCibusVouchers = action({
   args: {
-    orgId: v.string(),
     fromDate: v.string(),
   },
-  handler: async (ctx, { fromDate, orgId }) => {
+  handler: async (ctx, { fromDate }) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Unauthorized");
@@ -126,7 +125,6 @@ export const updateCibusVouchers = action({
     if (!newVouchers) return;
     await ctx.runMutation(internal.cibus.cibusQueries.addVouchers, {
       vouchers: newVouchers,
-      orgId
     });
     return { newVouchers };
   },

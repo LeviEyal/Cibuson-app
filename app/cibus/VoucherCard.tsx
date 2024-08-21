@@ -21,6 +21,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/ui/icons";
 import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
@@ -59,8 +60,9 @@ export const VoucherCardItem = ({
   return (
     <div
       className={cn(
-        "flex flex-col items-center rounded-br-3xl rounded-tl-3xl border-b-2 border-l-2 border-pink-500 bg-white p-4 shadow-md",
+        "flex flex-col items-center rounded-br-3xl rounded-tl-3xl border-b-2 border-l-2  bg-white p-4 shadow-md",
         isUsed ? "bg-red-50 opacity-60" : "bg-white",
+        voucher.provider === "cibus" ? "border-pink-500" : "border-orange-500",
       )}
     >
       <div className="flex w-full flex-row justify-between">
@@ -77,20 +79,19 @@ export const VoucherCardItem = ({
         </div>
         <div className="flex flex-col items-center justify-center gap-5">
           <Image
+            src={
+              voucher.provider === "cibus" ? "/cibus-logo.png" : "/10bis.png"
+            }
+            width={50}
+            height={50}
+            alt="provider"
+          />
+          <Image
             src="/ShufersalLogo.svg"
             width={70}
             height={70}
             alt="voucher"
           />
-          <Link
-            href={voucher.url}
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center justify-center gap-1 text-blue-500 underline"
-          >
-            קישור לשובר
-            <ExternalLinkIcon />
-          </Link>
         </div>
       </div>
       <Button
@@ -115,7 +116,7 @@ export const VoucherCardItem = ({
       </Button>
       <div
         className={cn(
-          "flex flex-col items-center justify-center gap-3 overflow-y-hidden transition-all duration-300",
+          "flex flex-col items-center justify-center gap-3 overflow-y-hidden transition-all duration-150",
           isCollapsed ? "h-48" : "h-0",
         )}
       >
@@ -126,61 +127,90 @@ export const VoucherCardItem = ({
           height={50}
           alt="sdd"
         />
-        <p className="text text-gray-500">
-          {voucher.barcodeNumber}
-        </p>
-        {!isUsed ? (
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="cibus" type="button" className="flex gap-2">
-                סימון כמומש
-                <CheckboxIcon className="size-5" />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>סימון כמומש</AlertDialogTitle>
-              </AlertDialogHeader>
-              <AlertDialogDescription>
-                האם אתה בטוח שברצונך לסמן את השובר כמומש?
-              </AlertDialogDescription>
-              <AlertDialogAction asChild>
-                <Button type="button" onClick={handleMarkVoucherAsUsed}>
+        <p className="text text-gray-500">{voucher.barcodeNumber}</p>
+        <Link
+          href={voucher.url}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center justify-center gap-1 text-blue-500 underline"
+        >
+          קישור לשובר
+          <ExternalLinkIcon />
+        </Link>
+
+        {/* Actions */}
+        <div className="flex gap-2">
+          {!isUsed ? (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="cibus" type="button" className="flex gap-2 w-40">
                   סימון כמומש
+                  <CheckboxIcon className="size-5" />
                 </Button>
-              </AlertDialogAction>
-              <AlertDialogCancel asChild>
-                <Button variant="cibusGhost" type="button">
-                  ביטול
-                </Button>
-              </AlertDialogCancel>
-            </AlertDialogContent>
-          </AlertDialog>
-        ) : (
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button type="button">ביטול סימון כמומש</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>ביטול סימון כמומש</AlertDialogTitle>
-              </AlertDialogHeader>
-              <AlertDialogDescription>
-                האם אתה בטוח שברצונך לבטל את סימון השובר כמומש?
-              </AlertDialogDescription>
-              <AlertDialogAction asChild>
-                <Button type="button" onClick={handleUnmarkVoucherAsUsed}>
-                  ביטול סימון כמומש
-                </Button>
-              </AlertDialogAction>
-              <AlertDialogCancel asChild>
-                <Button variant="cibusGhost" type="button">
-                  ביטול
-                </Button>
-              </AlertDialogCancel>
-            </AlertDialogContent>
-          </AlertDialog>
-        )}
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>סימון כמומש</AlertDialogTitle>
+                </AlertDialogHeader>
+                <AlertDialogDescription>
+                  האם אתה בטוח שברצונך לסמן את השובר כמומש?
+                </AlertDialogDescription>
+                <AlertDialogAction asChild>
+                  <Button type="button" onClick={handleMarkVoucherAsUsed}>
+                    סימון כמומש
+                  </Button>
+                </AlertDialogAction>
+                <AlertDialogCancel asChild>
+                  <Button variant="cibusGhost" type="button">
+                    ביטול
+                  </Button>
+                </AlertDialogCancel>
+              </AlertDialogContent>
+            </AlertDialog>
+          ) : (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button type="button">ביטול סימון כמומש</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>ביטול סימון כמומש</AlertDialogTitle>
+                </AlertDialogHeader>
+                <AlertDialogDescription>
+                  האם אתה בטוח שברצונך לבטל את סימון השובר כמומש?
+                </AlertDialogDescription>
+                <AlertDialogAction asChild>
+                  <Button type="button" onClick={handleUnmarkVoucherAsUsed}>
+                    ביטול סימון כמומש
+                  </Button>
+                </AlertDialogAction>
+                <AlertDialogCancel asChild>
+                  <Button variant="cibusGhost" type="button">
+                    ביטול
+                  </Button>
+                </AlertDialogCancel>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+          {/* send via whatsapp button */}
+          <Button
+            type="button"
+            className="flex gap-2 bg-[#128c7e] w-40"
+            variant={"whatsapp"}
+            onClick={() => {
+              window.open(
+                `https://wa.me/?text=${encodeURIComponent(
+                  `שובר בסכום של ${voucher.amount} ₪ זמין למימוש בתאריך ${moment(
+                    voucher.date,
+                  ).format("DD/MM/YYYY")}`,
+                )}`,
+              );
+            }}
+          >
+            שלח בוואטסאפ
+            <Icons.whatsapp className="size-5" />
+          </Button>
+        </div>
       </div>
     </div>
   );

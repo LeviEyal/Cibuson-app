@@ -42,7 +42,7 @@ export default function SignInPage() {
                   </CardHeader>
                   <CardContent className="grid gap-y-4">
                     <div className="flex flex-col gap-2">
-                      <Clerk.Connection name="github" asChild>
+                      {/* <Clerk.Connection name="github" asChild>
                         <Button
                           size="sm"
                           variant="outline"
@@ -62,7 +62,7 @@ export default function SignInPage() {
                             }
                           </Clerk.Loading>
                         </Button>
-                      </Clerk.Connection>
+                      </Clerk.Connection> */}
                       <Clerk.Connection name="google" asChild>
                         <Button
                           size="sm"
