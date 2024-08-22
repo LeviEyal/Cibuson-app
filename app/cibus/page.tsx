@@ -2,6 +2,7 @@
 
 import { useOrganization } from "@clerk/nextjs";
 import { useAction, useQuery } from "convex/react";
+import { AnimatePresence, motion } from "framer-motion";
 import { LucideMessageSquareWarning, RefreshCcwIcon } from "lucide-react";
 import moment from "moment";
 import { use, useState } from "react";
@@ -117,14 +118,24 @@ export default function Page() {
       {/* Vouchers cards */}
       <main className="flex flex-1 flex-col mx-4 gap-4 mt-4">
         {vouchers ? (
-          vouchers.map((voucher) => (
-            <VoucherCardItem
-              key={voucher._id}
-              voucher={voucher}
-              isCollapsed={collapsed === voucher._id}
-              setCollapsed={setCollapsed}
-            />
-          ))
+          <AnimatePresence initial={false}>
+            {vouchers.map((voucher) => (
+              <motion.div
+                key={voucher._id}
+                initial={{ height: 0, scale: 0 }}
+                animate={{ height: "auto", scale: 1 }}
+                exit={{ height: 0, scale: 0 }}
+                style={{ overflow: "hidden" }}
+              >
+                <VoucherCardItem
+                  key={voucher._id}
+                  voucher={voucher}
+                  isCollapsed={collapsed === voucher._id}
+                  setCollapsed={setCollapsed}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         ) : (
           <Loader />
         )}

@@ -34,6 +34,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "convex": "^1.13.0",
+    "framer-motion": "^11.3.29",
     "googleapis": "^140.0.1",
     "html-to-text": "^9.0.5",
     "lucide-react": "^0.428.0",
