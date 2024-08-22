@@ -29,6 +29,7 @@ export default defineSchema({
     gif: v.string(),
     barcodeNumber: v.optional(v.string()),
     dateUsed: v.optional(v.string()),
+    isBugged: v.optional(v.boolean()),
     userId: v.optional(v.string()),
     provider: v.optional(v.union(v.literal("cibus"), v.literal("tenbis"))),
   }),

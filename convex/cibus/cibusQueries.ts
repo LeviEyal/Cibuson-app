@@ -16,7 +16,7 @@ export const internalGetAllVouchers = internalQuery({
 export const allVouchers = query({
   args: {
     filter: v.optional(
-      v.union(v.literal("used"), v.literal("unused"), v.literal("all")),
+      v.union(v.literal("used"), v.literal("unused"), v.literal("bugged"), v.literal("all")),
     ),
   },
   handler: async (ctx, { filter }) => {
@@ -28,6 +28,9 @@ export const allVouchers = query({
         }
         if (filter === "unused") {
           return q.eq(q.field("dateUsed"), undefined);
+        }
+        if (filter === "bugged") {
+          return q.not(q.eq(q.field("isBugged"), undefined));
         }
         return true;
       })
@@ -54,7 +57,7 @@ export const addVouchers = internalMutation({
     if (!identity) {
       throw new Error("Unauthorized");
     }
-    
+
     for (const voucher of vouchers) {
       const existing = await ctx.db
         .query("cibusVouchers")
@@ -83,5 +86,23 @@ export const unmarkVoucherAsUsed = mutation({
   },
   handler: async (ctx, { voucherId }) => {
     await ctx.db.patch(voucherId, { dateUsed: undefined });
+  },
+});
+
+export const markBuggedVoucher = mutation({
+  args: {
+    voucherId: v.id("cibusVouchers"),
+  },
+  handler: async (ctx, { voucherId }) => {
+    await ctx.db.patch(voucherId, { isBugged: true });
+  },
+});
+
+export const unmarkBuggedVoucher = mutation({
+  args: {
+    voucherId: v.id("cibusVouchers"),
+  },
+  handler: async (ctx, { voucherId }) => {
+    await ctx.db.patch(voucherId, { isBugged: false });
   },
 });

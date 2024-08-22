@@ -21,12 +21,11 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         cibus:
           "bg-gradient-to-b from-pink-800 to-pink-600 text-white shadow-sm hover:from-pink-700 hover:to-pink-500",
-        cibusOutline:
-          "border border-pink-800 text-pink-800 shadow-sm",
+        cibusOutline: "border border-pink-800 text-pink-800 shadow-sm",
         cibusDestructive: "bg-red-500 text-white shadow-sm",
-        cibusGhost:
-          "text-pink-800 underline-offset-4 hover:underline",
-          whatsapp: "bg-whatsapp text-white shadow-sm hover:bg-whatsapp/90",
+        cibusGhost: "text-pink-800 underline-offset-4 hover:underline",
+        whatsapp: "bg-whatsapp text-white shadow-sm hover:bg-whatsapp/90",
+        warning: "bg-yellow-500 text-white shadow-sm",
       },
       size: {
         default: "h-9 px-4 py-2",

@@ -4,11 +4,14 @@ import {
   ExternalLinkIcon,
 } from "@radix-ui/react-icons";
 import { useMutation } from "convex/react";
+import { LucideSquareCheckBig } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
-import { TbBarcode, TbBarcodeOff } from "react-icons/tb";
+import { AiOutlineRotateRight } from "react-icons/ai";
+import { TbBarcode, TbBarcodeOff, TbBug } from "react-icons/tb";
+import { useLocalStorage } from "usehooks-ts";
 
 import {
   AlertDialog,
@@ -37,12 +40,24 @@ export const VoucherCardItem = ({
   isCollapsed,
   setCollapsed,
 }: VoucherCardProps) => {
+  const [vertically, setVertically] = useLocalStorage<boolean>(
+    "vertically-voucher-display",
+    false,
+  );
   const markVoucherAsUsed = useMutation(
     api.cibus.cibusQueries.markVoucherAsUsed,
   );
 
   const unmarkVoucherAsUsed = useMutation(
     api.cibus.cibusQueries.unmarkVoucherAsUsed,
+  );
+
+  const markBuggedVoucher = useMutation(
+    api.cibus.cibusQueries.markBuggedVoucher,
+  );
+
+  const unmarkBuggedVoucher = useMutation(
+    api.cibus.cibusQueries.unmarkBuggedVoucher,
   );
 
   const handleMarkVoucherAsUsed = async () => {
@@ -52,6 +67,11 @@ export const VoucherCardItem = ({
 
   const handleUnmarkVoucherAsUsed = async () => {
     await unmarkVoucherAsUsed({ voucherId: voucher._id });
+    setCollapsed(null);
+  };
+
+  const handleMarkBuggedVoucher = async () => {
+    await markBuggedVoucher({ voucherId: voucher._id });
     setCollapsed(null);
   };
 
@@ -72,9 +92,16 @@ export const VoucherCardItem = ({
             {moment(voucher.date).format("DD/MM/YYYY")}
           </p>
           <p>
-            {voucher.dateUsed
-              ? `מומש בתאריך: ${moment(voucher.dateUsed).format("DD/MM/YYYY")}`
-              : "זמין למימוש"}
+            {voucher.dateUsed ? (
+              `מומש בתאריך: ${moment(voucher.dateUsed).format("DD/MM/YYYY")}`
+            ) : voucher.isBugged ? (
+              <p className="flex gap-2 items-center">
+                תקול
+                <TbBug className="size-5 text-yellow-700" />
+              </p>
+            ) : (
+              "זמין למימוש"
+            )}
           </p>
         </div>
         <div className="flex flex-col items-center justify-center gap-5">
@@ -116,34 +143,71 @@ export const VoucherCardItem = ({
       </Button>
       <div
         className={cn(
-          "flex flex-col items-center justify-center gap-3 overflow-y-hidden transition-all duration-150",
-          isCollapsed ? "h-48" : "h-0",
+          "flex flex-col items-center justify-between gap-3 overflow-y-hidden transition-all duration-150",
+          isCollapsed ? (vertically ? "h-[400px]" : "h-56") : "h-0",
         )}
       >
         <Image
           src={voucher.gif}
-          className="h-28"
-          width={500}
-          height={50}
-          alt="sdd"
+          className={cn(
+            "h-28 w-full transition-all duration-300 ease-in-out",
+            vertically && "rotate-90 w-[700px] h-64 object-fill",
+          )}
+          width={200}
+          height={200}
+          alt="Barcode image"
         />
-        <p className="text text-gray-500">{voucher.barcodeNumber}</p>
-        <Link
-          href={voucher.url}
-          target="_blank"
-          rel="noreferrer"
-          className="flex items-center justify-center gap-1 text-blue-500 underline"
-        >
-          קישור לשובר
-          <ExternalLinkIcon />
-        </Link>
+
+        <div className="flex gap-2 mt-2 items-center z-20">
+          <p className="text text-gray-500">{voucher.barcodeNumber}</p>
+          <AiOutlineRotateRight
+          className="size-6"
+            onClick={() => setVertically((prev) => !prev)}
+          />
+        </div>
+
+        {/* Sharing */}
+        <section className="flex gap-2">
+          <Link
+            href={voucher.url}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center justify-center gap-1 text-blue-500 underline"
+          >
+            קישור לשובר
+            <ExternalLinkIcon />
+          </Link>
+
+          {/* send via whatsapp button */}
+          <Button
+            type="button"
+            className="bg-[#128c7e] p-3 rounded-full"
+            variant={"whatsapp"}
+            onClick={() => {
+              window.open(
+                `https://wa.me/?text=${encodeURIComponent(
+                  `שובר בסכום של ${voucher.amount} ₪ זמין למימוש בתאריך ${moment(
+                    voucher.date,
+                  ).format("DD/MM/YYYY")}`,
+                )}`,
+              );
+            }}
+          >
+            {/* שלח בוואטסאפ */}
+            <Icons.whatsapp className="size-4" />
+          </Button>
+        </section>
 
         {/* Actions */}
-        <div className="flex gap-2">
+        <section className="flex gap-2">
           {!isUsed ? (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="cibus" type="button" className="flex gap-2 w-40">
+                <Button
+                  variant="cibus"
+                  type="button"
+                  className="flex gap-2 w-40"
+                >
                   סימון כמומש
                   <CheckboxIcon className="size-5" />
                 </Button>
@@ -170,7 +234,10 @@ export const VoucherCardItem = ({
           ) : (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button type="button">ביטול סימון כמומש</Button>
+                <Button type="button">
+                  מומש
+                  <LucideSquareCheckBig className="size-5" />
+                </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
@@ -192,25 +259,43 @@ export const VoucherCardItem = ({
               </AlertDialogContent>
             </AlertDialog>
           )}
-          {/* send via whatsapp button */}
-          <Button
-            type="button"
-            className="flex gap-2 bg-[#128c7e] w-40"
-            variant={"whatsapp"}
-            onClick={() => {
-              window.open(
-                `https://wa.me/?text=${encodeURIComponent(
-                  `שובר בסכום של ${voucher.amount} ₪ זמין למימוש בתאריך ${moment(
-                    voucher.date,
-                  ).format("DD/MM/YYYY")}`,
-                )}`,
-              );
-            }}
-          >
-            שלח בוואטסאפ
-            <Icons.whatsapp className="size-5" />
-          </Button>
-        </div>
+
+          {/* Mark as broken */}
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="warning"
+                type="button"
+                className="flex gap-2 w-40"
+              >
+                תקלה
+                <TbBug className="size-5" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>סימון כמומש</AlertDialogTitle>
+              </AlertDialogHeader>
+              <AlertDialogDescription>
+                האם אתה בטוח שברצונך לסמן את השובר כתקול?
+              </AlertDialogDescription>
+              <AlertDialogAction asChild>
+                <Button
+                  variant="warning"
+                  type="button"
+                  onClick={handleMarkBuggedVoucher}
+                >
+                  סימון כתקול
+                </Button>
+              </AlertDialogAction>
+              <AlertDialogCancel asChild>
+                <Button variant="cibusGhost" type="button">
+                  ביטול
+                </Button>
+              </AlertDialogCancel>
+            </AlertDialogContent>
+          </AlertDialog>
+        </section>
       </div>
     </div>
   );

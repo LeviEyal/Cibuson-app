@@ -26,10 +26,10 @@ import { VoucherCardItem } from "./VoucherCard";
 
 export default function Page() {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
-  const [filter, setFilter] = useLocalStorage<"all" | "unused" | "used">(
-    "vouchers-list-filter",
-    "all",
-  );
+  const [filter, setFilter] = useLocalStorage<
+    "all" | "unused" | "used" | "bugged"
+  >("vouchers-list-filter", "all");
+
   const { organization } = useOrganization();
   const vouchers = useQuery(api.cibus.cibusQueries.allVouchers, {
     filter: filter,
@@ -71,7 +71,7 @@ export default function Page() {
     }
   };
 
-  const handleChangeFilter = (filter: "all" | "unused" | "used") => {
+  const handleChangeFilter = (filter: "all" | "unused" | "used" | "bugged") => {
     setFilter(filter);
   };
 
@@ -102,6 +102,7 @@ export default function Page() {
               <SelectItem value="all">כל השוברים</SelectItem>
               <SelectItem value="unused">שוברים שלא נוצלו</SelectItem>
               <SelectItem value="used">שוברים שנוצלו</SelectItem>
+              <SelectItem value="bugged">שוברים תקולים</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

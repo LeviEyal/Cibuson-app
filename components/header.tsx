@@ -65,7 +65,9 @@ export const Header = () => {
       <div className="flex items-center gap-3">
         <div className="flex flex-col items-end justify-center -space-y-1">
           <h1 className="text-center text-3xl font-semibold">Cibuson</h1>
-          <h2 className="text-md text-center">ניהול שוברים מהסיבוס</h2>
+          {/* <h2 className="text-sm text-center">ניהול שוברים מהסיבוס ומהתן ביס</h2> */}
+          {/* <h2 className="text-md text-center">Cibus & 10bis Vouchers</h2> */}
+          <h2 className="text-md text-center">שוברים מסיבוס ותן ביס</h2>
         </div>
         <Image
           src="/logo1.jpg"
