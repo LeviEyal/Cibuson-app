@@ -49,6 +49,7 @@ export const addVouchers = internalMutation({
         dateUsed: v.optional(v.string()),
         gif: v.string(),
         barcodeNumber: v.optional(v.string()),
+        userId: v.optional(v.string()),
       }),
     ),
   },

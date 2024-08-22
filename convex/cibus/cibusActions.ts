@@ -2,7 +2,7 @@
 
 import { clerkClient } from "@clerk/clerk-sdk-node";
 import { v } from "convex/values";
-import { google } from "googleapis";
+import { type gmail_v1, google } from "googleapis";
 
 import { internal } from "../_generated/api";
 import type { Doc } from "../_generated/dataModel";
@@ -36,7 +36,60 @@ function validateFromDate(fromDate: string) {
   }
 }
 
-type NewVoucher = Pick<Doc<"cibusVouchers">, "amount" | "url" | "date" | "gif" | "barcodeNumber">;
+type NewVoucher = Omit<Doc<"cibusVouchers">, "_id" | "_creationTime">;
+
+async function processMessage(
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  ctx: any,
+  message: gmail_v1.Schema$Message,
+  gmail: gmail_v1.Gmail,
+  userId: string,
+) {
+  const parts = message.payload?.parts || [];
+  const newVoucher = {} as NewVoucher;
+
+  newVoucher.barcodeNumber = extractBarcodeNumber(message.snippet || "") || "";
+
+  for (const part of parts) {
+    if (part.mimeType === "image/gif") {
+      const attachmentId = part.body?.attachmentId;
+      if (!attachmentId || !part.filename?.startsWith("img1")) continue;
+      const attachment = await gmail.users.messages.attachments.get({
+        userId: "me",
+        messageId: message.id || "",
+        id: attachmentId,
+      });
+      const data =
+        attachment.data.data?.replace(/-/g, "+").replace(/_/g, "/") || "";
+      newVoucher.gif = data ? `data:image/gif;base64,${data}` : "";
+    } else if (part.mimeType === "text/html") {
+      const data = part.body?.data || "";
+      const htmlContent = Buffer.from(data, "base64").toString("utf8");
+
+      const text: string = htmlToText(htmlContent, {
+        wordwrap: 130,
+      });
+
+      newVoucher.url = extractPluxeeUrls(text) || "";
+      newVoucher.amount = Number(extractEmployerContribution(text));
+    }
+  }
+
+  if (newVoucher.url && newVoucher.amount) {
+    const toInsert = {
+      userId,
+      url: newVoucher.url,
+      amount: newVoucher.amount,
+      gif: newVoucher.gif,
+      date: Number.parseInt(message.internalDate as string),
+      barcodeNumber: newVoucher.barcodeNumber,
+    };
+
+    await ctx.runMutation(internal.cibus.cibusQueries.addVouchers, {
+      vouchers: [toInsert],
+    });
+  }
+}
 
 export const updateCibusVouchers = action({
   args: {
@@ -49,7 +102,7 @@ export const updateCibusVouchers = action({
     }
 
     validateFromDate(fromDate);
-    
+
     const refresh_token = await clerkClient.users.getUserOauthAccessToken(
       identity.subject,
       "oauth_google",
@@ -69,63 +122,16 @@ export const updateCibusVouchers = action({
       userId: "me",
       q: `noreply@notifications.pluxee.co.il after:${fromDate}`,
     });
-    
+
     const messages = res.data.messages || [];
-    const newVouchers: NewVoucher[] = [];
-    
-    for (const message of messages) {
+
+    for (const message of messages.reverse()) {
       const msg = await gmail.users.messages.get({
         userId: "me",
         id: message.id || "",
       });
-      
-      console.log(msg.data.snippet);
-      
-      const parts = msg.data.payload?.parts || [];
-      const newVoucher = {} as NewVoucher;
-      
-      newVoucher.barcodeNumber = extractBarcodeNumber(msg.data.snippet || "") || "";
 
-      for (const part of parts) {
-        if (part.mimeType === "image/gif") {
-          const attachmentId = part.body?.attachmentId;
-          if (!attachmentId || !part.filename?.startsWith("img1")) continue;
-          const attachment = await gmail.users.messages.attachments.get({
-            userId: "me",
-            messageId: message.id || "",
-            id: attachmentId,
-          });
-          const data =
-            attachment.data.data?.replace(/-/g, "+").replace(/_/g, "/") || "";
-          newVoucher.gif = data ? `data:image/gif;base64,${data}` : "";
-        } else if (part.mimeType === "text/html") {
-          const data = part.body?.data || "";
-          const htmlContent = Buffer.from(data, "base64").toString("utf8");
-
-          // Convert HTML to text
-          const text: string = htmlToText(htmlContent, {
-            wordwrap: 130,
-          });
-          
-          newVoucher.url = extractPluxeeUrls(text) || "";
-          newVoucher.amount = Number(extractEmployerContribution(text));
-        }
-      }
-      if (newVoucher.url && newVoucher.amount) {
-        newVouchers.push({
-          url: newVoucher.url,
-          amount: newVoucher.amount,
-          gif: newVoucher.gif,
-          date: Number.parseInt(msg.data.internalDate as string),
-          barcodeNumber: newVoucher.barcodeNumber,
-        });
-      }
+      await processMessage(ctx, msg.data, gmail, identity.subject);
     }
-
-    if (!newVouchers) return;
-    await ctx.runMutation(internal.cibus.cibusQueries.addVouchers, {
-      vouchers: newVouchers,
-    });
-    return { newVouchers };
   },
 });
