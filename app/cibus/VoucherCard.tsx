@@ -143,7 +143,7 @@ export const VoucherCardItem = ({
       </Button>
       <div
         className={cn(
-          "flex flex-col items-center justify-between gap-3 overflow-y-hidden transition-all duration-150",
+          "flex flex-col items-center justify-between gap-3 overflow-y-hidden transition-all duration-150 overflow-x-clip",
           isCollapsed ? (vertically ? "h-[400px]" : "h-56") : "h-0",
         )}
       >
@@ -151,7 +151,7 @@ export const VoucherCardItem = ({
           src={voucher.gif}
           className={cn(
             "h-28 w-full transition-all duration-300 ease-in-out",
-            vertically && "rotate-90 w-[700px] h-64 object-fill",
+            vertically ? "rotate-90 w-[700px] h-64 object-fill" : "scale-x-125",
           )}
           width={200}
           height={200}
