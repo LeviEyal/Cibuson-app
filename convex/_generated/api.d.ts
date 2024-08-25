@@ -17,7 +17,6 @@ import type {
 import type * as cibus_cibusActions from "../cibus/cibusActions.js";
 import type * as cibus_cibusQueries from "../cibus/cibusQueries.js";
 import type * as groceries from "../groceries.js";
-import type * as lessons from "../lessons.js";
 import type * as shoppingList from "../shoppingList.js";
 
 /**
@@ -32,7 +31,6 @@ declare const fullApi: ApiFromModules<{
   "cibus/cibusActions": typeof cibus_cibusActions;
   "cibus/cibusQueries": typeof cibus_cibusQueries;
   groceries: typeof groceries;
-  lessons: typeof lessons;
   shoppingList: typeof shoppingList;
 }>;
 export declare const api: FilterApi<

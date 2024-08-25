@@ -10,10 +10,11 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
 import { AiOutlineRotateRight } from "react-icons/ai";
+import { FaRegShareFromSquare } from "react-icons/fa6";
+import { CiShare2 } from "react-icons/ci";
 import { TbBarcode, TbBarcodeOff, TbBug } from "react-icons/tb";
 import { useLocalStorage } from "usehooks-ts";
 
-import { ShareButton } from "@/components/ShareButton";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -184,16 +185,9 @@ export const VoucherCardItem = ({
           {/* send via whatsapp button */}
           <Button
             type="button"
-            className="bg-[#128c7e] p-3 rounded-full"
-            variant={"whatsapp"}
+            className="text-black gap-2"
+            variant="outline"
             onClick={() => {
-              // window.open(
-              // 	`https://wa.me/?text=${encodeURIComponent(
-              // 		`שובר בסכום של ${voucher.amount} ₪ זמין למימוש בתאריך ${moment(
-              // 			voucher.date,
-              // 		).format("DD/MM/YYYY")}`,
-              // 	)}`,
-              // );
               navigator
                 .share({
                   title: "web.dev",
@@ -205,7 +199,7 @@ export const VoucherCardItem = ({
             }}
           >
             {/* שלח בוואטסאפ */}
-            <Icons.whatsapp className="size-4" />
+            <CiShare2 className="size-5" />
           </Button>
 
           {/* <ShareButton /> */}

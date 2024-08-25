@@ -25,8 +25,15 @@ export const allVouchers = query({
     ),
   },
   handler: async (ctx, { filter }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+    const userId = identity?.subject;
+
     const vouchers = await ctx.db
       .query("cibusVouchers")
+      .withIndex("bu_userId", q => q.eq("userId", userId))
       .filter((q) => {
         if (filter === "used") {
           return q.not(q.eq(q.field("dateUsed"), undefined));

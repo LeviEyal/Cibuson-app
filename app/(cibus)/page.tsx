@@ -21,6 +21,7 @@ import {
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
+import type { VouchersFilters } from "@/types/vouchers-types";
 
 import { VoucherCardItem } from "./VoucherCard";
 
@@ -31,9 +32,10 @@ import { VoucherCardItem } from "./VoucherCard";
  */
 export default function Page() {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
-  const [filter, setFilter] = useLocalStorage<
-    "all" | "unused" | "used" | "bugged"
-  >("vouchers-list-filter", "all");
+  const [filter, setFilter] = useLocalStorage<VouchersFilters>(
+    "vouchers-list-filter",
+    "all",
+  );
 
   const vouchers = useQuery(api.cibus.cibusQueries.allVouchers, {
     filter: filter,
@@ -74,7 +76,7 @@ export default function Page() {
     }
   };
 
-  const handleChangeFilter = (filter: "all" | "unused" | "used" | "bugged") => {
+  const handleChangeFilter = (filter: VouchersFilters) => {
     setFilter(filter);
   };
 

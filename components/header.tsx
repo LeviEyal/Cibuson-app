@@ -9,7 +9,7 @@ import {
 } from "@clerk/nextjs";
 import Image from "next/image";
 
-import { Menu } from "@/app/lessons/Menu";
+import { Menu } from "@/components/Menu";
 
 export const Header = () => {
   return (

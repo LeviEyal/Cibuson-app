@@ -11,7 +11,7 @@ export const cibusVouchers = defineTable({
   isBugged: v.optional(v.boolean()),
   userId: v.string(),
   provider: v.union(v.literal("cibus"), v.literal("tenbis")),
-});
+}).index("bu_userId", ["userId"]);
 
 /**
  * The schema is entirely optional.
@@ -20,15 +20,6 @@ export const cibusVouchers = defineTable({
  * The schema provides more precise TypeScript types.
  */
 export default defineSchema({
-  lesson: defineTable({
-    studentName: v.string(),
-    date: v.number(),
-    duration: v.number(),
-    price: v.number(),
-    paid: v.boolean(),
-    user: v.optional(v.string()),
-    orgId: v.optional(v.string()),
-  }),
   groceries: defineTable({
     name: v.string(),
     category: v.string(),

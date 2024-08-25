@@ -1,0 +1,1 @@
+export type VouchersFilters = "all" | "unused" | "used" | "bugged";
