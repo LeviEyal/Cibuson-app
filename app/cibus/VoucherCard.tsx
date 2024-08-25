@@ -13,6 +13,7 @@ import { AiOutlineRotateRight } from "react-icons/ai";
 import { TbBarcode, TbBarcodeOff, TbBug } from "react-icons/tb";
 import { useLocalStorage } from "usehooks-ts";
 
+import { ShareButton } from "@/components/ShareButton";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,6 +26,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
+import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
@@ -147,11 +149,12 @@ export const VoucherCardItem = ({
           isCollapsed ? (vertically ? "h-[400px]" : "h-56") : "h-0",
         )}
       >
+        {/* Barcode Image */}
         <Image
           src={voucher.gif}
           className={cn(
             "h-28 w-full transition-all duration-300 ease-in-out",
-            vertically ? "rotate-90 w-[700px] h-64 object-fill" : "scale-x-125",
+            vertically && "rotate-90 w-[700px] h-64 object-fill",
           )}
           width={200}
           height={200}
@@ -161,7 +164,7 @@ export const VoucherCardItem = ({
         <div className="flex gap-2 mt-2 items-center z-20">
           <p className="text text-gray-500">{voucher.barcodeNumber}</p>
           <AiOutlineRotateRight
-          className="size-6"
+            className="size-6"
             onClick={() => setVertically((prev) => !prev)}
           />
         </div>
@@ -184,18 +187,28 @@ export const VoucherCardItem = ({
             className="bg-[#128c7e] p-3 rounded-full"
             variant={"whatsapp"}
             onClick={() => {
-              window.open(
-                `https://wa.me/?text=${encodeURIComponent(
-                  `שובר בסכום של ${voucher.amount} ₪ זמין למימוש בתאריך ${moment(
-                    voucher.date,
-                  ).format("DD/MM/YYYY")}`,
-                )}`,
-              );
+              // window.open(
+              // 	`https://wa.me/?text=${encodeURIComponent(
+              // 		`שובר בסכום של ${voucher.amount} ₪ זמין למימוש בתאריך ${moment(
+              // 			voucher.date,
+              // 		).format("DD/MM/YYYY")}`,
+              // 	)}`,
+              // );
+              navigator
+                .share({
+                  title: "web.dev",
+                  text: "Check out web.dev.",
+                  url: "https://web.dev/",
+                })
+                .then(() => console.log("Successful share"))
+                .catch((error) => console.log("Error sharing", error));
             }}
           >
             {/* שלח בוואטסאפ */}
             <Icons.whatsapp className="size-4" />
           </Button>
+
+          {/* <ShareButton /> */}
         </section>
 
         {/* Actions */}
@@ -296,6 +309,27 @@ export const VoucherCardItem = ({
             </AlertDialogContent>
           </AlertDialog>
         </section>
+      </div>
+    </div>
+  );
+};
+
+VoucherCardItem.Skeleton = function VoucherCardSkeleton() {
+  return (
+    <div className="w-11/12 flex flex-col items-center rounded-br-3xl rounded-tl-3xl border-b-2 border-l-2 bg-white p-4 shadow-md mt-4">
+      <div className="flex w-full flex-row justify-between">
+        <div>
+          <Skeleton className="w-20 h-6 mb-2" />
+          <Skeleton className="w-20 h-4" />
+          <Skeleton className="w-20 h-4" />
+        </div>
+        <div className="flex flex-col items-center justify-center gap-5">
+          <Skeleton className="w-32 h-10" />
+          <Skeleton className="w-32 h-10" />
+        </div>
+      </div>
+      <div className="flex w-40 justify-between gap-2">
+        <Skeleton className="w-32 h-10" />
       </div>
     </div>
   );

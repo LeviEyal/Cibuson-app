@@ -1,11 +1,10 @@
 "use client";
 
-import { useOrganization } from "@clerk/nextjs";
 import { useAction, useQuery } from "convex/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { LucideMessageSquareWarning, RefreshCcwIcon } from "lucide-react";
+import { RefreshCcwIcon } from "lucide-react";
 import moment from "moment";
-import { use, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useLocalStorage } from "usehooks-ts";
 
@@ -25,13 +24,17 @@ import { cn } from "@/lib/utils";
 
 import { VoucherCardItem } from "./VoucherCard";
 
+/**
+ * Represents a page component for managing vouchers.
+ *
+ * @returns The rendered JSX element.
+ */
 export default function Page() {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [filter, setFilter] = useLocalStorage<
     "all" | "unused" | "used" | "bugged"
   >("vouchers-list-filter", "all");
 
-  const { organization } = useOrganization();
   const vouchers = useQuery(api.cibus.cibusQueries.allVouchers, {
     filter: filter,
   });
@@ -52,7 +55,6 @@ export default function Page() {
   const refresh = async () => {
     try {
       setIsUpdating(true);
-      console.log({ organization });
 
       await updateCibusVouchers({
         fromDate: lastDateFormatted,
@@ -75,6 +77,19 @@ export default function Page() {
   const handleChangeFilter = (filter: "all" | "unused" | "used" | "bugged") => {
     setFilter(filter);
   };
+
+  if (!vouchers) {
+    return (
+      <>
+        <div className="w-full h-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 backdrop-blur-[2px] rounded-xl p-4">
+          <Loader />
+        </div>
+        {Array.from({ length: 4 }).map((_, i) => (
+          <VoucherCardItem.Skeleton key={i} />
+        ))}
+      </>
+    );
+  }
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-between pb-20">
@@ -117,28 +132,24 @@ export default function Page() {
 
       {/* Vouchers cards */}
       <main className="flex flex-1 flex-col mx-4 gap-4 mt-4">
-        {vouchers ? (
-          <AnimatePresence initial={false}>
-            {vouchers.map((voucher) => (
-              <motion.div
+        <AnimatePresence initial={false}>
+          {vouchers.map((voucher) => (
+            <motion.div
+              key={voucher._id}
+              initial={{ height: 0, scale: 0 }}
+              animate={{ height: "auto", scale: 1 }}
+              exit={{ height: 0, scale: 0 }}
+              style={{ overflow: "hidden" }}
+            >
+              <VoucherCardItem
                 key={voucher._id}
-                initial={{ height: 0, scale: 0 }}
-                animate={{ height: "auto", scale: 1 }}
-                exit={{ height: 0, scale: 0 }}
-                style={{ overflow: "hidden" }}
-              >
-                <VoucherCardItem
-                  key={voucher._id}
-                  voucher={voucher}
-                  isCollapsed={collapsed === voucher._id}
-                  setCollapsed={setCollapsed}
-                />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        ) : (
-          <Loader />
-        )}
+                voucher={voucher}
+                isCollapsed={collapsed === voucher._id}
+                setCollapsed={setCollapsed}
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </main>
 
       {/* Total unused amount */}

@@ -83,6 +83,7 @@ async function processMessage(
       gif: newVoucher.gif,
       date: Number.parseInt(message.internalDate as string),
       barcodeNumber: newVoucher.barcodeNumber,
+      provider: "cibus",
     };
 
     await ctx.runMutation(internal.cibus.cibusQueries.addVouchers, {

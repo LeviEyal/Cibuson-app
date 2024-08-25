@@ -16,7 +16,12 @@ export const internalGetAllVouchers = internalQuery({
 export const allVouchers = query({
   args: {
     filter: v.optional(
-      v.union(v.literal("used"), v.literal("unused"), v.literal("bugged"), v.literal("all")),
+      v.union(
+        v.literal("used"),
+        v.literal("unused"),
+        v.literal("bugged"),
+        v.literal("all"),
+      ),
     ),
   },
   handler: async (ctx, { filter }) => {
@@ -46,10 +51,10 @@ export const addVouchers = internalMutation({
         date: v.number(),
         amount: v.number(),
         url: v.string(),
-        dateUsed: v.optional(v.string()),
         gif: v.string(),
         barcodeNumber: v.optional(v.string()),
-        userId: v.optional(v.string()),
+        userId: v.string(),
+        provider: v.union(v.literal("cibus"), v.literal("tenbis")),
       }),
     ),
   },

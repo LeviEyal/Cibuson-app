@@ -1,6 +1,18 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
+export const cibusVouchers = defineTable({
+  date: v.number(),
+  amount: v.number(),
+  url: v.string(),
+  gif: v.string(),
+  barcodeNumber: v.optional(v.string()),
+  dateUsed: v.optional(v.string()),
+  isBugged: v.optional(v.boolean()),
+  userId: v.string(),
+  provider: v.union(v.literal("cibus"), v.literal("tenbis")),
+});
+
 /**
  * The schema is entirely optional.
  * You can delete this file (schema.ts) and the
@@ -22,15 +34,5 @@ export default defineSchema({
     category: v.string(),
     user: v.optional(v.string()),
   }),
-  cibusVouchers: defineTable({
-    date: v.number(),
-    amount: v.number(),
-    url: v.string(),
-    gif: v.string(),
-    barcodeNumber: v.optional(v.string()),
-    dateUsed: v.optional(v.string()),
-    isBugged: v.optional(v.boolean()),
-    userId: v.optional(v.string()),
-    provider: v.optional(v.union(v.literal("cibus"), v.literal("tenbis"))),
-  }),
+  cibusVouchers,
 });
