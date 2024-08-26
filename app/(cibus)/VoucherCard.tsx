@@ -30,7 +30,7 @@ import { Icons } from "@/components/ui/icons";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
-import { cn } from "@/lib/utils";
+import { cn, formatBarcodeNumber } from "@/lib/utils";
 
 interface VoucherCardProps {
   voucher: Doc<"cibusVouchers">;
@@ -163,7 +163,11 @@ export const VoucherCardItem = ({
         />
 
         <div className="flex gap-2 mt-2 items-center z-20">
-          <p className="text text-gray-500">{voucher.barcodeNumber}</p>
+
+          {/* Barcode Number */}
+          <p className="text text-gray-500">{formatBarcodeNumber(voucher.barcodeNumber || "")}</p>
+
+          {/* Rotate Barcode Image Button */}
           <AiOutlineRotateRight
             className="size-6"
             onClick={() => setVertically((prev) => !prev)}

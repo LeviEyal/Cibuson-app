@@ -38,3 +38,9 @@ export const formatMonthInHebrew = (month: string) => {
   const [year, monthNum] = month.split("-");
   return `${monthToHebrew(monthNum)} ${year}`;
 };
+
+// return a long string in the format of x234-1y34-1a34-12cR
+export const formatBarcodeNumber = (barcode: string) => {
+  const parts = barcode.match(/.{1,4}/g) || [];
+  return parts.join("-");
+}

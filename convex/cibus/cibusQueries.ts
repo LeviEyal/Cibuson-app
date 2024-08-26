@@ -1,3 +1,4 @@
+import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 
 import {
@@ -15,6 +16,7 @@ export const internalGetAllVouchers = internalQuery({
 
 export const allVouchers = query({
   args: {
+    paginationOpts: paginationOptsValidator,
     filter: v.optional(
       v.union(
         v.literal("used"),
@@ -24,7 +26,7 @@ export const allVouchers = query({
       ),
     ),
   },
-  handler: async (ctx, { filter }) => {
+  handler: async (ctx, { filter, paginationOpts }) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Unauthorized");
@@ -33,7 +35,9 @@ export const allVouchers = query({
 
     const vouchers = await ctx.db
       .query("cibusVouchers")
-      .withIndex("bu_userId", q => q.eq("userId", userId))
+      .withIndex("by_userId_date", (q) => q.eq("userId", userId))
+      // .withIndex("by_date")
+      .order("desc")
       .filter((q) => {
         if (filter === "used") {
           return q.not(q.eq(q.field("dateUsed"), undefined));
@@ -46,8 +50,53 @@ export const allVouchers = query({
         }
         return true;
       })
+      .paginate(paginationOpts);
+    // return vouchers.sort((a, b) => b.date - a.date);
+    return vouchers;
+  },
+});
+
+export const allVouchersAggragated = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+    const userId = identity?.subject;
+
+    const vouchers = await ctx.db
+      .query("cibusVouchers")
+      .withIndex("by_userId_date", (q) => q.eq("userId", userId))
       .collect();
-    return vouchers.sort((a, b) => b.date - a.date);
+
+    let totalUnusedAmount = 0,
+      totalUsedAmount = 0,
+      totalBuggedAmount = 0,
+      totalUnusedCount = 0,
+      totalUsedCount = 0,
+      totalBuggedCount = 0;
+
+    for (const voucher of vouchers) {
+      if (voucher.dateUsed) {
+        totalUsedAmount += voucher.amount;
+        totalUsedCount++;
+      } else if (voucher.isBugged) {
+        totalBuggedAmount += voucher.amount;
+        totalBuggedCount++;
+      } else {
+        totalUnusedAmount += voucher.amount;
+        totalUnusedCount++;
+      }
+    }
+
+    return {
+      totalUnusedAmount,
+      totalUsedAmount,
+      totalBuggedAmount,
+      totalUnusedCount,
+      totalUsedCount,
+      totalBuggedCount,
+    };
   },
 });
 

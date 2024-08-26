@@ -1,10 +1,11 @@
 "use client";
 
-import { useAction, useQuery } from "convex/react";
+import { useAction, usePaginatedQuery, useQuery } from "convex/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { RefreshCcwIcon } from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
+import InfiniteScroll from "react-infinite-scroller";
 import { toast } from "sonner";
 import { useLocalStorage } from "usehooks-ts";
 
@@ -37,22 +38,27 @@ export default function Page() {
     "all",
   );
 
-  const vouchers = useQuery(api.cibus.cibusQueries.allVouchers, {
-    filter: filter,
-  });
+  const {
+    results: vouchers,
+    status,
+    loadMore,
+  } = usePaginatedQuery(
+    api.cibus.cibusQueries.allVouchers,
+    { filter: filter },
+    { initialNumItems: 20 },
+  );
+
+  const summary = useQuery(api.cibus.cibusQueries.allVouchersAggragated);
 
   const [collapsed, setCollapsed] = useState<Id<"cibusVouchers"> | null>(null);
   const updateCibusVouchers = useAction(
     api.cibus.cibusActions.updateCibusVouchers,
   );
 
+  // Get the last date of the vouchers or 1 month ago if no vouchers exist
   const lastDate =
     vouchers?.[0]?.date || moment().subtract(1, "month").toDate();
   const lastDateFormatted = moment(lastDate).format("YYYY-MM-DD");
-
-  const totalUnusedAmount = vouchers
-    ?.filter((v) => !v.dateUsed)
-    .reduce((acc, v) => acc + v.amount, 0);
 
   const refresh = async () => {
     try {
@@ -80,7 +86,7 @@ export default function Page() {
     setFilter(filter);
   };
 
-  if (!vouchers) {
+  if (status === "LoadingFirstPage") {
     return (
       <>
         <div className="w-full h-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 backdrop-blur-[2px] rounded-xl p-4">
@@ -133,7 +139,17 @@ export default function Page() {
       )}
 
       {/* Vouchers cards */}
-      <main className="flex flex-1 flex-col mx-4 gap-4 mt-4">
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={loadMore}
+        hasMore={status === "CanLoadMore"}
+        className="flex flex-1 flex-col mx-4 gap-4 mt-4"
+        loader={
+          <div className="w-full flex justify-center" key={0}>
+            <Loader />
+          </div>
+        }
+      >
         <AnimatePresence initial={false}>
           {vouchers.map((voucher) => (
             <motion.div
@@ -152,7 +168,7 @@ export default function Page() {
             </motion.div>
           ))}
         </AnimatePresence>
-      </main>
+      </InfiniteScroll>
 
       {/* Total unused amount */}
       <footer
@@ -162,8 +178,8 @@ export default function Page() {
             "url(data:image/gif;base64,R0lGODdhWAICAMIFAM0Mg9ojd+g3bPNKYP9cWv///////////ywAAAAAWAICAAADVwi63P4wykmrvSHrzbv/YCiOZGkKaKqubOu+cCzPdD3ceK7vfO//wKBwSCQYj8ikcslsOp/QqHR6qVqv2CzGxO16v+BSbUwum882onrNbruH07h8Tq9PEwA7)",
         }}
       >
-        <p className="text-xl text-white">
-          סה&quot;כ סכום זמין למימוש: {Math.floor(totalUnusedAmount || 0)} ₪
+        <p className="text-md text-white">
+          יש לך {Math.floor(summary?.totalUnusedAmount || 0)} ₪ ב-{" "} {summary?.totalUnusedCount} שוברים שלא נוצלו
         </p>
       </footer>
     </div>
