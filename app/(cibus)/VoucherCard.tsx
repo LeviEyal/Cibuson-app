@@ -10,7 +10,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
 import { AiOutlineRotateRight } from "react-icons/ai";
-import { FaRegShareFromSquare } from "react-icons/fa6";
 import { CiShare2 } from "react-icons/ci";
 import { TbBarcode, TbBarcodeOff, TbBug } from "react-icons/tb";
 import { useLocalStorage } from "usehooks-ts";
@@ -26,7 +25,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Icons } from "@/components/ui/icons";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
