@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import { Fredoka } from "next/font/google";
 
+import { AppFooter } from "@/components/AppFooter";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { Header } from "@/components/header";
 import { Toaster } from "@/components/ui/sonner";
@@ -71,6 +72,7 @@ export default function RootLayout({
               <main className="flex flex-1 flex-col items-center justify-center pt-20">
                 {children}
               </main>
+              <AppFooter />
             </div>
           </ConvexClientProvider>
         </ThemeProvider>

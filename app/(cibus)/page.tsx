@@ -172,11 +172,11 @@ export default function Page() {
 
       {/* Total unused amount */}
       <footer
-        className="fixed bottom-0 flex h-14 w-full items-center justify-center"
-        style={{
-          backgroundImage:
-            "url(data:image/gif;base64,R0lGODdhWAICAMIFAM0Mg9ojd+g3bPNKYP9cWv///////////ywAAAAAWAICAAADVwi63P4wykmrvSHrzbv/YCiOZGkKaKqubOu+cCzPdD3ceK7vfO//wKBwSCQYj8ikcslsOp/QqHR6qVqv2CzGxO16v+BSbUwum882onrNbruH07h8Tq9PEwA7)",
-        }}
+        className="fixed bottom-16 flex h-14 w-full items-center justify-center bg-pink-400"
+        // style={{
+        //   backgroundImage:
+        //     "url(data:image/gif;base64,R0lGODdhWAICAMIFAM0Mg9ojd+g3bPNKYP9cWv///////////ywAAAAAWAICAAADVwi63P4wykmrvSHrzbv/YCiOZGkKaKqubOu+cCzPdD3ceK7vfO//wKBwSCQYj8ikcslsOp/QqHR6qVqv2CzGxO16v+BSbUwum882onrNbruH07h8Tq9PEwA7)",
+        // }}
       >
         <p className="text-md text-white">
           יש לך {Math.floor(summary?.totalUnusedAmount || 0)} ₪ ב-{" "} {summary?.totalUnusedCount} שוברים שלא נוצלו
