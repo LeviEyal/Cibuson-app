@@ -11,8 +11,14 @@ export const cibusVouchers = defineTable({
   isBugged: v.optional(v.boolean()),
   userId: v.string(),
   provider: v.union(v.literal("cibus"), v.literal("tenbis")),
-})
-  .index("by_userId_date", ["userId", "date"])
+}).index("by_userId_date", ["userId", "date"]);
+
+export const groceries = defineTable({
+  name: v.string(),
+  category: v.string(),
+  user: v.string(),
+  marked: v.optional(v.boolean()),
+}).index("by_user", ["user"]);
 
 /**
  * The schema is entirely optional.
@@ -21,10 +27,6 @@ export const cibusVouchers = defineTable({
  * The schema provides more precise TypeScript types.
  */
 export default defineSchema({
-  groceries: defineTable({
-    name: v.string(),
-    category: v.string(),
-    user: v.optional(v.string()),
-  }),
+  groceries,
   cibusVouchers,
 });

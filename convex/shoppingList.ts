@@ -62,8 +62,8 @@ export const generateShoppingList = action({
     console.log(newGroceries);
 
     const obj = JSON.parse(newGroceries);
-    console.log(obj);
-    // await ctx.runMutation(internal.groceries.insertData, { data: obj });
+
+    await ctx.runMutation(internal.groceries.insertData, { data: obj });
 
     return newGroceries;
   },
