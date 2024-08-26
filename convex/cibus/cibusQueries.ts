@@ -1,6 +1,7 @@
 import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 
+import type { Doc } from "../_generated/dataModel";
 import {
   internalMutation,
   internalQuery,
@@ -166,5 +167,43 @@ export const unmarkBuggedVoucher = mutation({
   },
   handler: async (ctx, { voucherId }) => {
     await ctx.db.patch(voucherId, { isBugged: false });
+  },
+});
+
+export const calculateBestVouchers = mutation({
+  args: { purchaseSum: v.number() },
+  handler: async (ctx, { purchaseSum }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+    const userId = identity.subject;
+
+    const vouchers = await ctx.db
+      .query("cibusVouchers")
+      .withIndex("by_userId_amount", (q) => q.eq("userId", userId))
+      .filter((q) =>
+        q.and(
+          q.eq(q.field("dateUsed"), undefined),
+          q.not(q.eq(q.field("isBugged"), true)),
+        ),
+      )
+      .order("desc")
+      .collect();
+
+    let remainingSum = purchaseSum;
+    const vouchersToUse: Doc<"cibusVouchers">[] = [];
+
+    for (const voucher of vouchers) {
+      if (voucher.amount <= remainingSum) {
+        vouchersToUse.push(voucher);
+        remainingSum -= voucher.amount;
+      }
+    }
+
+    return {
+      vouchersToUse,
+      remainingToPayWithCard: remainingSum,
+    };
   },
 });

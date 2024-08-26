@@ -11,7 +11,10 @@ export const cibusVouchers = defineTable({
   isBugged: v.optional(v.boolean()),
   userId: v.string(),
   provider: v.union(v.literal("cibus"), v.literal("tenbis")),
-}).index("by_userId_date", ["userId", "date"]);
+})
+  .index("by_userId_date", ["userId", "date"])
+  .index("by_userId", ["userId"])
+  .index("by_userId_amount", ["userId", "amount"]);
 
 export const groceries = defineTable({
   name: v.string(),

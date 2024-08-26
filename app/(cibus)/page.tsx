@@ -92,9 +92,9 @@ export default function Page() {
         <div className="w-full h-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 backdrop-blur-[2px] rounded-xl p-4">
           <Loader />
         </div>
-        {Array.from({ length: 4 }).map((_, i) => (
+        {/* {Array.from({ length: 4 }).map((_, i) => (
           <VoucherCardItem.Skeleton key={i} />
-        ))}
+        ))} */}
       </>
     );
   }
@@ -172,13 +172,13 @@ export default function Page() {
 
       {/* Total unused amount */}
       <footer
-        className="fixed bottom-16 flex h-14 w-full items-center justify-center bg-pink-500"
-        // style={{
-        //   backgroundImage:
-        //     "url(data:image/gif;base64,R0lGODdhWAICAMIFAM0Mg9ojd+g3bPNKYP9cWv///////////ywAAAAAWAICAAADVwi63P4wykmrvSHrzbv/YCiOZGkKaKqubOu+cCzPdD3ceK7vfO//wKBwSCQYj8ikcslsOp/QqHR6qVqv2CzGxO16v+BSbUwum882onrNbruH07h8Tq9PEwA7)",
-        // }}
+        className="brightness-110 fixed bottom-16 flex h-14 w-full items-center justify-center bg-pink-500"
+        style={{
+          backgroundImage:
+            "url(data:image/gif;base64,R0lGODdhWAICAMIFAM0Mg9ojd+g3bPNKYP9cWv///////////ywAAAAAWAICAAADVwi63P4wykmrvSHrzbv/YCiOZGkKaKqubOu+cCzPdD3ceK7vfO//wKBwSCQYj8ikcslsOp/QqHR6qVqv2CzGxO16v+BSbUwum882onrNbruH07h8Tq9PEwA7)",
+        }}
       >
-        <p className="text-md text-white">
+        <p className="text-xl text-white">
           יש לך {Math.floor(summary?.totalUnusedAmount || 0)} ₪ ב-{" "} {summary?.totalUnusedCount} שוברים שלא נוצלו
         </p>
       </footer>

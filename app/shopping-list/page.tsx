@@ -3,10 +3,10 @@
 import { useAction, useMutation, useQuery } from "convex/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
+import { MdAddShoppingCart, MdCleaningServices, MdDeleteForever, MdOutlineRemoveShoppingCart } from "react-icons/md";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 
@@ -16,7 +16,9 @@ export default function ShoppingListPage() {
   const generateShoppingList = useAction(api.shoppingList.generateShoppingList);
   const toggleGroceryItem = useMutation(api.groceries.toggleGroceryItem);
   const removeGroceryItem = useMutation(api.groceries.removeGroceryItem);
-  const removeMarkedGroceries = useMutation(api.groceries.removeMarkedGroceries);
+  const removeMarkedGroceries = useMutation(
+    api.groceries.removeMarkedGroceries,
+  );
 
   const items = useQuery(api.groceries.groceries);
   const groceriesRawInputRef = useRef<HTMLInputElement>(null);
@@ -41,23 +43,42 @@ export default function ShoppingListPage() {
   };
 
   return (
-    <div className="w-full px-8 mt-5 mb-20 flex flex-col justify-start items-center gap-2">
-      <h1>רשימת קניות חכמה</h1>
+    <div className="flex-1 w-full px-8 mt-5 mb-20 flex flex-col justify-start items-center gap-2">
+      <h1 className="text-2xl">רשימת קניות חכמה</h1>
       <form
         className="w-full flex flex-col justify-center items-center gap-3"
         onSubmit={handleGenerateShoppingList}
       >
         <Input
-          className="w-full h-16 border border-pink-700 rounded-lg text-pink-700 text-lg focus:ring-0 active:ring-0 outline-none px-4"
+          className="align-text-top text-start w-full h-16 border border-pink-700 rounded-lg text-pink-700 text-md focus:ring-0 active:ring-0 outline-none px-4"
           ref={groceriesRawInputRef}
-          placeholder="הוסף מצרכים בשפה חופשית..."
+          placeholder="הוסף מצרכים בשפה חופשית מופרדים בפסיק..."
         />
-        <div className="w-full flex gap-2 justify-center">
-          <Button type="submit" disabled={loading}>הוסף לרשימה</Button>
-          <Button type="button" variant="cibusDestructive">
-            נקה רשימה
+        <div className="w-full flex gap-1 justify-center">
+          <Button
+            type="submit"
+            className="flex items-center gap-2 rounded-l-none px-3"
+            disabled={loading}
+          >
+            הוסף לרשימה
+            <MdAddShoppingCart className="size-3" />
           </Button>
-          <Button type="button" onClick={() => removeMarkedGroceries()}>נקה מסומנים</Button>
+          <Button
+            type="button"
+            className="flex items-center gap-1 rounded-none px-3"
+            onClick={() => removeMarkedGroceries()}
+          >
+            נקה מסומנים
+            <MdOutlineRemoveShoppingCart className="size-3" />
+          </Button>
+          <Button
+            type="button"
+            className="flex items-center gap-2 rounded-r-none px-3"
+            variant="cibusDestructive"
+          >
+            נקה רשימה
+            <MdDeleteForever className="size-3" />
+          </Button>
         </div>
       </form>
       {items && (
