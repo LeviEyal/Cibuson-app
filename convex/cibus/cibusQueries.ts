@@ -37,7 +37,6 @@ export const allVouchers = query({
     const vouchers = await ctx.db
       .query("cibusVouchers")
       .withIndex("by_userId_date", (q) => q.eq("userId", userId))
-      // .withIndex("by_date")
       .order("desc")
       .filter((q) => {
         if (filter === "used") {

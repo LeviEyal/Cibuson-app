@@ -5,9 +5,9 @@ import OpenAI from "openai";
 
 import { internal } from "./_generated/api";
 import { Doc } from "./_generated/dataModel";
-import { action, internalQuery } from "./_generated/server";
+import { action } from "./_generated/server";
 
-const main = async (
+const shoppingListPrompt = async (
   groceriesRaw: string,
   currentGroceries: Doc<"groceries">[],
 ) => {
@@ -34,11 +34,11 @@ const main = async (
         role: "user",
         content: `Don't include items that are already in the list: ${currentGroceries}`,
       },
-      //   {
-      //     role: "system",
-      //     content:
-      //       "הקטגוריות הן: ירקות ופירות, לחמים ומאפים, מוצרי בשר ועוף, מוצרי דגים, היגיינה, מוצרי חלב, כללי, שימורים, יבשים, חומרי ניקוי",
-      //   },
+      {
+        role: "system",
+        content:
+          "הקטגוריות הן: ירקות ופירות, לחמים ומאפים, מוצרי בשר ועוף, מוצרי דגים, היגיינה, מוצרי חלב, כללי, שימורים, יבשים, חומרי ניקוי",
+      },
       { role: "user", content: groceriesRaw },
     ],
     model: "gpt-4o-mini",
@@ -46,6 +46,9 @@ const main = async (
   return chatCompletion.choices[0].message.content;
 };
 
+/**
+ * Generate a shopping list from the given groceries string containing groceries in hebrew
+ */
 export const generateShoppingList = action({
   args: { groceriesRaw: v.string() },
   handler: async (ctx, { groceriesRaw }) => {
@@ -54,12 +57,8 @@ export const generateShoppingList = action({
       {},
     );
 
-    let newGroceries = await main(groceriesRaw, currentGroceries);
+    let newGroceries = await shoppingListPrompt(groceriesRaw, currentGroceries);
     if (!newGroceries) return;
-
-    // remove all new lines
-    // newGroceries = newGroceries.replace(/\n/g, "");
-    console.log(newGroceries);
 
     const obj = JSON.parse(newGroceries);
 

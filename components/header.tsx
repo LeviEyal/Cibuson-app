@@ -1,15 +1,11 @@
 "use client";
 
 import {
-  CreateOrganization,
-  OrganizationProfile,
   OrganizationSwitcher,
   SignedIn,
   UserButton,
 } from "@clerk/nextjs";
 import Image from "next/image";
-
-import { Menu } from "@/components/Menu";
 
 export const Header = () => {
   return (
@@ -34,15 +30,11 @@ export const Header = () => {
           <h2 className="text-sm text-center">
             ניהול שוברים מהסיבוס ומהתן ביס
           </h2>
-          {/* <h2 className="text-md text-center">Cibus & 10bis Vouchers</h2> */}
-          {/* <h2 className="text-md text-center">שוברים מסיבוס ותן ביס</h2> */}
         </div>
       </section>
 
       {/* Left section */}
       <section className="flex items-center justify-center gap-1">
-        {/* <Menu /> */}
-
         <div className="flex items-center ms-2">
           <SignedIn>
             <UserButton

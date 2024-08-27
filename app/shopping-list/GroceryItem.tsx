@@ -1,7 +1,6 @@
 import { BsClipboard2CheckFill, BsClipboardCheck } from "react-icons/bs";
 import { MdDeleteOutline } from "react-icons/md";
 
-import { Button } from "@/components/ui/button";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
 
 interface GroceryItemProps {

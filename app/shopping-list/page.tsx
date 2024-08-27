@@ -3,7 +3,7 @@
 import { useAction, useMutation, useQuery } from "convex/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
-import { MdAddShoppingCart, MdCleaningServices, MdDeleteForever, MdOutlineRemoveShoppingCart } from "react-icons/md";
+import { MdAddShoppingCart, MdDeleteForever, MdOutlineRemoveShoppingCart } from "react-icons/md";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +19,7 @@ export default function ShoppingListPage() {
   const removeMarkedGroceries = useMutation(
     api.groceries.removeMarkedGroceries,
   );
+  const deleteAllItems = useMutation(api.groceries.deleteAllItems);
 
   const items = useQuery(api.groceries.groceries);
   const groceriesRawInputRef = useRef<HTMLInputElement>(null);
@@ -75,6 +76,7 @@ export default function ShoppingListPage() {
             type="button"
             className="flex items-center gap-2 rounded-r-none px-3"
             variant="cibusDestructive"
+            onClick={() => deleteAllItems()}
           >
             נקה רשימה
             <MdDeleteForever className="size-3" />

@@ -10,9 +10,7 @@ import type { Doc, Id } from "@/convex/_generated/dataModel";
 
 import { VoucherCardItem } from "../(cibus)/VoucherCard";
 
-type Voucher = { amount: number };
-
-const VoucherCalculator: React.FC = () => {
+export default function VoucherCalculatorPage() {
   const [purchaseAmount, setPurchaseAmount] = useState<number>(0);
   const calculateBestVouchers = useMutation(
     api.cibus.cibusQueries.calculateBestVouchers,
@@ -90,6 +88,4 @@ const VoucherCalculator: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default VoucherCalculator;
+}

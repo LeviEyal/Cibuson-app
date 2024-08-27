@@ -8,20 +8,14 @@ import {
   query,
 } from "./_generated/server";
 
+/**
+ * Reads all data from the "groceries" table.
+ */
 export const readData = internalQuery({
   handler: async (ctx) => {
     return await ctx.db.query("groceries").collect();
   },
 });
-
-// type GroceryItem = {
-//   _id:
-
-//   name: string;
-//   category: string;
-//   marked: boolean;
-//   user: string;
-// };
 
 type ShoppingList = {
   category: string;
@@ -67,6 +61,9 @@ export const groceries = query({
   },
 });
 
+/**
+ * Marks or unmarks a grocery item for the authenticated user
+ */
 export const toggleGroceryItem = mutation({
   args: { id: v.id("groceries") },
   handler: async (ctx, { id }) => {
@@ -85,6 +82,9 @@ export const toggleGroceryItem = mutation({
   },
 });
 
+/**
+ * Removes a grocery item from the list for the authenticated user.
+ */
 export const removeGroceryItem = mutation({
   args: { id: v.id("groceries") },
   handler: async (ctx, { id }) => {
@@ -105,8 +105,10 @@ export const removeGroceryItem = mutation({
   },
 });
 
+/**
+ * Removes all marked groceries for the authenticated user.
+ */
 export const removeMarkedGroceries = mutation({
-  args: {},
   handler: async (ctx) => {
     const user = await ctx.auth.getUserIdentity();
     if (!user) {
@@ -125,6 +127,9 @@ export const removeMarkedGroceries = mutation({
   },
 });
 
+/**
+ * Inserts data into the "groceries" table for the authenticated user.
+ */
 export const insertData = internalMutation({
   args: { data: v.array(v.any()) },
   handler: async (ctx, { data }) => {
@@ -135,6 +140,27 @@ export const insertData = internalMutation({
 
     data.forEach(async (item) => {
       await ctx.db.insert("groceries", { ...item, user: user.subject });
+    });
+  },
+});
+
+/**
+ * Deltes all data from the "groceries" table for the authenticated user.
+ */
+export const deleteAllItems = mutation({
+  handler: async (ctx) => {
+    const user = await ctx.auth.getUserIdentity();
+    if (!user) {
+      throw new Error("Unauthorized");
+    }
+
+    const items = await ctx.db
+      .query("groceries")
+      .withIndex("by_user", (q) => q.eq("user", user.subject))
+      .collect();
+
+    items.forEach(async (item) => {
+      await ctx.db.delete(item._id);
     });
   },
 });

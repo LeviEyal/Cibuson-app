@@ -88,14 +88,9 @@ export default function Page() {
 
   if (status === "LoadingFirstPage") {
     return (
-      <>
-        <div className="w-full h-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 backdrop-blur-[2px] rounded-xl p-4">
-          <Loader />
-        </div>
-        {/* {Array.from({ length: 4 }).map((_, i) => (
-          <VoucherCardItem.Skeleton key={i} />
-        ))} */}
-      </>
+      <div className="w-full h-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 backdrop-blur-[2px] rounded-xl p-4">
+        <Loader />
+      </div>
     );
   }
 
@@ -179,7 +174,8 @@ export default function Page() {
         }}
       >
         <p className="text-xl text-white">
-          יש לך {Math.floor(summary?.totalUnusedAmount || 0)} ₪ ב-{" "} {summary?.totalUnusedCount} שוברים שלא נוצלו
+          יש לך {Math.floor(summary?.totalUnusedAmount || 0)} ₪ ב-{" "}
+          {summary?.totalUnusedCount} שוברים שלא נוצלו
         </p>
       </footer>
     </div>
