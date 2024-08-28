@@ -12,7 +12,7 @@ export const PageContainer = ({
   return (
     <div
       className={cn(
-        "flex-1 w-full px-2 mt-4 mb-20 flex flex-col justify-start items-center gap-2",
+        "flex-1 w-full px-3 mt-4 mb-20 flex flex-col justify-start items-center gap-2",
         className,
       )}
       {...otherProps}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "convex/react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,8 +12,7 @@ import { VoucherCardItem } from "../(cibus)/VoucherCard";
 import { PageContainer } from "@/components/PageContainer";
 
 export default function VoucherCalculatorPage() {
-  // const inputRef = useRef<HTMLInputElement>(null);
-  const [purchaseAmount, setPurchaseAmount] = useState<number>(0);
+  const [purchaseAmount, setPurchaseAmount] = useState<number | undefined>(undefined);
   const calculateBestVouchers = useMutation(
     api.cibus.cibusQueries.calculateBestVouchers,
   );
@@ -25,17 +24,12 @@ export default function VoucherCalculatorPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!purchaseAmount) return;
     const calculatedResult = await calculateBestVouchers({
       purchaseSum: purchaseAmount,
     });
     setResult(calculatedResult);
   };
-
-  // useEffect(() => {
-  //   if (inputRef.current) {
-  //     inputRef.current.focus();
-  //   }
-  // }, []);
 
   return (
     <PageContainer>
@@ -53,7 +47,6 @@ export default function VoucherCalculatorPage() {
         <div className="mb-4 flex gap-2">
           <div className="relative">
             <Input
-            // ref={inputRef}
               type="number"
               id="purchaseAmount"
               value={purchaseAmount}

@@ -51,9 +51,15 @@ export const AppFooter = () => {
         icon={<CalculatorIcon />}
       />
       <MenuItem
-        title="רשימת קניות AI"
+        title="רשימת קניות"
         link="/shopping-list"
         isActive={pathname === "/shopping-list"}
+        icon={<ListCheckIcon />}
+      />
+      <MenuItem
+        title="אודות"
+        link="/about"
+        isActive={pathname === "/about"}
         icon={<ListCheckIcon />}
       />
     </footer>
