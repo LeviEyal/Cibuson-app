@@ -25,6 +25,7 @@ import { cn } from "@/lib/utils";
 import type { VouchersFilters } from "@/types/vouchers-types";
 
 import { VoucherCardItem } from "./VoucherCard";
+import { PageContainer } from "@/components/PageContainer";
 
 /**
  * Represents a page component for managing vouchers.
@@ -95,8 +96,8 @@ export default function Page() {
   }
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-between pb-20">
-      <header className="mt-4 flex w-full items-center justify-between gap-3 px-5">
+    <PageContainer className="pb-16 px-4">
+      <header className="mt-2 flex w-full items-center justify-between gap-3">
         <Button
           disabled={isUpdating || !vouchers}
           type="button"
@@ -138,7 +139,7 @@ export default function Page() {
         pageStart={0}
         loadMore={loadMore}
         hasMore={status === "CanLoadMore"}
-        className="flex flex-1 flex-col mx-4 gap-4 mt-4"
+        className="flex flex-1 flex-col gap-4 mt-4"
         loader={
           <div className="w-full flex justify-center" key={0}>
             <Loader />
@@ -167,7 +168,7 @@ export default function Page() {
 
       {/* Total unused amount */}
       <footer
-        className="brightness-110 fixed bottom-16 flex h-14 w-full items-center justify-center bg-pink-500"
+        className="brightness-110 opacity-80 rounded-xl fixed bottom-[70px] flex h-14 w-11/12 items-center justify-center bg-pink-500"
         style={{
           backgroundImage:
             "url(data:image/gif;base64,R0lGODdhWAICAMIFAM0Mg9ojd+g3bPNKYP9cWv///////////ywAAAAAWAICAAADVwi63P4wykmrvSHrzbv/YCiOZGkKaKqubOu+cCzPdD3ceK7vfO//wKBwSCQYj8ikcslsOp/QqHR6qVqv2CzGxO16v+BSbUwum882onrNbruH07h8Tq9PEwA7)",
@@ -178,6 +179,6 @@ export default function Page() {
           {summary?.totalUnusedCount} שוברים שלא נוצלו
         </p>
       </footer>
-    </div>
+    </PageContainer>
   );
 }

@@ -3,8 +3,13 @@
 import { useAction, useMutation, useQuery } from "convex/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
-import { MdAddShoppingCart, MdDeleteForever, MdOutlineRemoveShoppingCart } from "react-icons/md";
+import {
+  MdAddShoppingCart,
+  MdDeleteForever,
+  MdOutlineRemoveShoppingCart,
+} from "react-icons/md";
 
+import { PageContainer } from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { api } from "@/convex/_generated/api";
@@ -44,7 +49,7 @@ export default function ShoppingListPage() {
   };
 
   return (
-    <div className="flex-1 w-full px-8 mt-5 mb-20 flex flex-col justify-start items-center gap-2">
+    <PageContainer>
       <h1 className="text-2xl">רשימת קניות חכמה</h1>
       <form
         className="w-full flex flex-col justify-center items-center gap-3"
@@ -114,6 +119,6 @@ export default function ShoppingListPage() {
           </AnimatePresence>
         </div>
       )}
-    </div>
+    </PageContainer>
   );
 }

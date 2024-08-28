@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "convex/react";
-import React, { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,8 +9,10 @@ import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
 
 import { VoucherCardItem } from "../(cibus)/VoucherCard";
+import { PageContainer } from "@/components/PageContainer";
 
 export default function VoucherCalculatorPage() {
+  // const inputRef = useRef<HTMLInputElement>(null);
   const [purchaseAmount, setPurchaseAmount] = useState<number>(0);
   const calculateBestVouchers = useMutation(
     api.cibus.cibusQueries.calculateBestVouchers,
@@ -29,9 +31,15 @@ export default function VoucherCalculatorPage() {
     setResult(calculatedResult);
   };
 
+  // useEffect(() => {
+  //   if (inputRef.current) {
+  //     inputRef.current.focus();
+  //   }
+  // }, []);
+
   return (
-    <div className="flex-1 pb-20 bg-gray-100 flex flex-col items-center p-4">
-      <h1 className="text-2xl font-bold text-center mb-4">מחשבון שוברים חכם</h1>
+    <PageContainer>
+      <h1 className="text-2xl text-center mb-4">מחשבון שוברים חכם</h1>
       <form
         className="w-full max-w-sm flex flex-col gap-2 justify-center items-center"
         onSubmit={handleSubmit}
@@ -45,6 +53,7 @@ export default function VoucherCalculatorPage() {
         <div className="mb-4 flex gap-2">
           <div className="relative">
             <Input
+            // ref={inputRef}
               type="number"
               id="purchaseAmount"
               value={purchaseAmount}
@@ -53,6 +62,7 @@ export default function VoucherCalculatorPage() {
               className="rounded-2xl w-24 text-pink-700 border-pink-700"
               min={0}
               max={10000}
+              autoFocus
             />
             <p className="absolute left-3 top-2 text-pink-700 text-sm font-bold">
               ₪
@@ -86,6 +96,6 @@ export default function VoucherCalculatorPage() {
           </div>
         </div>
       )}
-    </div>
+    </PageContainer>
   );
 }
