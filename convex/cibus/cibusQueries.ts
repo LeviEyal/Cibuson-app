@@ -56,7 +56,7 @@ export const allVouchers = query({
   },
 });
 
-export const allVouchersAggragated = query({
+export const allVouchersAggregated = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {

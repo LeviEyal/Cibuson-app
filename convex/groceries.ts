@@ -42,7 +42,16 @@ type ShoppingList = {
 export const groceries = query({
   args: {},
   handler: async (ctx) => {
-    const data = await ctx.db.query("groceries").collect();
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    const data = await ctx.db
+      .query("groceries")
+      .withIndex("by_user", (q) => q.eq("user", identity.subject))
+      .collect();
+      
     const ans: ShoppingList = [];
 
     data.forEach((item) => {
@@ -145,7 +154,7 @@ export const insertData = internalMutation({
 });
 
 /**
- * Deltes all data from the "groceries" table for the authenticated user.
+ * Deletes all data from the "groceries" table for the authenticated user.
  */
 export const deleteAllItems = mutation({
   handler: async (ctx) => {

@@ -1,3 +1,4 @@
+import { GoogleOneTap } from "@clerk/nextjs";
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import { Fredoka } from "next/font/google";
@@ -11,10 +12,10 @@ import "./globals.css";
 
 const fredoka = Fredoka({ subsets: ["latin"] });
 
-const APP_NAME = "Mamish App";
-const APP_DEFAULT_TITLE = "Mamish App";
-const APP_TITLE_TEMPLATE = "%s - Mamish App";
-const APP_DESCRIPTION = "Best Mamish App in the world!";
+const APP_NAME = "Cibuson App";
+const APP_DEFAULT_TITLE = "Cibuson App";
+const APP_TITLE_TEMPLATE = "%s - Cibuson App";
+const APP_DESCRIPTION = "ניהול שוברים מהסיבוס ומהתן ביס";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -63,13 +64,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning dir="rtl">
       <body
-        className={`${fredoka.className} flex select-none flex-col bg-gray-100`}
+        className={`relative ${fredoka.className} flex select-none flex-col bg-gray-100 max-w-[500px] mx-auto ring-1 ring-gray-400`}
       >
         <ThemeProvider attribute="class">
           <ConvexClientProvider>
             <div className="flex h-screen flex-col">
               <Header />
               <main className="flex flex-1 flex-col items-center justify-center pt-20">
+            <GoogleOneTap />
                 {children}
               </main>
               <AppFooter />

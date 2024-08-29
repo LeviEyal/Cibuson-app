@@ -1,4 +1,5 @@
 import { PageContainer } from "@/components/PageContainer";
+import { GoogleOneTap } from "@clerk/nextjs";
 
 export default function AboutPage() {
   return (
@@ -10,10 +11,11 @@ export default function AboutPage() {
       <p className="text-lg text-center">
         המחשבון יעזור לכם למצוא את השוברים הכי טובים לקנייתכם.
       </p>
-      <p className="text-lg text-center">
-        נשמח לשמוע מכם תגובות והצעות לשיפור במייל{" "}
-        <a href="mailto: happyeyal@gmail.com" className="underline"></a>
-      </p>
+      <GoogleOneTap />
+        <p className="text-lg text-center">
+          נשמח לשמוע מכם תגובות והצעות לשיפור במייל{" "}
+          <a href="mailto: happyeyal@gmail.com" className="underline"></a>
+        </p>
     </PageContainer>
   );
 }

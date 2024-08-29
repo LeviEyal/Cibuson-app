@@ -88,7 +88,7 @@ export const VoucherCardItem = ({
     >
       <div className="flex w-full flex-row justify-between">
         <div>
-          <p className="text-2xl">{voucher.amount} ₪</p>
+          <p className="text-2xl">₪ {voucher.amount}</p>
           <p className="text-sm text-gray-500">
             {moment(voucher.date).format("DD/MM/YYYY")}
           </p>
