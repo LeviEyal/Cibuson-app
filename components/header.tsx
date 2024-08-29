@@ -12,7 +12,7 @@ import Image from "next/image";
 export const Header = () => {
   return (
     <header
-      className="absolute left-0 top-0 z-40 flex h-20 w-full items-center justify-between px-2 text-white shadow"
+      className="fixed left-auto top-0 z-40 flex h-20 max-w-[500px] w-full items-center justify-between px-2 text-white shadow"
       style={{
         backgroundImage:
           "url(data:image/gif;base64,R0lGODdhWAICAMIFAM0Mg9ojd+g3bPNKYP9cWv///////////ywAAAAAWAICAAADVwi63P4wykmrvSHrzbv/YCiOZGkKaKqubOu+cCzPdD3ceK7vfO//wKBwSCQYj8ikcslsOp/QqHR6qVqv2CzGxO16v+BSbUwum882onrNbruH07h8Tq9PEwA7)",

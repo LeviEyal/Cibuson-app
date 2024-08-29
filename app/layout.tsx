@@ -64,7 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning dir="rtl">
       <body
-        className={`relative ${fredoka.className} flex select-none flex-col bg-gray-100 max-w-[500px] mx-auto ring-1 ring-gray-400`}
+        className={`${fredoka.className} flex select-none flex-col bg-gray-100 max-w-[500px] mx-auto`}
       >
         <ThemeProvider attribute="class">
           <ConvexClientProvider>
