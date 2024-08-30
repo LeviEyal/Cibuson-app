@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "convex/react";
 import Image from "next/image";
 import { useState } from "react";
 
+import { EmptyState } from "@/components/EmptyState";
 import { PageContainer } from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -100,15 +101,12 @@ export default function VoucherCalculatorPage() {
           </div>
         </div>
       ) : (
-        <p className="flex h-full flex-col justify-center items-center text-2xl">
-          <Image
-            src="/assets/calculator-empty-state.png"
-            alt="אין שוברים להצגה"
-            width={150}
-            height={150}
-          />
-          לא נמצאו שוברים להצגה
-        </p>
+        <EmptyState
+          className="mt-16"
+          image="/assets/calculator-empty-state.png"
+          title="נמצאים ליד הקופה?"
+          description="יש להזין סכום קניה והשוברים הכי מתאימים יופיעו כאן"
+        />
       )}
     </PageContainer>
   );

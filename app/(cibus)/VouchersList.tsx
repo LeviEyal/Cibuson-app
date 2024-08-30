@@ -11,6 +11,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import { toast } from "sonner";
 import { useLocalStorage } from "usehooks-ts";
 
+import { EmptyState } from "@/components/EmptyState";
 import { Loader } from "@/components/Loader";
 import { PageContainer } from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
@@ -145,16 +146,13 @@ export const VouchersList = () => {
         </p>
       </section>
 
-      {vouchers?.length !== 0 ? (
-        <p className="flex h-full flex-col justify-center items-center text-2xl">
-          <Image
-            src="/assets/vouchers-empty-state.png"
-            alt="אין שוברים להצגה"
-            width={150}
-            height={150}
-          />
-          לא נמצאו שוברים להצגה
-        </p>
+      {vouchers?.length === 0 ? (
+        <EmptyState
+          className="mt-20"
+          image="/assets/vouchers-empty-state.png"
+          title="לא נמצאו שוברים להצגה"
+          description="נסה לשנות את הסינון או לרענן את השוברים"
+        />
       ) : (
         <InfiniteScroll
           pageStart={0}

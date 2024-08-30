@@ -53,7 +53,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FFFFFF",
+  themeColor: "#be185d",
+  // disable zoom on mobile devices
+  width: "device-width",
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
@@ -71,7 +77,7 @@ export default function RootLayout({
             <div className="flex h-screen flex-col">
               <Header />
               <main className="flex flex-1 flex-col items-center justify-center pt-20">
-            <GoogleOneTap />
+                <GoogleOneTap />
                 {children}
               </main>
               <AppFooter />

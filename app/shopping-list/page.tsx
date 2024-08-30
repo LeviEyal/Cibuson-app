@@ -10,6 +10,7 @@ import {
   MdOutlineRemoveShoppingCart,
 } from "react-icons/md";
 
+import { EmptyState } from "@/components/EmptyState";
 import { PageContainer } from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +18,7 @@ import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 
 import { GroceryItem } from "./GroceryItem";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ShoppingListPage() {
   const generateShoppingList = useAction(api.shoppingList.generateShoppingList);
@@ -28,7 +30,7 @@ export default function ShoppingListPage() {
   const deleteAllItems = useMutation(api.groceries.deleteAllItems);
 
   const items = useQuery(api.groceries.groceries);
-  const groceriesRawInputRef = useRef<HTMLInputElement>(null);
+  const groceriesRawInputRef = useRef<HTMLTextAreaElement>(null);
   const [loading, setLoading] = useState(false);
 
   const handleGenerateShoppingList = async (event: React.FormEvent) => {
@@ -50,13 +52,13 @@ export default function ShoppingListPage() {
   };
 
   return (
-    <PageContainer>
+    <PageContainer className="px-5">
       <h1 className="text-2xl">רשימת קניות חכמה</h1>
       <form
-        className="w-full flex flex-col justify-center items-center gap-3"
+        className="w-full flex flex-col justify-center items-center gap-4"
         onSubmit={handleGenerateShoppingList}
       >
-        <Input
+        <Textarea
           className="align-text-top text-start w-full h-16 border border-pink-700 rounded-lg text-pink-700 text-md focus:ring-0 active:ring-0 outline-none px-4"
           ref={groceriesRawInputRef}
           placeholder="הוסף מצרכים בשפה חופשית מופרדים בפסיק..."
@@ -65,15 +67,16 @@ export default function ShoppingListPage() {
         <div className="w-full flex gap-1 justify-center">
           <Button
             type="submit"
-            className="flex items-center gap-2 rounded-l-none px-3"
+            className="flex items-center gap-2 rounded-l-none w-1/3"
             disabled={loading}
+            key={loading ? "loading" : "idle"}
           >
-            הוסף לרשימה
+            {loading ? "מוסיף..." : "הוסף לרשימה"}
             <MdAddShoppingCart className="size-3" />
           </Button>
           <Button
             type="button"
-            className="flex items-center gap-1 rounded-none px-3"
+            className="flex items-center gap-1 rounded-none w-1/3"
             onClick={() => removeMarkedGroceries()}
           >
             נקה מסומנים
@@ -81,7 +84,7 @@ export default function ShoppingListPage() {
           </Button>
           <Button
             type="button"
-            className="flex items-center gap-2 rounded-r-none px-3"
+            className="flex items-center gap-2 rounded-r-none w-1/3"
             variant="cibusDestructive"
             onClick={() => deleteAllItems()}
           >
@@ -91,11 +94,11 @@ export default function ShoppingListPage() {
         </div>
       </form>
       {items?.length ? (
-        <div className="w-full">
+        <div className="w-full mt-3">
           <AnimatePresence initial={false}>
             {items.map((category) => (
               <div key={category.category}>
-                <h2 className="font-semibold">{category.category}</h2>
+                <h2 className="font-semibold my-1">{category.category}</h2>
                 {category.items.map((item) => (
                   <motion.div
                     key={item._id}
@@ -121,21 +124,12 @@ export default function ShoppingListPage() {
           </AnimatePresence>
         </div>
       ) : (
-        <div className="flex h-full flex-col justify-center items-center gap-5">
-          <Image
-            src="/assets/shopping-list-empty-state.png"
-            alt="רשימת הקניות ריקה"
-            width={150}
-            height={150}
-          />
-          <p className="text-2xl">רשימת הקניות ריקה</p>
-          <p
-            className="text-center text-md text-gray-500"
-            style={{ maxWidth: "80%" }}
-          >
-            תוסיפו מצרכים לרשימה והם יופיעו כאן עם אפשרות לסימון ומחיקה
-          </p>
-        </div>
+        <EmptyState
+          className="mt-16"
+          image="/assets/shopping-list-empty-state.png"
+          title="רשימת הקניות ריקה"
+          description="הוסיפו מצרכים לרשימה והם יופיעו כאן עם אפשרות לסימון ומחיקה"
+        />
       )}
     </PageContainer>
   );

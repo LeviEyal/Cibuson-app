@@ -37,7 +37,7 @@ export const Header = () => {
 
       {/* Left section */}
       <section className="flex items-center justify-center gap-1">
-        <div className="flex items-center ms-2">
+        <div className="flex items-center ml-3">
           <SignedIn>
             <UserButton
               appearance={{
@@ -53,7 +53,7 @@ export const Header = () => {
                 },
               }}
             />
-            <OrganizationSwitcher
+            {/* <OrganizationSwitcher
               appearance={{
                 elements: {
                   organizationPreviewAvatarBox: {
@@ -71,7 +71,7 @@ export const Header = () => {
                   },
                 },
               }}
-            />
+            /> */}
           </SignedIn>
           <SignedOut>
             <SignInButton>

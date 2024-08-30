@@ -16,7 +16,7 @@ interface GroceryItemProps {
 export const GroceryItem = ({ item, onToggle, onRemove }: GroceryItemProps) => {
   return (
     <li className="flex justify-between items-center p-2 border-b border-gray-200">
-      <div className="flex gap-2"  onClick={() => onToggle(item._id)}>
+      <div className="flex gap-2" onClick={() => onToggle(item._id)}>
         <button>
           {item.marked ? (
             <MdOutlineCheckBox className="text-pink-700 size-5" />
