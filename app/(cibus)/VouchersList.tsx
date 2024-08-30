@@ -4,7 +4,9 @@ import { useAction, usePaginatedQuery, useQuery } from "convex/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { RefreshCcwIcon } from "lucide-react";
 import moment from "moment";
+import Image from "next/image";
 import { useState } from "react";
+import { CiCircleInfo } from "react-icons/ci";
 import InfiniteScroll from "react-infinite-scroller";
 import { toast } from "sonner";
 import { useLocalStorage } from "usehooks-ts";
@@ -26,7 +28,6 @@ import { cn } from "@/lib/utils";
 import type { VouchersFilters } from "@/types/vouchers-types";
 
 import { VoucherCardItem } from "./VoucherCard";
-import { CiCircleInfo } from "react-icons/ci";
 
 /**
  * Represents a page component for managing vouchers.
@@ -129,7 +130,6 @@ export const VouchersList = () => {
         </Select>
       </header>
 
-
       {/* Total unused amount */}
       <section
         className="relative mt-3 p-[8px] rounded flex h-10  w-full items-center justify-center bg-pink-500"
@@ -139,51 +139,54 @@ export const VouchersList = () => {
         }}
       >
         <p className="p-6 text-md text-pink-900 bg-white w-full h-full rounded text-center flex items-center justify-center shadow">
-        <CiCircleInfo className="absolute right-3 top-2 size-6"/>
-
-          יש לך ₪ {Math.floor(summary?.totalUnusedAmount || 0)}  ב-{" "}
+          <CiCircleInfo className="absolute right-3 top-2 size-6" />
+          יש לך ₪ {Math.floor(summary?.totalUnusedAmount || 0)} ב-{" "}
           {summary?.totalUnusedCount} שוברים שלא נוצלו
         </p>
       </section>
 
-      {vouchers?.length === 0 && (
-        <p className="flex h-full flex-col justify-center text-3xl">
-          אין שוברים להצגה
+      {vouchers?.length !== 0 ? (
+        <p className="flex h-full flex-col justify-center items-center text-2xl">
+          <Image
+            src="/assets/vouchers-empty-state.png"
+            alt="אין שוברים להצגה"
+            width={150}
+            height={150}
+          />
+          לא נמצאו שוברים להצגה
         </p>
-      )}
-
-      {/* Vouchers cards */}
-      <InfiniteScroll
-        pageStart={0}
-        loadMore={loadMore}
-        hasMore={status === "CanLoadMore"}
-        className="flex flex-1 flex-col gap-4 mt-4"
-        loader={
-          <div className="w-full flex justify-center" key={0}>
-            <Loader />
-          </div>
-        }
-      >
-        <AnimatePresence initial={false}>
-          {vouchers.map((voucher) => (
-            <motion.div
-              key={voucher._id}
-              initial={{ height: 0, scale: 0 }}
-              animate={{ height: "auto", scale: 1 }}
-              exit={{ height: 0, scale: 0 }}
-              style={{ overflow: "hidden" }}
-            >
-              <VoucherCardItem
+      ) : (
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={loadMore}
+          hasMore={status === "CanLoadMore"}
+          className="flex flex-1 flex-col gap-4 mt-4"
+          loader={
+            <div className="w-full flex justify-center" key={0}>
+              <Loader />
+            </div>
+          }
+        >
+          <AnimatePresence initial={false}>
+            {vouchers.map((voucher) => (
+              <motion.div
                 key={voucher._id}
-                voucher={voucher}
-                isCollapsed={collapsed === voucher._id}
-                setCollapsed={setCollapsed}
-              />
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </InfiniteScroll>
-
+                initial={{ height: 0, scale: 0 }}
+                animate={{ height: "auto", scale: 1 }}
+                exit={{ height: 0, scale: 0 }}
+                style={{ overflow: "hidden" }}
+              >
+                <VoucherCardItem
+                  key={voucher._id}
+                  voucher={voucher}
+                  isCollapsed={collapsed === voucher._id}
+                  setCollapsed={setCollapsed}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </InfiniteScroll>
+      )}
     </PageContainer>
   );
 };

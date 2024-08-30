@@ -1,30 +1,40 @@
 "use client";
 
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
+import Image from "next/image";
 import { useState } from "react";
 
+import { PageContainer } from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
 
 import { VoucherCardItem } from "../(cibus)/VoucherCard";
-import { PageContainer } from "@/components/PageContainer";
 
 export default function VoucherCalculatorPage() {
-  const [purchaseAmount, setPurchaseAmount] = useState<number | undefined>(undefined);
+  const [purchaseAmount, setPurchaseAmount] = useState<number | undefined>(
+    undefined,
+  );
   const calculateBestVouchers = useMutation(
     api.cibus.cibusQueries.calculateBestVouchers,
   );
+
   const [result, setResult] = useState<{
-    vouchersToUse: Doc<"cibusVouchers">[];
+    vouchersToUse: Id<"cibusVouchers">[];
     remainingToPayWithCard: number;
   } | null>(null);
+
+  const vouchers = useQuery(api.cibus.cibusQueries.vouchersByIds, {
+    ids: result?.vouchersToUse ?? [],
+  });
+
   const [collapsed, setCollapsed] = useState<Id<"cibusVouchers"> | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!purchaseAmount) return;
+
     const calculatedResult = await calculateBestVouchers({
       purchaseSum: purchaseAmount,
     });
@@ -67,7 +77,7 @@ export default function VoucherCalculatorPage() {
         </div>
       </form>
 
-      {result && (
+      {result ? (
         <div className="w-full max-w-sm mt-6">
           <div className="flex flex-col justify-center items-center">
             <p className="text-lg font-semibold">
@@ -78,16 +88,27 @@ export default function VoucherCalculatorPage() {
             </h2>
           </div>
           <div className="space-y-4">
-            {result.vouchersToUse.map((voucher, index) => (
-              <VoucherCardItem
-                key={index}
-                voucher={voucher}
-                isCollapsed={collapsed === voucher._id}
-                setCollapsed={setCollapsed}
-              />
-            ))}
+            {vouchers &&
+              vouchers?.map((voucher, index) => (
+                <VoucherCardItem
+                  key={index}
+                  voucher={voucher}
+                  isCollapsed={collapsed === voucher._id}
+                  setCollapsed={setCollapsed}
+                />
+              ))}
           </div>
         </div>
+      ) : (
+        <p className="flex h-full flex-col justify-center items-center text-2xl">
+          <Image
+            src="/assets/calculator-empty-state.png"
+            alt="אין שוברים להצגה"
+            width={150}
+            height={150}
+          />
+          לא נמצאו שוברים להצגה
+        </p>
       )}
     </PageContainer>
   );

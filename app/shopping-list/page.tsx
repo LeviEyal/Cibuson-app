@@ -2,6 +2,7 @@
 
 import { useAction, useMutation, useQuery } from "convex/react";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import { useRef, useState } from "react";
 import {
   MdAddShoppingCart,
@@ -59,6 +60,7 @@ export default function ShoppingListPage() {
           className="align-text-top text-start w-full h-16 border border-pink-700 rounded-lg text-pink-700 text-md focus:ring-0 active:ring-0 outline-none px-4"
           ref={groceriesRawInputRef}
           placeholder="הוסף מצרכים בשפה חופשית מופרדים בפסיק..."
+          maxLength={50}
         />
         <div className="w-full flex gap-1 justify-center">
           <Button
@@ -88,7 +90,7 @@ export default function ShoppingListPage() {
           </Button>
         </div>
       </form>
-      {items && (
+      {items?.length ? (
         <div className="w-full">
           <AnimatePresence initial={false}>
             {items.map((category) => (
@@ -117,6 +119,22 @@ export default function ShoppingListPage() {
               </div>
             ))}
           </AnimatePresence>
+        </div>
+      ) : (
+        <div className="flex h-full flex-col justify-center items-center gap-5">
+          <Image
+            src="/assets/shopping-list-empty-state.png"
+            alt="רשימת הקניות ריקה"
+            width={150}
+            height={150}
+          />
+          <p className="text-2xl">רשימת הקניות ריקה</p>
+          <p
+            className="text-center text-md text-gray-500"
+            style={{ maxWidth: "80%" }}
+          >
+            תוסיפו מצרכים לרשימה והם יופיעו כאן עם אפשרות לסימון ומחיקה
+          </p>
         </div>
       )}
     </PageContainer>

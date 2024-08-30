@@ -51,7 +51,7 @@ export const groceries = query({
       .query("groceries")
       .withIndex("by_user", (q) => q.eq("user", identity.subject))
       .collect();
-      
+
     const ans: ShoppingList = [];
 
     data.forEach((item) => {

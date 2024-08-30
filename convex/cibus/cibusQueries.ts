@@ -1,7 +1,7 @@
 import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 
-import type { Doc } from "../_generated/dataModel";
+import type { Doc, Id } from "../_generated/dataModel";
 import {
   internalMutation,
   internalQuery,
@@ -191,11 +191,11 @@ export const calculateBestVouchers = mutation({
       .collect();
 
     let remainingSum = purchaseSum;
-    const vouchersToUse: Doc<"cibusVouchers">[] = [];
+    const vouchersToUse: Id<"cibusVouchers">[] = [];
 
     for (const voucher of vouchers) {
       if (voucher.amount <= remainingSum) {
-        vouchersToUse.push(voucher);
+        vouchersToUse.push(voucher._id);
         remainingSum -= voucher.amount;
       }
     }
@@ -204,5 +204,16 @@ export const calculateBestVouchers = mutation({
       vouchersToUse,
       remainingToPayWithCard: remainingSum,
     };
+  },
+});
+
+export const vouchersByIds = query({
+  args: { ids: v.array(v.id("cibusVouchers")) },
+  handler: async (ctx, { ids }) => {
+    const vouchers = await Promise.all(ids.map((id) => ctx.db.get(id)));
+
+    const filtered = vouchers.filter((item) => item !== null);
+
+    return filtered.filter((item) => !item.dateUsed && !item.isBugged);
   },
 });
