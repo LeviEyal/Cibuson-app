@@ -24,7 +24,7 @@ export const MenuItem = ({
       href={link}
       className={cn(
         "flex flex-col items-center justify-center w-full h-full p-2",
-        isActive && "bg-black/20",
+        isActive && "text-pink-600",
       )}
     >
       {icon}
@@ -37,7 +37,8 @@ export const AppFooter = () => {
   const pathname = usePathname();
 
   return (
-    <footer className="gap-3 fixed left-auto bottom-0 z-40 flex h-16 max-w-[500px] w-full items-center justify-evenly bg-pink-600 shadow text-white">
+    // <footer className="gap-3 fixed left-auto bottom-0 z-40 flex h-16 max-w-[500px] w-full items-center justify-evenly bg-pink-600 shadow text-white">
+    <footer className="gap-3 fixed left-auto bottom-0 z-40 flex h-20 max-w-[500px] w-full items-center justify-evenly bg-white shadow text-black">
       <MenuItem
         title="דף הבית"
         link="/"
