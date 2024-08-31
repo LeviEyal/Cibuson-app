@@ -66,7 +66,6 @@ export default function VoucherCalculatorPage() {
               className="rounded-2xl w-24 text-pink-700 border-pink-700"
               min={0}
               max={10000}
-              autoFocus
             />
             <p className="absolute left-3 top-2 text-pink-700 text-sm font-bold">
               ₪

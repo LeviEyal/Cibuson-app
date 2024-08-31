@@ -28,7 +28,7 @@ export const MenuItem = ({
       )}
     >
       {icon}
-      <span className="text-xs">{title}</span>
+      <span className="text-sm">{title}</span>
     </Link>
   );
 };
@@ -37,8 +37,7 @@ export const AppFooter = () => {
   const pathname = usePathname();
 
   return (
-    // <footer className="gap-3 fixed left-auto bottom-0 z-40 flex h-16 max-w-[500px] w-full items-center justify-evenly bg-pink-600 shadow text-white">
-    <footer className="gap-3 fixed left-auto bottom-0 z-40 flex h-20 max-w-[500px] w-full items-center justify-evenly bg-white shadow text-black">
+    <footer className="gap-3 fixed left-auto bottom-0 z-40 flex h-20 max-w-[500px] w-full items-center justify-evenly bg-white shadow-t-md text-black font-semibold">
       <MenuItem
         title="דף הבית"
         link="/"

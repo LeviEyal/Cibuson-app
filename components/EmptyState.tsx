@@ -24,7 +24,7 @@ export const EmptyState = ({
         className,
       )}
     >
-      {image && <Image src={image} alt={title} width={200} height={200} />}
+      {image && <Image src={image} alt={title} width={130} height={130} />}
       <h2 className="text-lg font-semibold">{title}</h2>
       {description && (
         <p
