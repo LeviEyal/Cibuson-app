@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { RefreshCcwIcon } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiCircleInfo } from "react-icons/ci";
 import InfiniteScroll from "react-infinite-scroller";
 import { toast } from "sonner";
@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { api } from "@/convex/_generated/api";
-import type { Id } from "@/convex/_generated/dataModel";
+import type { Doc, Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import type { VouchersFilters } from "@/types/vouchers-types";
 
@@ -42,8 +42,10 @@ export const VouchersList = () => {
     "all",
   );
 
+  const [vouchers, setVouchers] = useLocalStorage<Doc<"cibusVouchers">[] | null>("vouchers", []);
+
   const {
-    results: vouchers,
+    results,
     status,
     loadMore,
   } = usePaginatedQuery(
@@ -51,6 +53,12 @@ export const VouchersList = () => {
     { filter: filter },
     { initialNumItems: 20 },
   );
+
+  useEffect(() => {
+    if (results) {
+      setVouchers(results);
+    }
+  }, [results, status, setVouchers]);
 
   const summary = useQuery(api.cibus.cibusQueries.allVouchersAggregated);
 
@@ -90,13 +98,13 @@ export const VouchersList = () => {
     setFilter(filter);
   };
 
-  if (status === "LoadingFirstPage") {
-    return (
-      <div className="w-full h-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 backdrop-blur-[2px] rounded-xl p-4">
-        <Loader />
-      </div>
-    );
-  }
+  // if (status === "LoadingFirstPage") {
+  //   return (
+  //     <div className="w-full h-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 backdrop-blur-[2px] rounded-xl p-4">
+  //       <Loader />
+  //     </div>
+  //   );
+  // }
 
   return (
     <PageContainer className="pb-16 px-4">
@@ -166,7 +174,7 @@ export const VouchersList = () => {
           }
         >
           <AnimatePresence initial={false}>
-            {vouchers.map((voucher) => (
+            {vouchers?.map((voucher) => (
               <motion.div
                 key={voucher._id}
                 initial={{ height: 0, scale: 0 }}
