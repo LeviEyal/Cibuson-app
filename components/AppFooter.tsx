@@ -37,7 +37,7 @@ export const AppFooter = () => {
   const pathname = usePathname();
 
   return (
-    <footer className="gap-3 fixed left-auto bottom-0 z-40 flex h-20 max-w-2xl w-full items-center justify-evenly bg-white shadow-t-md text-black font-semibold">
+    <footer className="gap-3 fixed left-auto bottom-0 z-40 flex h-20 max-w-2xl w-full items-center justify-evenly bg-white shadow-t-md text-black font-medium">
       <MenuItem
         title="דף הבית"
         link="/"
