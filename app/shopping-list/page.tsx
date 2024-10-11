@@ -2,7 +2,6 @@
 
 import { useAction, useMutation, useQuery } from "convex/react";
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 import { useRef, useState } from "react";
 import {
   MdAddShoppingCart,
@@ -11,14 +10,14 @@ import {
 } from "react-icons/md";
 
 import { EmptyState } from "@/components/EmptyState";
+import { Loader } from "@/components/Loader";
 import { PageContainer } from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 
 import { GroceryItem } from "./GroceryItem";
-import { Textarea } from "@/components/ui/textarea";
 
 export default function ShoppingListPage() {
   const generateShoppingList = useAction(api.shoppingList.generateShoppingList);
@@ -62,7 +61,7 @@ export default function ShoppingListPage() {
           className="align-text-top text-start w-full h-16 border border-pink-700 rounded-lg text-pink-700 text-md focus:ring-0 active:ring-0 outline-none px-4"
           ref={groceriesRawInputRef}
           placeholder="הוסף מצרכים בשפה חופשית מופרדים בפסיק..."
-          maxLength={50}
+          maxLength={400}
         />
         <div className="w-full flex gap-1 justify-center">
           <Button
@@ -93,7 +92,9 @@ export default function ShoppingListPage() {
           </Button>
         </div>
       </form>
-      {items?.length ? (
+      {!items ? (
+        <Loader />
+      ) : items.length ? (
         <div className="w-full mt-3">
           <AnimatePresence initial={false}>
             {items.map((category) => (

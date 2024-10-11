@@ -41,8 +41,10 @@ export const VouchersList = () => {
     "vouchers-list-filter",
     "all",
   );
+  const summary = useQuery(api.cibus.cibusQueries.allVouchersAggregated);
 
   const [vouchers, setVouchers] = useLocalStorage<Doc<"cibusVouchers">[] | null>("vouchers", []);
+  const [vouchersAggregated, setVouchersAggregated] = useLocalStorage<typeof summary | null>("vouchers-aggregated", null);
 
   const {
     results,
@@ -54,13 +56,18 @@ export const VouchersList = () => {
     { initialNumItems: 20 },
   );
 
-  useEffect(() => {
-    if (results) {
+  useEffect(() => {    
+    if (results && status !== "LoadingFirstPage") {
       setVouchers(results);
     }
   }, [results, status, setVouchers]);
 
-  const summary = useQuery(api.cibus.cibusQueries.allVouchersAggregated);
+  useEffect(() => {
+    if (summary) {
+      setVouchersAggregated(summary);
+    }
+  }, [summary, setVouchersAggregated]);
+
 
   const [collapsed, setCollapsed] = useState<Id<"cibusVouchers"> | null>(null);
   const updateCibusVouchers = useAction(
@@ -149,8 +156,8 @@ export const VouchersList = () => {
       >
         <p className="p-6 text-md text-pink-900 bg-white w-full h-full rounded text-center flex items-center justify-center shadow">
           <CiCircleInfo className="absolute right-3 top-2 size-6" />
-          יש לך ₪ {Math.floor(summary?.totalUnusedAmount || 0)} ב-{" "}
-          {summary?.totalUnusedCount} שוברים שלא נוצלו
+          יש לך ₪ {Math.floor(vouchersAggregated?.totalUnusedAmount || 0)} ב-{" "}
+          {vouchersAggregated?.totalUnusedCount} שוברים שלא נוצלו
         </p>
       </section>
 
