@@ -46,7 +46,7 @@
       "type": "image/png"
      },
      {
-      "src": "favicons/android-icon-192x192.png",
+      "src": "favicons/android-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
      }
