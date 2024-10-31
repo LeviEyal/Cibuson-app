@@ -13,6 +13,15 @@ export const formatPrice = (price: number) => {
   }).format(price);
 };
 
+export const formatDate = (date: string | number | Date) => {
+  return new Intl.DateTimeFormat("he-IL", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    weekday: "short",
+  }).format(new Date(date));
+}
+
 export const monthToHebrew = (month: string) => {
   const months = {
     "01": "ינואר",

@@ -1,6 +1,7 @@
 'use client';
 
-import { CalculatorIcon, HomeIcon, ListCheckIcon, LucideGroup, Users2Icon } from "lucide-react";
+import { Users2Icon, TicketIcon, ShoppingCart, ListTodoIcon } from "lucide-react";
+
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
@@ -39,22 +40,22 @@ export const AppFooter = () => {
   return (
     <footer className="gap-3 fixed left-auto bottom-0 z-40 flex h-20 max-w-2xl w-full items-center justify-evenly bg-white shadow-t-md text-black font-medium">
       <MenuItem
-        title="דף הבית"
+        title="השוברים שלי"
         link="/"
-        icon={<HomeIcon />}
+        icon={<TicketIcon />}
         isActive={pathname === "/"}
-      />
-      <MenuItem
-        title="מחשבון"
-        link="/calculator"
-        isActive={pathname === "/calculator"}
-        icon={<CalculatorIcon />}
       />
       <MenuItem
         title="רשימת קניות"
         link="/shopping-list"
         isActive={pathname === "/shopping-list"}
-        icon={<ListCheckIcon />}
+        icon={<ListTodoIcon />}
+      />
+      <MenuItem
+        title="ביצוע קנייה"
+        link="/calculator"
+        isActive={pathname === "/calculator"}
+        icon={<ShoppingCart />}
       />
       <MenuItem
         title="קבוצות"

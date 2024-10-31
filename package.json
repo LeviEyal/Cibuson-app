@@ -2,6 +2,10 @@
   "name": "cibus-app",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Eyal Levi",
+    "url": "https://github.com/LeviEyal"
+  },
   "scripts": {
     "dev": "npm-run-all --parallel dev:frontend dev:backend",
     "dev:frontend": "next dev",

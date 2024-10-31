@@ -3,7 +3,7 @@ import { GoogleOneTap } from "@clerk/nextjs";
 
 export default function AboutPage() {
   return (
-    <PageContainer>
+    <PageContainer className="pb-10">
       <h1 className="text-2xl text-center mb-4">אודות</h1>
       <p className="text-lg text-center">
         פרויקט זה נוצר על מנת לסייע לכם לחסוך כסף בקניות ברשתות המזון השונות.

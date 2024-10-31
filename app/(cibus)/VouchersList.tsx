@@ -2,10 +2,9 @@
 
 import { useAction, usePaginatedQuery, useQuery } from "convex/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { RefreshCcwIcon } from "lucide-react";
 import moment from "moment";
-import Image from "next/image";
 import { useEffect, useState } from "react";
+
 import { CiCircleInfo } from "react-icons/ci";
 import InfiniteScroll from "react-infinite-scroller";
 import { toast } from "sonner";
@@ -25,10 +24,12 @@ import {
 } from "@/components/ui/select";
 import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
-import { cn } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
 import type { VouchersFilters } from "@/types/vouchers-types";
 
 import { VoucherCardItem } from "./VoucherCard";
+import { FiRefreshCw } from "react-icons/fi";
+
 
 /**
  * Represents a page component for managing vouchers.
@@ -114,7 +115,7 @@ export const VouchersList = () => {
   // }
 
   return (
-    <PageContainer className="pb-16 px-4">
+    <PageContainer className="pb-10 px-4">
       <header className="mt-2 flex w-full items-center justify-between gap-3">
         <Button
           disabled={isUpdating || !vouchers}
@@ -123,7 +124,7 @@ export const VouchersList = () => {
           onClick={() => refresh()}
         >
           {isUpdating ? "סורק..." : "משוך שוברים"}
-          <RefreshCcwIcon
+          <FiRefreshCw
             className={cn("size-5", isUpdating && "animate-spin")}
           />
         </Button>
@@ -156,7 +157,7 @@ export const VouchersList = () => {
       >
         <p className="p-6 text-md text-pink-900 bg-white w-full h-full rounded text-center flex items-center justify-center shadow">
           <CiCircleInfo className="absolute right-3 top-2 size-6" />
-          יש לך ₪ {Math.floor(vouchersAggregated?.totalUnusedAmount || 0)} ב-{" "}
+          יש לך {formatPrice(Math.floor(vouchersAggregated?.totalUnusedAmount || 0))} ב-{" "}
           {vouchersAggregated?.totalUnusedCount} שוברים שלא נוצלו
         </p>
       </section>

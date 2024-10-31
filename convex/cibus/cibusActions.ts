@@ -24,7 +24,9 @@ function extractPluxeeUrls(text: string): string | null {
 }
 
 function extractEmployerContribution(text: string): string | null {
-  const regex = /השתתפות מקום העבודה: ₪([\d,.]+)/;
+  console.log(text);
+  
+  const regex = /החיוב בסיבוס שלך:\n₪([\d,.]+)/;
   const match = text.match(regex);
   return match ? match[1] : null;
 }

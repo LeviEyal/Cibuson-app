@@ -1,7 +1,6 @@
 "use client";
 
 import { useMutation, useQuery } from "convex/react";
-import Image from "next/image";
 import { useState } from "react";
 
 import { EmptyState } from "@/components/EmptyState";
@@ -9,9 +8,10 @@ import { PageContainer } from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { api } from "@/convex/_generated/api";
-import type { Doc, Id } from "@/convex/_generated/dataModel";
+import type { Id } from "@/convex/_generated/dataModel";
 
 import { VoucherCardItem } from "../(cibus)/VoucherCard";
+import { formatPrice } from "@/lib/utils";
 
 export default function VoucherCalculatorPage() {
   const [purchaseAmount, setPurchaseAmount] = useState<number | undefined>(
@@ -43,10 +43,10 @@ export default function VoucherCalculatorPage() {
   };
 
   return (
-    <PageContainer>
+    <PageContainer className="pb-10 pt-2">
       <h1 className="text-2xl text-center mb-4">מחשבון שוברים חכם</h1>
       <form
-        className="w-full max-w-sm flex flex-col gap-2 justify-center items-center"
+        className="w-full max-w- flex flex-col gap-2 justify-center items-center "
         onSubmit={handleSubmit}
       >
         <label
@@ -81,7 +81,7 @@ export default function VoucherCalculatorPage() {
         <div className="w-full max-w-sm mt-6">
           <div className="flex flex-col justify-center items-center">
             <p className="text-lg font-semibold">
-              יתרת התשלום: {result.remainingToPayWithCard} ₪
+              יתרת התשלום: {formatPrice(result.remainingToPayWithCard)}
             </p>
             <h2 className="text-xl font-semibold mb-4">
               השוברים שנבחרו עבור הקניה שלך

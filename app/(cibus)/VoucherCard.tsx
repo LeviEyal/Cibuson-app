@@ -5,7 +5,6 @@ import {
 } from "@radix-ui/react-icons";
 import { useMutation } from "convex/react";
 import { LucideSquareCheckBig } from "lucide-react";
-import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
@@ -28,7 +27,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import type { Doc, Id } from "@/convex/_generated/dataModel";
-import { cn, formatBarcodeNumber } from "@/lib/utils";
+import { cn, formatBarcodeNumber, formatDate, formatPrice } from "@/lib/utils";
 
 interface VoucherCardProps {
   voucher: Doc<"cibusVouchers">;
@@ -88,13 +87,13 @@ export const VoucherCardItem = ({
     >
       <div className="flex w-full flex-row justify-between">
         <div>
-          <p className="text-2xl">₪ {voucher.amount}</p>
+          <p className="text-2xl">{formatPrice(voucher.amount)}</p>
           <p className="text-sm text-gray-500">
-            {moment(voucher.date).format("DD/MM/YYYY")}
+            {formatDate(voucher.date)}
           </p>
           <p>
             {voucher.dateUsed ? (
-              `מומש בתאריך: ${moment(voucher.dateUsed).format("DD/MM/YYYY")}`
+              `מומש בתאריך: ${formatDate(voucher.dateUsed)}`
             ) : voucher.isBugged ? (
               <p className="flex gap-2 items-center">
                 תקול
