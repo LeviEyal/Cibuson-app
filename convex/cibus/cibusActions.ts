@@ -12,20 +12,19 @@ const { htmlToText } = require("html-to-text");
 
 // find the first 18-21 digits number in the text
 function extractBarcodeNumber(text: string): string | null {
-  const regex = /\d{18,21}/g;
+  const regex = /\d{17,23}/g;
   const match = text.match(regex);
   return match ? match[0] : null;
 }
 
 function extractPluxeeUrls(text: string): string | null {
-  const regex = /https:\/\/myconsumers\.pluxee\.co\.il\/b\?[^ \]\n]+/g;
-  const matche = text.match(regex);
-  return matche ? matche[0] : null;
+  // const regex = /[https:\/\/myconsumers\.pluxee\.co\.il\/b\?[^ \]\n]+/g;
+  const regex = /https:\/\/u45438565.ct.sendgrid.net[^ \]\n]+/g;
+  const match = text.match(regex);
+  return (match && match?.length >=1) ? match[1] : null;
 }
 
 function extractEmployerContribution(text: string): string | null {
-  console.log(text);
-  
   const regex = /החיוב בסיבוס שלך:\n₪([\d,.]+)/;
   const match = text.match(regex);
   return match ? match[1] : null;
@@ -50,8 +49,7 @@ async function processMessage(
   const parts = message.payload?.parts || [];
   const newVoucher = {} as NewVoucher;
 
-  newVoucher.barcodeNumber = extractBarcodeNumber(message.snippet || "") || "";
-
+  
   for (const part of parts) {
     if (part.mimeType === "image/gif") {
       const attachmentId = part.body?.attachmentId;
@@ -62,20 +60,26 @@ async function processMessage(
         id: attachmentId,
       });
       const data =
-        attachment.data.data?.replace(/-/g, "+").replace(/_/g, "/") || "";
+      attachment.data.data?.replace(/-/g, "+").replace(/_/g, "/") || "";
       newVoucher.gif = data ? `data:image/gif;base64,${data}` : "";
     } else if (part.mimeType === "text/html") {
       const data = part.body?.data || "";
       const htmlContent = Buffer.from(data, "base64").toString("utf8");
-
+      
       const text: string = htmlToText(htmlContent, {
         wordwrap: 130,
       });
-
+      
+      console.log({text});
+      
+      
       newVoucher.url = extractPluxeeUrls(text) || "";
       newVoucher.amount = Number(extractEmployerContribution(text));
+      newVoucher.barcodeNumber = extractBarcodeNumber(text) || "";
     }
   }
+
+  console.log({newVoucher});
 
   if (newVoucher.url && newVoucher.amount) {
     const toInsert = {
@@ -134,6 +138,8 @@ export const updateCibusVouchers = action({
         id: message.id || "",
       });
 
+      console.log("Processing message", msg.data.snippet);
+      
       await processMessage(ctx, msg.data, gmail, identity.subject);
     }
   },
