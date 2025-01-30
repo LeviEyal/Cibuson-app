@@ -1,40 +1,106 @@
-# Welcome to your Convex + Next.js app
+<div dir="rtl">
 
-This is a [Convex](https://convex.dev/) project created with [`npm create convex`](https://www.npmjs.com/package/create-convex).
+# 🎫 סיבוסון - ניהול חכם לשוברי סיבוס ותן ביס
 
-After the initial setup (<2 minutes) you'll have a working full-stack app using:
+אפליקציה שעוזרת לכם לנהל את שוברי סיבוס ותן ביס בצורה חכמה ונוחה. האפליקציה סורקת את המיילים שלכם באופן אוטומטי, מייבאת את השוברים, ומאפשרת לכם לעקוב אחריהם בקלות.
 
-- Convex as your backend (database, server logic)
-- [React](https://react.dev/) as your frontend (web page interactivity)
-- [Next.js](https://nextjs.org/) for optimized web hosting and page routing
-- [Tailwind](https://tailwindcss.com/) and [shadcn/ui](https://ui.shadcn.com/) for building great looking accessible UI fast
+[לינק לאפליקציה](https://cibuson.vercel.app)
 
-## Get started
+## 📸 תצלומי מסך
 
-If you just cloned this codebase and didn't use `npm create convex`, run:
+<div align="center">
 
-```
+### דשבורד ראשי
+<img src="https://github.com/user-attachments/assets/e893bc6b-21ce-4f63-a830-ad3f415fe9ab" alt="Dashboard" width="500"/>
+
+
+### רשימת קניות חכמה
+
+<img src="https://github.com/user-attachments/assets/c54eb661-2f5c-462a-b633-a80246e33e84" alt="Dashboard" width="500"/>
+
+### קבלת שוברים מתאימים לקנייה שלך
+
+<img src="https://github.com/user-attachments/assets/194d121b-2299-4806-87b0-2f70a16fe841" alt="Dashboard" width="500"/>
+
+<img src="https://github.com/user-attachments/assets/dc0b00d3-418f-46d8-a774-317294a86469" alt="Dashboard" width="500"/>
+
+</div>
+
+</div>
+
+## ✨ יכולות עיקריות
+
+- **🔄 סריקה אוטומטית**: האפליקציה סורקת את תיבת הדואר שלכם ומייבאת את כל השוברים באופן אוטומטי
+- **📊 ניהול שוברים**: 
+  - מעקב אחר שוברים פעילים
+  - סימון שוברים שנוצלו
+  - סימון שוברים תקולים
+- **📝 רשימת קניות חכמה**:
+  - כתיבה חופשית של פריטים
+  - סיווג אוטומטי לקטגוריות
+  - ארגון חכם של רשימת הקניות
+
+## 🚀 התקנה למפתחים
+
+### דרישות מקדימות
+
+- חשבון [Vercel](https://vercel.com)
+- חשבון [Clerk](https://clerk.com)
+- חשבון [Convex](https://convex.dev)
+
+### שלבי התקנה
+
+1. **שכפול הפרויקט**
+```bash
+git clone https://github.com/LeviEyal/Cibuson-app.git
+cd Cibuson-app
 npm install
+```
+
+2. **הגדרת משתני סביבה**
+
+צור קובץ `.env` והוסף את המשתנים הבאים:
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CONVEX_URL=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+```
+
+3. **הפעלת סביבת פיתוח**
+```bash
 npm run dev
 ```
 
-If you're reading this README on GitHub and want to use this template, run:
+## 🏗️ ארכיטקטורה
 
-```
-npm create convex@latest -- -t react-nextjs-shadcn
-```
+### Frontend
+- **Framework**: Next.js
+- **Styling**: Tailwind CSS
+- **State Management**: React Hooks
+- **Authentication**: Clerk
 
-## Learn more
+### Backend
+- **Database**: Convex
+- **APIs**: 
+  - Gmail API לסריקת מיילים
+  - Text Analysis לקטגוריזציה של פריטי קניות
 
-To learn more about developing your project with Convex, check out:
+## 📦 דיפלוי
 
-- The [Tour of Convex](https://docs.convex.dev/get-started) for a thorough introduction to Convex principles.
-- The rest of [Convex docs](https://docs.convex.dev/) to learn about all Convex features.
-- [Stack](https://stack.convex.dev/) for in-depth articles on advanced topics.
+1. התחבר ל-Vercel והגדר את משתני הסביבה
+2. חבר את הריפוזיטורי ל-Vercel
+3. בצע דיפלוי
 
-## Join the community
+## 🤝 תרומה לפרויקט
 
-Join thousands of developers building full-stack apps with Convex:
+נשמח לקבל תרומות! אנא צרו issue או הגישו pull request.
 
-- Join the [Convex Discord community](https://convex.dev/community) to get help in real-time.
-- Follow [Convex on GitHub](https://github.com/get-convex/), star and contribute to the open-source implementation of Convex.
+## 📄 רישיון
+
+MIT License - ראה [LICENSE](LICENSE) לפרטים נוספים.
+
+</div>
