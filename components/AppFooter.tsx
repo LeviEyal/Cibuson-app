@@ -1,6 +1,6 @@
 'use client';
 
-import { Users2Icon, TicketIcon, ShoppingCart, ListTodoIcon } from "lucide-react";
+import { InfoIcon, TicketIcon, ShoppingCart, ListTodoIcon } from "lucide-react";
 
 import { usePathname } from "next/navigation";
 
@@ -58,10 +58,10 @@ export const AppFooter = () => {
         icon={<ShoppingCart />}
       />
       <MenuItem
-        title="קבוצות"
+        title="אודות"
         link="/about"
         isActive={pathname === "/about"}
-        icon={<Users2Icon />}
+        icon={<InfoIcon />}
       />
     </footer>
   );
