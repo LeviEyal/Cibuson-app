@@ -1,6 +1,6 @@
 {
   "name": "cibuson-app",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": {
     "name": "Eyal Levi",
     "url": "https://github.com/LeviEyal",
@@ -21,6 +21,7 @@
     "@clerk/elements": "^0.10.5",
     "@clerk/localizations": "^2.5.2",
     "@clerk/nextjs": "^5.2.5",
+    "@convex-dev/rate-limiter": "^0.2.5",
     "@ducanh2912/next-pwa": "^10.2.8",
     "@google-cloud/local-auth": "^3.0.1",
     "@hookform/resolvers": "^3.9.0",
@@ -39,7 +40,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
-    "convex": "^1.13.0",
+    "convex": "^1.18.2",
     "framer-motion": "^11.3.29",
     "googleapis": "^140.0.1",
     "html-to-text": "^9.0.5",

@@ -7,6 +7,7 @@ import { type gmail_v1, google } from "googleapis";
 import { internal } from "../_generated/api";
 import type { Doc } from "../_generated/dataModel";
 import { action } from "../_generated/server";
+import { rateLimiter } from "../rateLimiter";
 
 const { htmlToText } = require("html-to-text");
 
@@ -98,6 +99,8 @@ async function processMessage(
   }
 }
 
+
+
 export const updateCibusVouchers = action({
   args: {
     fromDate: v.string(),
@@ -106,6 +109,14 @@ export const updateCibusVouchers = action({
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Unauthorized");
+    }
+
+    const {ok, retryAfter} = await rateLimiter.limit(ctx, "updateCibusVouchers", {
+      key: identity.subject,
+    });
+
+    if (!ok) {
+      throw new Error(`Rate limited. Retry after ${retryAfter} seconds`);
     }
 
     validateFromDate(fromDate);

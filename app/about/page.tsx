@@ -1,11 +1,9 @@
 import { PageContainer } from "@/components/PageContainer";
-import { GoogleOneTap } from "@clerk/nextjs";
 import getConfig from 'next/config';
 
 const { publicRuntimeConfig } = getConfig();
 
 
-// app/about/page.tsx
 import { Github, Info, Lock, Star } from 'lucide-react';
 import FeedbackForm from "./feedback-form";
 
