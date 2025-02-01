@@ -2,27 +2,38 @@
 'use client';
 
 import { useState } from 'react';
-import { Send, MessageSquare } from 'lucide-react';
+import { Send, MessageSquare, LoaderCircleIcon } from 'lucide-react';
 import { useAction } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 export default function FeedbackForm() {
   const [feedback, setFeedback] = useState('');
   const [name, setName] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const sendFeedback = useAction(api.feedbacks.sendFeedback);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await sendFeedback({ name, message: feedback });
-    console.log('Feedback submitted:', { name, feedback });
-    setSubmitted(true);
-    setFeedback('');
-    setName('');
+    setIsSubmitting(true)
+    try {
+      
+      await sendFeedback({ name, message: feedback });
+      console.log('Feedback submitted:', { name, feedback });
+      setSubmitted(true);
+      setFeedback('');
+      setName('');
+    } catch (error) {
+      console.error(error);
+      toast.error("שגיאה בשליחת הטופס")
+    } finally {
+      setIsSubmitting(false)
+    }
   };
 
   return (
@@ -64,8 +75,13 @@ export default function FeedbackForm() {
           <Button
             type="submit"
             className="flex items-center justify-center gap-2 w-full"
+            disabled={isSubmitting}
           >
-            <Send className="w-5 h-5" />
+            {isSubmitting? (
+              <LoaderCircleIcon className="w-5 h-5 animate-spin" />
+            ): (
+              <Send className="w-5 h-5" />
+            )}
             <span>שלח משוב</span>
           </Button>
         </form>
