@@ -1,10 +1,10 @@
 {
-  "name": "cibus-app",
-  "version": "0.1.70",
-  "private": true,
+  "name": "cibuson-app",
+  "version": "1.1.0",
   "author": {
     "name": "Eyal Levi",
-    "url": "https://github.com/LeviEyal"
+    "url": "https://github.com/LeviEyal",
+    "email": "happyeyal@gmail.com"
   },
   "scripts": {
     "dev": "npm-run-all --parallel dev:frontend dev:backend",
@@ -47,6 +47,7 @@
     "moment": "^2.30.1",
     "next": "14.2.5",
     "next-themes": "^0.3.0",
+    "nodemailer": "^6.10.0",
     "openai": "^4.53.0",
     "react": "^18",
     "react-dom": "^18",
@@ -66,6 +67,7 @@
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-infinite-scroller": "^1.2.5",

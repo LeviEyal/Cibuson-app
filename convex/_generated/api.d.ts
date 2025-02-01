@@ -16,7 +16,10 @@ import type {
 } from "convex/server";
 import type * as cibus_cibusActions from "../cibus/cibusActions.js";
 import type * as cibus_cibusQueries from "../cibus/cibusQueries.js";
+import type * as feedbacks from "../feedbacks.js";
+import type * as googleAPI_emailService from "../googleAPI/emailService.js";
 import type * as groceries from "../groceries.js";
+import type * as http from "../http.js";
 import type * as shoppingList from "../shoppingList.js";
 
 /**
@@ -30,7 +33,10 @@ import type * as shoppingList from "../shoppingList.js";
 declare const fullApi: ApiFromModules<{
   "cibus/cibusActions": typeof cibus_cibusActions;
   "cibus/cibusQueries": typeof cibus_cibusQueries;
+  feedbacks: typeof feedbacks;
+  "googleAPI/emailService": typeof googleAPI_emailService;
   groceries: typeof groceries;
+  http: typeof http;
   shoppingList: typeof shoppingList;
 }>;
 export declare const api: FilterApi<

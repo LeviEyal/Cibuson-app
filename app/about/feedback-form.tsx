@@ -3,15 +3,22 @@
 
 import { useState } from 'react';
 import { Send, MessageSquare } from 'lucide-react';
+import { useAction } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 
 export default function FeedbackForm() {
   const [feedback, setFeedback] = useState('');
   const [name, setName] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
+  const sendFeedback = useAction(api.feedbacks.sendFeedback);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the feedback to your backend
+    await sendFeedback({ name, message: feedback });
     console.log('Feedback submitted:', { name, feedback });
     setSubmitted(true);
     setFeedback('');
@@ -22,7 +29,7 @@ export default function FeedbackForm() {
     <>
       <div className="flex items-center gap-2 mb-6">
         <MessageSquare className="w-6 h-6 text-blue-600" />
-        <h2 className="text-2xl font-bold text-blue-900">שלחו לנו משוב</h2>
+        <h2 className="text-2xl font-bold ">שלחו לנו משוב</h2>
       </div>
       
       {submitted ? (
@@ -33,32 +40,34 @@ export default function FeedbackForm() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-gray-700 mb-2">שם</label>
-            <input
+            <Input
               type="text"
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="שם"
               required
             />
           </div>
           <div>
             <label htmlFor="feedback" className="block text-gray-700 mb-2">המשוב שלך</label>
-            <textarea
-              id="feedback"
-              value={feedback}
-              onChange={(e) => setFeedback(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-lg h-32 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              required
+
+          <Textarea
+            id="feedback"
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+            placeholder="המשוב שלך"
+            rows={4}
+            required
             />
-          </div>
-          <button
+            </div>
+          <Button
             type="submit"
-            className="flex items-center justify-center gap-2 w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center justify-center gap-2 w-full"
           >
             <Send className="w-5 h-5" />
             <span>שלח משוב</span>
-          </button>
+          </Button>
         </form>
       )}
     </>

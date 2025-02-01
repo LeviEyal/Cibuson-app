@@ -52,7 +52,7 @@ export default function ShoppingListPage() {
 
   return (
     <PageContainer className="px-5 pb-10">
-      <h1 className="text-2xl">רשימת קניות חכמה</h1>
+      <h1 className="text-2xl font-bold">רשימת קניות חכמה</h1>
       <form
         className="w-full flex flex-col justify-center items-center gap-4"
         onSubmit={handleGenerateShoppingList}

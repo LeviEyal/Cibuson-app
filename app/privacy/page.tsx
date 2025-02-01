@@ -13,7 +13,7 @@ export default function PrivacyPage() {
     <PageContainer>
 
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-blue-900 mb-8 text-center">מדיניות הפרטיות</h1>
+        <h1 className="text-4xl font-bol mb-8 text-center">מדיניות הפרטיות</h1>
         
         <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
           <section className="mb-8">

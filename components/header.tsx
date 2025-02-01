@@ -53,30 +53,11 @@ export const Header = () => {
                 },
               }}
             />
-            {/* <OrganizationSwitcher
-              appearance={{
-                elements: {
-                  organizationPreviewAvatarBox: {
-                    width: "30px",
-                    height: "30px",
-                  },
-                  userPreviewTextContainer: {
-                    display: "none",
-                  },
-                  organizationSwitcherTriggerIcon: {
-                    display: "none",
-                  },
-                  organizationPreviewMainIdentifier: {
-                    display: "none",
-                  },
-                },
-              }}
-            /> */}
           </SignedIn>
           <SignedOut>
             <SignInButton>
               <button className="rounded border border-gray-400 px-3 py-0.5">
-                Sign in
+                התחבר
               </button>
             </SignInButton>
           </SignedOut>

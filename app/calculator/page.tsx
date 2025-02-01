@@ -44,7 +44,7 @@ export default function VoucherCalculatorPage() {
 
   return (
     <PageContainer className="pb-10 pt-2">
-      <h1 className="text-2xl text-center mb-4">מחשבון שוברים חכם</h1>
+      <h1 className="text-2xl text-center mb-4 font-bold">מחשבון שוברים חכם</h1>
       <form
         className="w-full max-w- flex flex-col gap-2 justify-center items-center "
         onSubmit={handleSubmit}
