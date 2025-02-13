@@ -123,7 +123,7 @@ export const addVouchers = internalMutation({
     for (const voucher of vouchers) {
       const existing = await ctx.db
         .query("cibusVouchers")
-        .filter((q) => q.eq(q.field("url"), voucher.url))
+        .filter((q) => q.eq(q.field("barcodeNumber"), voucher.barcodeNumber))
         .collect();
       if (existing.length > 0) {
         continue;
