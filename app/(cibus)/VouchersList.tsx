@@ -75,18 +75,12 @@ export const VouchersList = () => {
     api.cibus.cibusActions.updateCibusVouchers,
   );
 
-  // Get the last date of the vouchers or 1 month ago if no vouchers exist
-  const lastDate =
-    vouchers?.[0]?.date || moment().subtract(1, "month").toDate();
-  const lastDateFormatted = moment(lastDate).format("YYYY-MM-DD");
 
   const refresh = async () => {
     try {
       setIsUpdating(true);
+      await updateCibusVouchers({});
 
-      await updateCibusVouchers({
-        fromDate: lastDateFormatted,
-      });
       toast.success("השוברים עודכנו בהצלחה");
     } catch (error) {
       console.error(error);

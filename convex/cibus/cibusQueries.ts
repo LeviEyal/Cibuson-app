@@ -9,12 +9,6 @@ import {
   query,
 } from "../_generated/server";
 
-export const internalGetAllVouchers = internalQuery({
-  handler: async (ctx) => {
-    return await ctx.db.query("cibusVouchers").collect();
-  },
-});
-
 export const allVouchers = query({
   args: {
     paginationOpts: paginationOptsValidator,
@@ -51,7 +45,6 @@ export const allVouchers = query({
         return true;
       })
       .paginate(paginationOpts);
-    // return vouchers.sort((a, b) => b.date - a.date);
     return vouchers;
   },
 });
@@ -215,5 +208,22 @@ export const vouchersByIds = query({
     const filtered = vouchers.filter((item) => item !== null);
 
     return filtered.filter((item) => !item.dateUsed && !item.isBugged);
+  },
+});
+
+export const getLastUserVoucherDate = internalQuery({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    const vouchers = await ctx.db
+      .query("cibusVouchers")
+      .withIndex("by_userId_date", (q) => q.eq("userId", identity.subject))
+      .order("desc")
+      .take(1)
+
+    return vouchers[0]?.date || 0;
   },
 });

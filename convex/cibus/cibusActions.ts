@@ -1,8 +1,8 @@
 "use node";
 
 import { clerkClient } from "@clerk/clerk-sdk-node";
-import { v } from "convex/values";
 import { type gmail_v1, google } from "googleapis";
+import moment from "moment";
 
 import { internal } from "../_generated/api";
 import type { Doc } from "../_generated/dataModel";
@@ -51,7 +51,6 @@ async function processMessage(
   const parts = message.payload?.parts || [];
   const newVoucher = {} as NewVoucher;
 
-  
   for (const part of parts) {
     if (part.mimeType === "image/gif") {
       const attachmentId = part.body?.attachmentId;
@@ -62,26 +61,25 @@ async function processMessage(
         id: attachmentId,
       });
       const data =
-      attachment.data.data?.replace(/-/g, "+").replace(/_/g, "/") || "";
+        attachment.data.data?.replace(/-/g, "+").replace(/_/g, "/") || "";
       newVoucher.gif = data ? `data:image/gif;base64,${data}` : "";
     } else if (part.mimeType === "text/html") {
       const data = part.body?.data || "";
       const htmlContent = Buffer.from(data, "base64").toString("utf8");
-      
+
       const text: string = htmlToText(htmlContent, {
         wordwrap: 130,
       });
-      
-      console.log({text});
-      
-      
+
+      console.log({ text });
+
       newVoucher.url = extractPluxeeUrls(text) || "";
       newVoucher.amount = Number(extractEmployerContribution(text));
       newVoucher.barcodeNumber = extractBarcodeNumber(text) || "";
     }
   }
 
-  console.log({newVoucher});
+  console.log({ newVoucher });
 
   if (newVoucher.url && newVoucher.amount) {
     const toInsert = {
@@ -100,27 +98,37 @@ async function processMessage(
   }
 }
 
-
-
 export const updateCibusVouchers = action({
-  args: {
-    fromDate: v.string(),
-  },
-  handler: async (ctx, { fromDate }) => {
+  handler: async (ctx) => {
+
+    const lastDate = await ctx.runQuery(
+      internal.cibus.cibusQueries.getLastUserVoucherDate,
+    );
+
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Unauthorized");
     }
 
-    const {ok, retryAfter} = await rateLimiter.limit(ctx, "updateCibusVouchers", {
-      key: identity.subject,
-    });
+    const { ok, retryAfter } = await rateLimiter.limit(
+      ctx,
+      "updateCibusVouchers",
+      {
+        key: identity.subject,
+      },
+    );
 
     if (!ok) {
       throw new Error(`Rate limited. Retry after ${retryAfter} seconds`);
     }
 
-    validateFromDate(fromDate);
+    // Get the last date of the vouchers or 1 month ago if no vouchers exist
+    const lastDate2 = lastDate || moment().subtract(1, "month").toDate();
+    const lastDateFormatted = moment(lastDate2).format("YYYY-MM-DD");
+
+    validateFromDate(lastDateFormatted);
+
+    console.log("Updating vouchers from", lastDateFormatted);
 
     const refresh_token = await clerkClient.users.getUserOauthAccessToken(
       identity.subject,
@@ -139,7 +147,7 @@ export const updateCibusVouchers = action({
     const gmail = google.gmail({ version: "v1", auth });
     const res = await gmail.users.messages.list({
       userId: "me",
-      q: `noreply@notifications.pluxee.co.il after:${fromDate}`,
+      q: `noreply@notifications.pluxee.co.il after:${lastDateFormatted}`,
     });
 
     const messages = res.data.messages || [];
@@ -151,7 +159,7 @@ export const updateCibusVouchers = action({
       });
 
       console.log("Processing message", msg.data.snippet);
-      
+
       await processMessage(ctx, msg.data, gmail, identity.subject);
     }
   },
