@@ -19,10 +19,11 @@ function extractBarcodeNumber(text: string): string | null {
 }
 
 function extractPluxeeUrls(text: string): string | null {
-  // const regex = /[https:\/\/myconsumers\.pluxee\.co\.il\/b\?[^ \]\n]+/g;
-  const regex = /https:\/\/u45438565.ct.sendgrid.net[^ \]\n]+/g;
-  const match = text.match(regex);
-  return (match && match?.length >=1) ? match[1] : null;
+  const regex1 = /https:\/\/u45438565.ct.sendgrid.net[^ \]\n]+/g;
+  const regex2 = /https:\/\/myconsumers\.pluxee\.co\.il\/b\?[^ \]\n]+/g;
+  const match = text.match(regex1) || text.match(regex2);
+
+  return match ? match[0] : null;
 }
 
 function extractEmployerContribution(text: string): string | null {
