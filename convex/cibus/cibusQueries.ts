@@ -1,13 +1,14 @@
 import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 
-import type { Doc, Id } from "../_generated/dataModel";
+import type { Id } from "../_generated/dataModel";
 import {
   internalMutation,
   internalQuery,
   mutation,
   query,
 } from "../_generated/server";
+import { cibusVoucherValidator } from "../validators";
 
 export const allVouchers = query({
   args: {
@@ -96,15 +97,7 @@ export const allVouchersAggregated = query({
 export const addVouchers = internalMutation({
   args: {
     vouchers: v.array(
-      v.object({
-        date: v.number(),
-        amount: v.number(),
-        url: v.string(),
-        gif: v.string(),
-        barcodeNumber: v.optional(v.string()),
-        userId: v.string(),
-        provider: v.union(v.literal("cibus"), v.literal("tenbis")),
-      }),
+      v.object(cibusVoucherValidator),
     ),
   },
   handler: async (ctx, { vouchers }) => {

@@ -74,6 +74,7 @@ export const VoucherCardItem = ({
     await markBuggedVoucher({ voucherId: voucher._id });
     setCollapsed(null);
   };
+  
 
   const isUsed = !!voucher.dateUsed;
 
@@ -149,7 +150,7 @@ export const VoucherCardItem = ({
       >
         {/* Barcode Image */}
         <Image
-          src={voucher.gif}
+          src={voucher.gif || voucher.url || "/cibus-logo.png"}
           className={cn(
             "h-28 w-full transition-all duration-300 ease-in-out",
             vertically && "rotate-90 w-[700px] h-64 object-fill",
@@ -173,15 +174,19 @@ export const VoucherCardItem = ({
 
         {/* Sharing */}
         <section className="flex gap-2">
-          <Link
-            href={voucher.url}
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center justify-center gap-1 text-blue-500 underline"
+          {voucher.url ? (
+            <Link
+              href={voucher.url}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-center gap-1 text-blue-500 underline"
           >
             קישור לשובר
             <ExternalLinkIcon />
-          </Link>
+            </Link>
+          ) : (
+            <p className="text-gray-500">קישור חסר</p>
+          )}
 
           {/* send via whatsapp button */}
           <Button

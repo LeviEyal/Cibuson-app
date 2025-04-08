@@ -16,6 +16,7 @@ import type * as groceries from "../groceries.js";
 import type * as http from "../http.js";
 import type * as rateLimiter from "../rateLimiter.js";
 import type * as shoppingList from "../shoppingList.js";
+import type * as validators from "../validators.js";
 
 import type {
   ApiFromModules,
@@ -39,6 +40,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   rateLimiter: typeof rateLimiter;
   shoppingList: typeof shoppingList;
+  validators: typeof validators;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 

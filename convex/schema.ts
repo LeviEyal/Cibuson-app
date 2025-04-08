@@ -1,17 +1,8 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
+import { cibusVoucherValidator } from "./validators";
 
-export const cibusVouchers = defineTable({
-  date: v.number(),
-  amount: v.number(),
-  url: v.string(),
-  gif: v.string(),
-  barcodeNumber: v.optional(v.string()),
-  dateUsed: v.optional(v.string()),
-  isBugged: v.optional(v.boolean()),
-  userId: v.string(),
-  provider: v.union(v.literal("cibus"), v.literal("tenbis")),
-})
+export const cibusVouchers = defineTable(cibusVoucherValidator)
   .index("by_userId_date", ["userId", "date"])
   .index("by_userId", ["userId"])
   .index("by_userId_amount", ["userId", "amount"]);

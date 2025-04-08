@@ -8,7 +8,13 @@ const withPWA = withPWAInit({
 
 export default withPWA({
   images: {
-    domains: ["img.clerk.com"],
+    domains: ["img.clerk.com", "myconsumers.pluxee.co.il"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.sendgrid.net",
+      },
+    ],
   },
   publicRuntimeConfig: {
     version: packageJson.version,
